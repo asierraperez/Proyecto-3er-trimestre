@@ -6,9 +6,11 @@ class Team {
      * @param {string} name 
      * @param {string} nationality 
      */
-    constructor(name, nationality) {
+    constructor(name, nationality, driver1, driver2) {
         this.name = name
         this.nationality = nationality
+        this.driver1 = driver1
+        this.driver2 = driver2
     }
 
     get getName() {
@@ -17,12 +19,24 @@ class Team {
     get getNationality() {
         return this.Nationality
     }
+    get getDriver1() {
+        return this.driver1
+    }
+    get getDriver2() {
+        return this.driver2
+    }
 
     set setName(aux) {
         this.name = aux
     }
     set setNationality(aux) {
         this.nationality = aux
+    }
+    set setDriver1(aux) {
+        this.driver1 = aux
+    }
+    set setDriver2(aux) {
+        this.driver2 = aux
     }
 
 }
