@@ -1,4 +1,13 @@
+/**
+ * Objeto Piloto
+ */
 class Driver {
+    /**
+     * @param {string} name - nombre del piloto
+     * @param {string} surname - apellido 
+     * @param {string} code - abreviatura, 3 caracteres
+     * @param {string} team - escudería para la que compite
+     */
     constructor(name, surname, code, team) {
         this.name = name
         this.surname = surname

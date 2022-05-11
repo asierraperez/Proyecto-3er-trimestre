@@ -3,8 +3,10 @@
  */
 class Team {
     /**
-     * @param {string} name 
-     * @param {string} nationality 
+     * @param {string} name - nombre de la escudería
+     * @param {string} nationality - nacionalidad
+     * @param {string} driver1 - nombre del primer piloto
+     * @param {string} driver2 - nombre del segundo piloto
      */
     constructor(name, nationality, driver1, driver2) {
         this.name = name
