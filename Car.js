@@ -3,7 +3,6 @@
  */
 class Car extends general {
     /**
-     * 
      * @param {string} name - Nombre del coche
      * @param {string} code - Código de referencia
      * @param {number} velocity - Atributo velocidad
