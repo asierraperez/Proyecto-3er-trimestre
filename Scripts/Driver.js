@@ -87,12 +87,12 @@ class Driver extends general {
     }
     /**
      * Asignar código al piloto
-     * @param {number} nPiloto - posicion del array
+     * @param {number} nPilot - posicion del array
      */
-    assignCode(nPiloto) {
+    assignCode(nPilot) {
         var auxCode
         $.ajax(this.SETTINGSDRIVER).done(function (response) {
-            auxCode = response.MRData.DriverTable.Drivers[nPiloto].code
+            auxCode = response.MRData.DriverTable.Drivers[nPilot].code
         });
         this.setCode = auxCode
     }

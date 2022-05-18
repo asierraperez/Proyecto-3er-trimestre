@@ -10,6 +10,11 @@ class Team extends general {
     constructor(name, code, points) {
         super(name, code)
         this.points = points
+        this.SETTINGSCONTRUCTOR = {
+            "async": false,
+            "type": "GET",
+            "url": "http://ergast.com/api/f1/2022/constructors.json"
+        };
     }
 
     get getPoints() {
@@ -17,7 +22,7 @@ class Team extends general {
     }
 
     set setPoints(aux) {
-        this.name = aux
+        this.points = aux
     }
     /**
      * Sumar puntos a la escudería
@@ -25,5 +30,30 @@ class Team extends general {
      */
     addPoints(circuitPoints) {
         this.setPoints(this.getPoints + circuitPoints)
+    }
+    /**
+     * Asignar nombre a la escudería
+     * @param {number} nTeam - orden en Array escuderías
+     */
+    assignName(nTeam) {
+        var auxName
+        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+
+            auxName = response.MRData.ConstructorTable.Constructors[nTeam].name
+        });
+        this.setName = auxName
+    }
+    /**
+     * Asignar código a la escudería
+     * @param {number} nTeam - orden en Array escuderías
+     */
+
+    assignCode(nTeam) {
+        var auxCode
+        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+
+            auxCode = response.MRData.ConstructorTable.Constructors[nTeam].constructorId
+        });
+        this.setCode = auxCode
     }
 }
