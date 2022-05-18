@@ -22,7 +22,9 @@ class Model {
         this.nCircuit = 0
         this.nCar = 0
     }
-
+    /**
+     * Añadir piloto
+     */
     addDriver() {
         const newDriver = new Driver()
         newDriver.setAttributes()
@@ -34,7 +36,9 @@ class Model {
         console.log(this.drivers)
         this.nDriver++
     }
-
+    /**
+     * Añadir escudería
+     */
     addTeam() {
         const newTeam = new Team()
         newTeam.assignName(this.nTeam)
@@ -43,6 +47,16 @@ class Model {
         this.teams.push(newTeam)
         console.log(this.teams)
         this.nTeam++
+    }
+
+    addCircuit() {
+        const newCircuit = new Circuit()
+        newCircuit.assignName(this.nCircuit)
+        newCircuit.assignCode(this.nCircuit)
+        newCircuit.assignLaps()
+        this.circuits.push(newCircuit)
+        console.log(this.circuits)
+        this.nCircuit++
     }
 
 }
