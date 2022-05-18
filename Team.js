@@ -19,5 +19,11 @@ class Team extends general {
     set setPoints(aux) {
         this.name = aux
     }
-
+    /**
+     * Sumar puntos a la escudería
+     * @param {number} circuitPoints - Puntos obtenidos en la carrera
+     */
+    addPoints(circuitPoints) {
+        this.setPoints(this.getPoints + circuitPoints)
+    }
 }

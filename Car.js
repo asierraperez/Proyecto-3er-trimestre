@@ -27,4 +27,11 @@ class Car extends general {
         this.handling = aux
     }
 
+    setAttributes() {
+        //Velocidad aleatoria
+        this.setVelocity(Math.floor(Math.random() * (101 - 0)) + 101)
+        //Manejo aleatoria
+        this.setHandling(Math.floor(Math.random() * (101 - 0)) + 101)
+    }
+
 }
