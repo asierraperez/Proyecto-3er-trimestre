@@ -16,6 +16,14 @@ class Driver extends general {
         this.luck = luck
         this.dexterity = dexterity
         this.points = points
+        /**
+         * Datos para la conexión con la API
+         */
+        this.SETTINGSDRIVER = {
+            "async": false,
+            "type": "GET",
+            "url": "http://ergast.com/api/f1/2022/drivers.json"
+        };
     }
 
     get getSurname() {
@@ -52,9 +60,9 @@ class Driver extends general {
      */
     setAttributes() {
         //Destreza aleatoria
-        this.setDexterity(Math.floor(Math.random() * (101 - 0)) + 101)
+        this.setDexterity = Math.floor(Math.random() * (101 - 0))
         //Suerte aleatoria
-        this.setLuck(Math.floor(Math.random() * (101 - 0)) + 101)
+        this.setLuck = Math.floor(Math.random() * (101 - 0))
     }
 
     /**
@@ -63,5 +71,41 @@ class Driver extends general {
      */
     addPoints(circuitPoints) {
         this.setPoints(this.getPoints + circuitPoints)
+    }
+
+    /**
+     * Asignar nombre al piloto
+     * @param {number} nPiloto - posicion del array
+     */
+    assignName(nPiloto) {
+        var auxName
+        $.ajax(this.SETTINGSDRIVER).done(function (response) {
+            auxName = response.MRData.DriverTable.Drivers[nPiloto].givenName
+        });
+        this.setName = auxName
+
+    }
+    /**
+     * Asignar código al piloto
+     * @param {number} nPiloto - posicion del array
+     */
+    assignCode(nPiloto) {
+        var auxCode
+        $.ajax(this.SETTINGSDRIVER).done(function (response) {
+            auxCode = response.MRData.DriverTable.Drivers[nPiloto].code
+        });
+        this.setCode = auxCode
+    }
+    /**
+     * Asignar apellidos al piloto
+     * @param {number} nPiloto - posicion del array
+     */
+    assignSurname(nPiloto) {
+        var auxSurname
+        $.ajax(this.SETTINGSDRIVER).done(function (response) {
+            auxSurname = response.MRData.DriverTable.Drivers[nPiloto].familyName
+        });
+        this.setSurname = auxSurname
+
     }
 }
