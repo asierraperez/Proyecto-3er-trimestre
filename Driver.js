@@ -1,43 +1,47 @@
 /**
  * Objeto Piloto
  */
-class Driver {
-    /**
-     * @param {string} name - nombre del piloto
-     * @param {string} surname - apellido 
-     * @param {string} code - abreviatura, 3 caracteres
-     * @param {string} team - escudería para la que compite
+class Driver extends general {
+    /** 
+     * @param {string} name - Nombre del piloto
+     * @param {string} code - Código de referencia
+     * @param {string} surname - Apellido del piloto
+     * @param {number} luck - Atributo suerte
+     * @param {number} dexterity - Atributo destreza
+     * @param {number} points - Puntos acumulados
      */
-    constructor(name, surname, code, team) {
-        this.name = name
+    constructor(name, code, surname, luck, dexterity, points) {
+        super(name, code)
         this.surname = surname
-        this.code = code
-        this.team = team
+        this.luck = luck
+        this.dexterity = dexterity
+        this.points = points
     }
 
-    get getName() {
-        return this.name
-    }
     get getSurname() {
         return this.surname
     }
-    get getCode() {
-        return this.code
+    get getLuck() {
+        return this.luck
     }
-    get getTeam() {
-        return this.team
+    get getDexterity() {
+        return this.dexterity
+    }
+    get getPoints() {
+        return this.points
     }
 
-    set setName(aux) {
-        this.name = aux
-    }
+
     set setSurname(aux) {
         this.surname = aux
     }
-    set setCode(aux) {
-        this.code = aux
+    set setLuck(aux) {
+        this.luck = aux
     }
-    set setTeam(aux) {
-        this.team = aux
+    set setDexterity(aux) {
+        this.dexterity = aux
+    }
+    set setPoints(aux) {
+        this.points = aux
     }
 }
