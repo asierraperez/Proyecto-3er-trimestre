@@ -9,13 +9,15 @@ class Driver extends general {
      * @param {number} luck - Atributo suerte
      * @param {number} dexterity - Atributo destreza
      * @param {number} points - Puntos acumulados
+     * @param {number} teamName - Nombre de la escudería a la que pertenece
      */
-    constructor(name, code, surname, luck, dexterity, points) {
+    constructor(name, code, surname, luck, dexterity, points, teamName) {
         super(name, code)
         this.surname = surname
         this.luck = luck
         this.dexterity = dexterity
         this.points = points
+        this.teamName = teamName
         /**
          * Datos para la conexión con la API
          */
@@ -38,6 +40,9 @@ class Driver extends general {
     get getPoints() {
         return this.points
     }
+    get getTeamName() {
+        return this.teamName
+    }
 
 
     set setSurname(aux) {
@@ -51,6 +56,9 @@ class Driver extends general {
     }
     set setPoints(aux) {
         this.points = aux
+    }
+    set setTeamName(aux) {
+        this.teamName = aux
     }
 
     /**

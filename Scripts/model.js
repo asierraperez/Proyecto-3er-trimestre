@@ -48,7 +48,9 @@ class Model {
         console.log(this.teams)
         this.nTeam++
     }
-
+    /**
+     * Añadir circuitos
+     */
     addCircuit() {
         const newCircuit = new Circuit()
         newCircuit.assignName(this.nCircuit)
