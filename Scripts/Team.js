@@ -68,4 +68,18 @@ class Team extends general {
         return nMaxTeams
 
     }
+    uploadTeamToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "points": this.getPoints
+            },
+            url: "insertTeam.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
+    }
 }

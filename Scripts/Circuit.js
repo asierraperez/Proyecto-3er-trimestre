@@ -63,6 +63,19 @@ class Circuit extends general {
 
         return nMaxCircuits
     }
-
+    uploadCircuitToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "laps": this.getLaps
+            },
+            url: "insertCircuit.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
+    }
 
 }

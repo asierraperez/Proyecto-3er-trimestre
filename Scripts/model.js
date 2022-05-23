@@ -101,7 +101,7 @@ class Model {
         newTeam.assignName(this.nTeam)
         newTeam.assignCode(this.nTeam)
         newTeam.setPoints = 0
-        this.uploadTeamToDB(newTeam)
+        newTeam.uploadTeamToDB()
 
         this.teams.push(newTeam)
         //console.log(this.teams)
@@ -115,6 +115,7 @@ class Model {
         newCircuit.assignName(this.nCircuit)
         newCircuit.assignCode(this.nCircuit)
         newCircuit.assignLaps()
+        newCircuit.uploadCircuitToDB()
         this.circuits.push(newCircuit)
     }
     /**
@@ -146,7 +147,7 @@ class Model {
      * @param {Object} team - datos de la escudería
      * @returns {Boolean}
      */
-    uploadTeamToDB(team) {
+    /*uploadTeamToDB(team) {
         $.ajax({
             data: {
                 "name": team.getName,
@@ -159,5 +160,5 @@ class Model {
                 console.log(response)
             }
         })
-    }
+    }*/
 }
