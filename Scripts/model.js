@@ -138,28 +138,10 @@ class Model {
     addCar() {
         const newCar = new Car()
         newCar.setAttributes()
-        newCar.setName = "Coche de " + this.teams[this.nCar].getName
-        newCar.setCode = "Car_" + this.teams[this.nCar].getCode
-        newCar.setTeamName = this.teams[this.nCar].getCode
+        newCar.setCode = "Car_" + this.teams[this.nCar].getCode;
+        newCar.setTeamName = this.teams[this.nCar].getCode;
+        newCar.uploadCarToDB();
         this.cars.push(newCar)
     }
-    /**
-     * Actualizar base de datos de equipos
-     * @param {Object} team - datos de la escudería
-     * @returns {Boolean}
-     */
-    /*uploadTeamToDB(team) {
-        $.ajax({
-            data: {
-                "name": team.getName,
-                "code": team.getCode,
-                "points": team.getPoints
-            },
-            url: "insertTeam.php",
-            type: "POST",
-            success: function (response) {
-                console.log(response)
-            }
-        })
-    }*/
+
 }
