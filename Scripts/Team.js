@@ -18,7 +18,7 @@ class Team extends general {
     }
 
     get getPoints() {
-        return this.name
+        return this.points
     }
 
     set setPoints(aux) {

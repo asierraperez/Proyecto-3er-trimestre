@@ -101,6 +101,8 @@ class Model {
         newTeam.assignName(this.nTeam)
         newTeam.assignCode(this.nTeam)
         newTeam.setPoints = 0
+        this.uploadTeamToDB(newTeam)
+
         this.teams.push(newTeam)
         //console.log(this.teams)
         //this.nTeam++
@@ -114,8 +116,6 @@ class Model {
         newCircuit.assignCode(this.nCircuit)
         newCircuit.assignLaps()
         this.circuits.push(newCircuit)
-        //console.log(this.circuits)
-        //this.nCircuit++
     }
     /**
      * Añadir piloto
@@ -129,8 +129,6 @@ class Model {
         newDriver.setTeamName = ""
         newDriver.setPoints = 0
         this.drivers.push(newDriver)
-        //console.log(this.drivers)
-        //this.nDriver++
     }
     /**
      * Añadir Coche
@@ -142,5 +140,24 @@ class Model {
         newCar.setCode = "Car_" + this.teams[this.nCar].getCode
         newCar.setteamName = this.teams[this.nCar].getCode
         this.cars.push(newCar)
+    }
+    /**
+     * Actualizar base de datos de equipos
+     * @param {Object} team - datos de la escudería
+     * @returns {Boolean}
+     */
+    uploadTeamToDB(team) {
+        $.ajax({
+            data: {
+                "name": team.getName,
+                "code": team.getCode,
+                "points": team.getPoints
+            },
+            url: "insertTeam.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
     }
 }
