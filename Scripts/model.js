@@ -127,8 +127,9 @@ class Model {
         newDriver.assignName(this.nDriver)
         newDriver.assignCode(this.nDriver)
         newDriver.assignSurname(this.nDriver)
-        newDriver.setTeamName = ""
+        newDriver.setTeamName = this.teams[0].code
         newDriver.setPoints = 0
+        newDriver.uploadDriverToDB()
         this.drivers.push(newDriver)
     }
     /**
@@ -139,7 +140,7 @@ class Model {
         newCar.setAttributes()
         newCar.setName = "Coche de " + this.teams[this.nCar].getName
         newCar.setCode = "Car_" + this.teams[this.nCar].getCode
-        newCar.setteamName = this.teams[this.nCar].getCode
+        newCar.setTeamName = this.teams[this.nCar].getCode
         this.cars.push(newCar)
     }
     /**
