@@ -13,16 +13,23 @@ class Team extends general {
         this.SETTINGSCONTRUCTOR = {
             "async": false,
             "type": "GET",
-            "url": "http://ergast.com/api/f1/2022/constructors.json"
+            "url": "http://ergast.com/api/f1/constructors.json?limit=1000&offset=0"
         };
+        this.nMaxTeams = 0
     }
 
     get getPoints() {
         return this.points
     }
+    get getNMaxTeams() {
+        return this.nMaxTeams
+    }
 
     set setPoints(aux) {
         this.points = aux
+    }
+    set setNMaxTeams(aux) {
+        this.nMaxTeams = aux
     }
     /**
      * Sumar puntos a la escudería
@@ -35,13 +42,26 @@ class Team extends general {
      * Asignar nombre a la escudería
      * @param {number} nTeam - orden en Array escuderías
      */
-    assignName(nTeam) {
+    assignNameCode() {
         var auxName
-        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+        var auxCode
+        $.ajax({
+            url: "selectTeam.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                var teamJSON = JSON.parse(response)
+                //console.log(teamJSON)
+                auxName = teamJSON.name
+                auxCode = teamJSON.code
+            }
+        })
+        /*$.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
 
             auxName = response.MRData.ConstructorTable.Constructors[nTeam].name
-        });
+        });*/
         this.setName = auxName
+        this.setCode = auxCode
     }
     /**
      * Asignar código a la escudería
@@ -50,10 +70,11 @@ class Team extends general {
 
     assignCode(nTeam) {
         var auxCode
-        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+
+        /*$.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
 
             auxCode = response.MRData.ConstructorTable.Constructors[nTeam].constructorId
-        });
+        });*/
         this.setCode = auxCode
     }
     /**
@@ -61,11 +82,56 @@ class Team extends general {
      * @returns {number}
      */
     maxTeams() {
-        var nMaxTeams = 0
+        var auxNMaxTeams = 0
         $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
-            nMaxTeams = response.MRData.ConstructorTable.Constructors.length
+            //console.log(response)
+            auxNMaxTeams = response.MRData.ConstructorTable.Constructors.length
         });
-        return nMaxTeams
+        this.setNMaxTeams = auxNMaxTeams
 
     }
+
+    getFromAPI(nTeam) {
+        //var nTeam = Math.floor(Math.random() * (this.getNMaxTeams - 0))
+        var auxName
+        var auxCode
+        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+            auxName = response.MRData.ConstructorTable.Constructors[nTeam].name
+            auxCode = response.MRData.ConstructorTable.Constructors[nTeam].constructorId
+        });
+        this.setName = auxName
+        this.setCode = auxCode
+    }
+    /**
+     * Actualizar base de datos de equipos
+     * @param {Object} team - datos de la escudería
+     * @returns {Boolean}
+     */
+    uploadTeamToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "points": this.getPoints
+            },
+            url: "insertTeam.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
+    }
+
+    getTeamFromDB() {
+        $.ajax({
+            url: "selectTeam.php",
+            type: "GET",
+            success: function (response) {
+                var respuesta = JSON.parse(response)
+                console.log(respuesta)
+            }
+        })
+    }
+
+
 }

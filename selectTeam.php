@@ -19,9 +19,9 @@
      */
     $consult = "use proyecto";
     if($connection->query($consult)==TRUE){
-       // echo "Base de datos creada correctamente";
+        //echo "Base de datos creada correctamente";
     } else{
-        //echo "Error al crear la base de datos: ".$connection->error;
+       // echo "Error al crear la base de datos: ".$connection->error;
     }
     
     /**
@@ -37,16 +37,20 @@
             $this->points=$points;
         }
     }
-    //Inicializo la variable 'newTeam' con los datos recibidos desde js
-    $newTeam= new Team($_POST["code"],$_POST["name"],$_POST["points"]);
-    $newTeam->points=(int)$newTeam->points;
-    //echo json_encode($newTeam);
-    //los inserto en la BD
-    $consultTeam = "INSERT INTO escuderia VALUES('$newTeam->code', '$newTeam->name', $newTeam->points);";
-    if($connection->query($consultTeam)==TRUE){
-       // echo "insercion correcta";
+    
+
+    $selectTeam = "SELECT * FROM escuderia ORDER BY RAND() LIMIT 1";
+    $result = $connection->query($selectTeam);
+    if($result->num_rows>0){
+        
+        //echo "Exito en select <br>";
+        while($row=$result->fetch_assoc()){
+            $newTeam=new Team($row["ID"],$row["nombre"],$row["puntos"]);    
+        }
+
+
     } else {
-       // echo "fallo en insercion";
+        //echo "Error en select";
     }
-   
+    echo json_encode($newTeam)
 ?>
