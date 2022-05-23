@@ -56,6 +56,10 @@ class Team extends general {
         });
         this.setCode = auxCode
     }
+    /**
+     * Obteber número máximo de escuderías
+     * @returns {number}
+     */
     maxTeams() {
         var nMaxTeams = 0
         $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {

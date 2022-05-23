@@ -37,6 +37,11 @@ class Car extends general {
         this.teamName = aux
     }
 
+    /**
+     * Asignar atributos velocidad y manejo
+     * ambos son un numero aleatorio del 0 a 100
+     * influiran en las carreras
+     */
     setAttributes() {
         //Velocidad aleatoria
         this.setVelocity = Math.floor(Math.random() * (101 - 0))

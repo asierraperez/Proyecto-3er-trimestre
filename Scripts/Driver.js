@@ -116,6 +116,10 @@ class Driver extends general {
         this.setSurname = auxSurname
 
     }
+    /**
+     * Obtener el número máximo de pilotos
+     * @returns {number}
+     */
     maxDrivers() {
         var nMaxDrivers = 0
         $.ajax(this.SETTINGSDRIVER).done(function (response) {

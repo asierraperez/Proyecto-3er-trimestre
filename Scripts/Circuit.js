@@ -51,7 +51,10 @@ class Circuit extends general {
     assignLaps() {
         this.setLaps = Math.floor(Math.random() * (101 - 50) + 50)
     }
-
+    /**
+     * Obtener el número máximo de carreras del campeonato
+     * @returns {number}
+     */
     maxCircuits() {
         var nMaxCircuits = 0
         $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
