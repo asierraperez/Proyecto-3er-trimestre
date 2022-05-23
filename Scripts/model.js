@@ -4,6 +4,7 @@
 class Model {
     constructor() {
         this.uploadTeam = new Team()
+        this.uploadCircuit = new Circuit()
         /**
          * Array con los datos de los pilotos
          * Inicializo uno para poder acceder a sus funciones
@@ -44,7 +45,7 @@ class Model {
          * Número de coches; Parametro para el for
          */
         this.nCar = 0
-        this.teamDBUploaded = localStorage.getItem("teamDBUploaded")
+        //this.teamDBUploaded = localStorage.getItem("teamDBUploaded")
         if (this.teamDBUploaded != "true") {
             this.teamsToDB()
 
@@ -70,6 +71,11 @@ class Model {
         /**
          * Número máximo de circuitos
          */
+        this.circuitsToDB()
+        for (let i = 0; i < 22; i++) {
+            this.addCircuit()
+        }
+        console.log(this.circuits)
         //this.nMaxCircuits = this.circuits[0].maxCircuits()
         //Elimino el valor que inicialice en la declaración
         /*this.circuits.pop()
@@ -94,7 +100,6 @@ class Model {
     teamsToDB() {
         this.uploadTeam.maxTeams()
         for (let i = 0; i < this.uploadTeam.getNMaxTeams; i++) {
-
             this.uploadTeam.getFromAPI(i)
             this.uploadTeam.setPoints = 0;
             this.uploadTeam.uploadTeamToDB()
@@ -108,28 +113,31 @@ class Model {
      */
     addTeam() {
         const newTeam = new Team()
-        newTeam.assignNameCode()
-        //newTeam.assignCode(this.nTeam)
-        newTeam.setPoints = 0
-        //this.uploadTeamToDB(newTeam)
-
+        newTeam.assignNameCodeDB()
         this.teams.push(newTeam)
-        //console.log(this.teams)
-        //this.nTeam++
+    }
+
+    circuitsToDB() {
+        this.uploadCircuit.maxCircuits()
+        for (let i = 0; i < this.uploadCircuit.getNMaxCircuits; i++) {
+            this.uploadCircuit.getFromApi(i)
+            this.uploadCircuit.setLaps = 0
+            this.uploadCircuit.uploadCircuitToDB()
+        }
     }
     /**
     * Añadir circuitos
-    *//*
-                                 addCircuit() {
-                                     const newCircuit = new Circuit()
-                                     newCircuit.assignName(this.nCircuit)
-                                     newCircuit.assignCode(this.nCircuit)
-                                     newCircuit.assignLaps()
-                                     this.circuits.push(newCircuit)
-                                 }
-                                 /**
-                                  * Añadir piloto
-                                  *//*
+    */
+    addCircuit() {
+        const newCircuit = new Circuit()
+        newCircuit.assignNameCode(this.nCircuit)
+        newCircuit.assignLaps()
+        newCircuit.uploadCircuitToDB()
+        this.circuits.push(newCircuit)
+    }
+    /**
+     * Añadir piloto
+     *//*
 addDriver() {
 const newDriver = new Driver()
 newDriver.setAttributes()
@@ -143,19 +151,19 @@ this.drivers.push(newDriver)
 /**
 * Añadir Coche
 *//*
-                                                                                    addCar() {
-                                                                                        const newCar = new Car()
-                                                                                        newCar.setAttributes()
-                                                                                        newCar.setName = "Coche de " + this.teams[this.nCar].getName
-                                                                                        newCar.setCode = "Car_" + this.teams[this.nCar].getCode
-                                                                                        newCar.setteamName = this.teams[this.nCar].getCode
-                                                                                        this.cars.push(newCar)
-                                                                                    }
-                                                                                    /**
-                                                                                     * Actualizar base de datos de equipos
-                                                                                     * @param {Object} team - datos de la escudería
-                                                                                     * @returns {Boolean}
-                                                                                     *//*
+                                                                                                                                        addCar() {
+                                                                                                                                            const newCar = new Car()
+                                                                                                                                            newCar.setAttributes()
+                                                                                                                                            newCar.setName = "Coche de " + this.teams[this.nCar].getName
+                                                                                                                                            newCar.setCode = "Car_" + this.teams[this.nCar].getCode
+                                                                                                                                            newCar.setteamName = this.teams[this.nCar].getCode
+                                                                                                                                            this.cars.push(newCar)
+                                                                                                                                        }
+                                                                                                                                        /**
+                                                                                                                                         * Actualizar base de datos de equipos
+                                                                                                                                         * @param {Object} team - datos de la escudería
+                                                                                                                                         * @returns {Boolean}
+                                                                                                                                         *//*
 uploadTeamToDB(team) {
 $.ajax({
 data: {

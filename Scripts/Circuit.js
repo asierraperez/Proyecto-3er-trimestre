@@ -13,26 +13,43 @@ class Circuit extends general {
         this.SETTINGSCIRCUIT = {
             "async": false,
             "type": "GET",
-            "url": "http://ergast.com/api/f1/2022/circuits.json"
+            "url": "http://ergast.com/api/f1/circuits.json?limit=1000&offset=0"
         };
+        this.nMaxCircuits = 0
     }
     get getLaps() {
         return this.laps
+    }
+    get getNMaxCircuits() {
+        return this.nMaxCircuits
     }
 
     set setLaps(aux) {
         this.laps = aux
     }
+    set setNMaxCircuits(aux) {
+        this.nMaxCircuits = this.nMaxCircuits
+    }
     /**
      * Asignar nombre al circuito
      * @param {number} nPiloto - posicion del array
      */
-    assignName(nCircuit) {
+    assignNameCode() {
         var auxName
-        $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
-            auxName = response.MRData.CircuitTable.Circuits[nCircuit].circuitName
-        });
+        var auxCode
+        $.ajax({
+            url: "selectCircuit.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                var teamJSON = JSON.parse(response)
+                //console.log(teamJSON)
+                auxName = teamJSON.name
+                auxCode = teamJSON.code
+            }
+        })
         this.setName = auxName
+        this.setCode = auxCode
     }
     /**
      * Asignar código al circuito
@@ -56,12 +73,37 @@ class Circuit extends general {
      * @returns {number}
      */
     maxCircuits() {
-        var nMaxCircuits = 0
+        this.nMaxCircuits = 0
         $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
-            nMaxCircuits = response.MRData.CircuitTable.Circuits.length
+            console.log(response)
+            this.nMaxCircuits = response.MRData.CircuitTable.Circuits.length
         });
+    }
 
-        return nMaxCircuits
+    getFromApi(nCircuit) {
+        var auxName
+        var auxCode
+        $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
+            auxCode = response.MRData.CircuitTable.Circuits[nCircuit].circuitId
+            auxName = response.MRData.CircuitTable.Circuits[nCircuit].circuitName
+
+        });
+        this.setName = auxName
+        this.setCode = auxCode
+    }
+    uploadCircuitToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "laps": this.getLaps
+            },
+            url: "insertCircuit.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
     }
 
 

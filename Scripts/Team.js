@@ -42,7 +42,7 @@ class Team extends general {
      * Asignar nombre a la escudería
      * @param {number} nTeam - orden en Array escuderías
      */
-    assignNameCode() {
+    assignNameCodeDB() {
         var auxName
         var auxCode
         $.ajax({
@@ -56,25 +56,7 @@ class Team extends general {
                 auxCode = teamJSON.code
             }
         })
-        /*$.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
-
-            auxName = response.MRData.ConstructorTable.Constructors[nTeam].name
-        });*/
         this.setName = auxName
-        this.setCode = auxCode
-    }
-    /**
-     * Asignar código a la escudería
-     * @param {number} nTeam - orden en Array escuderías
-     */
-
-    assignCode(nTeam) {
-        var auxCode
-
-        /*$.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
-
-            auxCode = response.MRData.ConstructorTable.Constructors[nTeam].constructorId
-        });*/
         this.setCode = auxCode
     }
     /**
@@ -92,7 +74,6 @@ class Team extends general {
     }
 
     getFromAPI(nTeam) {
-        //var nTeam = Math.floor(Math.random() * (this.getNMaxTeams - 0))
         var auxName
         var auxCode
         $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
@@ -121,17 +102,4 @@ class Team extends general {
             }
         })
     }
-
-    getTeamFromDB() {
-        $.ajax({
-            url: "selectTeam.php",
-            type: "GET",
-            success: function (response) {
-                var respuesta = JSON.parse(response)
-                console.log(respuesta)
-            }
-        })
-    }
-
-
 }
