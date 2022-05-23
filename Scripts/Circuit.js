@@ -30,7 +30,6 @@ class Circuit extends general {
     assignName(nCircuit) {
         var auxName
         $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
-            console.log(response)
             auxName = response.MRData.CircuitTable.Circuits[nCircuit].circuitName
         });
         this.setName = auxName
@@ -42,7 +41,6 @@ class Circuit extends general {
     assignCode(nCircuit) {
         var auxCode
         $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
-            console.log(response)
             auxCode = response.MRData.CircuitTable.Circuits[nCircuit].circuitId
         });
         this.setCode = auxCode
@@ -52,6 +50,15 @@ class Circuit extends general {
      */
     assignLaps() {
         this.setLaps = Math.floor(Math.random() * (101 - 50) + 50)
+    }
+
+    maxCircuits() {
+        var nMaxCircuits = 0
+        $.ajax(this.SETTINGSCIRCUIT).done(function (response) {
+            nMaxCircuits = response.MRData.CircuitTable.Circuits.length
+        });
+
+        return nMaxCircuits
     }
 
 

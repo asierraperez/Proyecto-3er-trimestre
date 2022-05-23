@@ -29,7 +29,7 @@ class Team extends general {
      * @param {number} circuitPoints - Puntos obtenidos en la carrera
      */
     addPoints(circuitPoints) {
-        this.setPoints(this.getPoints + circuitPoints)
+        this.setPoints = (this.getPoints + circuitPoints)
     }
     /**
      * Asignar nombre a la escudería
@@ -55,5 +55,13 @@ class Team extends general {
             auxCode = response.MRData.ConstructorTable.Constructors[nTeam].constructorId
         });
         this.setCode = auxCode
+    }
+    maxTeams() {
+        var nMaxTeams = 0
+        $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
+            nMaxTeams = response.MRData.ConstructorTable.Constructors.length
+        });
+        return nMaxTeams
+
     }
 }

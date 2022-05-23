@@ -78,7 +78,7 @@ class Driver extends general {
      * @param {number} circuitPoints - Puntos obtenidos en la carrera
      */
     addPoints(circuitPoints) {
-        this.setPoints(this.getPoints + circuitPoints)
+        this.setPoints = (this.getPoints + circuitPoints)
     }
 
     /**
@@ -114,6 +114,14 @@ class Driver extends general {
             auxSurname = response.MRData.DriverTable.Drivers[nPiloto].familyName
         });
         this.setSurname = auxSurname
+
+    }
+    maxDrivers() {
+        var nMaxDrivers = 0
+        $.ajax(this.SETTINGSDRIVER).done(function (response) {
+            nMaxDrivers = response.MRData.DriverTable.Drivers.length
+        });
+        return nMaxDrivers
 
     }
 }
