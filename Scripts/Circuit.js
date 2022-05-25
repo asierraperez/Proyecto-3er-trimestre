@@ -80,5 +80,18 @@ class Circuit extends general {
             }
         })
     }
+    getFromDB() {
+        var circuitJSON
+        $.ajax({
+            url: "selectCircuit.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                circuitJSON = JSON.parse(response)
+
+            }
+        })
+        return circuitJSON
+    }
 
 }

@@ -83,19 +83,23 @@ class Model {
         console.log(this.drivers)
         // }
 
-        // if (localStorage.getItem("circuitsAdded") != 1) {
-        /**
-             * Número máximo de circuitos
-             */
-        this.nMaxCircuits = this.circuits[0].maxCircuits()
-        //Elimino el valor que inicialice en la declaración
-        this.circuits.pop()
+        if (this.preload.circuitsAdded != 1) {
+            /**
+            * Número máximo de circuitos
+            */
+            this.nMaxCircuits = this.circuits[0].maxCircuits()
+            //Elimino el valor que inicialice en la declaración
+            this.circuits.pop()
 
-        for (this.nCircuit; this.nCircuit < this.nMaxCircuits; this.nCircuit++) {
-            this.addCircuit()
+            for (this.nCircuit; this.nCircuit < this.nMaxCircuits; this.nCircuit++) {
+                this.addCircuit()
+            }
+            console.log(this.circuits)
+            localStorage.setItem("circuitsAdded", 1)
+
+        } else {
+            this.circuits = this.preload.preloadCircuits
         }
-        console.log(this.circuits)
-        //}
 
         //if (localStorage.getItem("carsAdded") != 1) {
         /**
@@ -134,7 +138,6 @@ class Model {
         newCircuit.assignLaps()
         newCircuit.uploadCircuitToDB()
         this.circuits.push(newCircuit)
-        localStorage.setItem("circuitsAdded", 1)
     }
     /**
      * Añadir piloto
