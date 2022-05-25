@@ -3,6 +3,7 @@
  */
 class Model {
     constructor() {
+        this.preload = new Preload()
         /**
          * Array con los datos de los pilotos
          * Inicializo uno para poder acceder a sus funciones
@@ -46,64 +47,79 @@ class Model {
 
 
 
-        //if (localStorage.getItem("teamsAdded") != 1) {
-        /**
-        * Número maximo de equipos
-        */
-        this.nMaxTeams = this.teams[0].maxTeams()
-        //Elimino el valor que inicialice en la declaración
-        this.teams.pop()
+        if (this.preload.driversAdded != 1) {
+            /**
+            * Número maximo de equipos
+            */
+            this.nMaxTeams = this.teams[0].maxTeams()
+            //Elimino el valor que inicialice en la declaración
+            this.teams.pop()
 
-        for (this.nTeam; this.nTeam < this.nMaxTeams; this.nTeam++) {
-            this.addTeam()
+            for (this.nTeam; this.nTeam < this.nMaxTeams; this.nTeam++) {
+                this.addTeam()
+            }
+            localStorage.setItem("teamsAdded", 1)
+
+
+        } else {
+
+            this.teams = this.preload.preloadTeam
+
+            //this.teams = JSON.parse(this.teams)
         }
 
-        localStorage.setItem("teams", JSON.stringify(this.teams))
-        // } else {
-        // this.teams = localStorage.getItem("teams")
-        console.log(this.teams)
-        //this.teams = JSON.parse(this.teams)
-        //}
 
-
-        //if (localStorage.getItem("driversAdded") != 1) {
-        /**
-         * Número máximo de pilotos
-         */
-        this.nMaxDrivers = this.drivers[0].maxDrivers()
-        //Elimino el valor que inicialice en la declaración
-        this.drivers.pop()
-
-        for (this.nDriver; this.nDriver < this.nMaxDrivers; this.nDriver++) {
-            this.addDriver()
-        }
-        console.log(this.drivers)
-        // }
-
-        // if (localStorage.getItem("circuitsAdded") != 1) {
-        /**
-             * Número máximo de circuitos
+        if (this.preload.driversAdded != 1) {
+            /**
+             * Número máximo de pilotos
              */
-        this.nMaxCircuits = this.circuits[0].maxCircuits()
-        //Elimino el valor que inicialice en la declaración
-        this.circuits.pop()
+            this.nMaxDrivers = this.drivers[0].maxDrivers()
+            //Elimino el valor que inicialice en la declaración
+            this.drivers.pop()
 
-        for (this.nCircuit; this.nCircuit < this.nMaxCircuits; this.nCircuit++) {
-            this.addCircuit()
-        }
-        console.log(this.circuits)
-        //}
+            for (this.nDriver; this.nDriver < this.nMaxDrivers; this.nDriver++) {
+                this.addDriver()
+            }
+            console.log(this.drivers)
+            localStorage.setItem("driversAdded", 1)
+        } else {
 
-        //if (localStorage.getItem("carsAdded") != 1) {
-        /**
-     * Número máximo de coches
-     */
-        this.nMaxCars = this.nMaxTeams
-        for (this.nCar; this.nCar < this.nMaxCars; this.nCar++) {
-            this.addCar()
+            this.drivers = this.preload.preloadDrivers
+
+
         }
-        console.log(this.cars)
-        //}
+
+        if (this.preload.circuitsAdded != 1) {
+            /**
+            * Número máximo de circuitos
+            */
+            this.nMaxCircuits = this.circuits[0].maxCircuits()
+            //Elimino el valor que inicialice en la declaración
+            this.circuits.pop()
+
+            for (this.nCircuit; this.nCircuit < this.nMaxCircuits; this.nCircuit++) {
+                this.addCircuit()
+            }
+            console.log(this.circuits)
+            localStorage.setItem("circuitsAdded", 1)
+
+        } else {
+            this.circuits = this.preload.preloadCircuits
+        }
+
+        if (localStorage.getItem("carsAdded") != 1) {
+            /**
+            * Número máximo de coches
+            */
+            this.nMaxCars = this.nMaxTeams
+            for (this.nCar; this.nCar < this.nMaxCars; this.nCar++) {
+                this.addCar()
+            }
+            console.log(this.cars)
+            localStorage.setItem("carsAdded", 1)
+        } else {
+            this.cars = this.preload.preloadCars
+        }
 
 
     }
@@ -117,7 +133,7 @@ class Model {
         newTeam.setPoints = 0
         newTeam.uploadTeamToDB()
         this.teams.push(newTeam)
-        localStorage.setItem("teamsAdded", 1)
+
         //console.log(this.teams)
         //this.nTeam++
     }
@@ -131,7 +147,6 @@ class Model {
         newCircuit.assignLaps()
         newCircuit.uploadCircuitToDB()
         this.circuits.push(newCircuit)
-        localStorage.setItem("circuitsAdded", 1)
     }
     /**
      * Añadir piloto
@@ -146,7 +161,6 @@ class Model {
         newDriver.setPoints = 0
         newDriver.uploadDriverToDB()
         this.drivers.push(newDriver)
-        localStorage.setItem("driversAdded", 1)
     }
     /**
      * Añadir Coche
@@ -158,7 +172,7 @@ class Model {
         newCar.setTeamName = this.teams[this.nCar].getCode;
         newCar.uploadCarToDB();
         this.cars.push(newCar)
-        localStorage.setItem("carsAdded", 1)
+
     }
     /**
      * Reparto a los pilotos entre todas las escuderías al azar
