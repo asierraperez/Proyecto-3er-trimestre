@@ -3,6 +3,13 @@
  */
 class Model {
     constructor() {
+
+
+        //----------------------------------------------------------------------
+        //---------------------DECLARACIÓN DE VARIABLES-------------------------
+        //----------------------------------------------------------------------
+
+
         this.preload = new Preload()
         /**
          * Array con los datos de los pilotos
@@ -28,6 +35,8 @@ class Model {
          */
         this.cars = []
 
+        this.users = []
+
         /**
          * Numero de conductores; Parametro para el for
          */
@@ -46,6 +55,10 @@ class Model {
         this.nCar = 0
 
 
+        //----------------------------------------------------------------------
+        //------------------------LLAMADAS A FUNCIONES--------------------------
+        //----------------------------------------------------------------------
+
 
         if (this.preload.driversAdded != 1) {
             /**
@@ -60,12 +73,8 @@ class Model {
             }
             localStorage.setItem("teamsAdded", 1)
 
-
         } else {
-
             this.teams = this.preload.preloadTeam
-
-            //this.teams = JSON.parse(this.teams)
         }
 
 
@@ -81,12 +90,9 @@ class Model {
                 this.addDriver()
             }
             console.log(this.drivers)
-            localStorage.setItem("driversAdded", 1)
+
         } else {
-
             this.drivers = this.preload.preloadDrivers
-
-
         }
 
         if (this.preload.circuitsAdded != 1) {
@@ -122,7 +128,18 @@ class Model {
         }
 
 
+        //this.addUser()
+
+
     }
+
+
+
+    //----------------------------------------------------------------------
+    //----------------------------FUNCIONES---------------------------------
+    //----------------------------------------------------------------------
+
+
     /**
      * Añadir escudería
      */
@@ -133,9 +150,6 @@ class Model {
         newTeam.setPoints = 0
         newTeam.uploadTeamToDB()
         this.teams.push(newTeam)
-
-        //console.log(this.teams)
-        //this.nTeam++
     }
     /**
      * Añadir circuitos
@@ -204,10 +218,12 @@ class Model {
             }
         }
 
+        return "pilotos repartidos correctamente"
+
 
     }
     /**
-     * Comprobación de si el piloto esta asignado a un equipo o no
+     * Comprobación de si el piloto está asignado a un equipo o no
      * @param {number} driverNumber - número del piloto
      * @param {Array} driversAssigned - array con los numeros de pilotos asignados
      * @returns {boolean}
@@ -234,5 +250,108 @@ class Model {
      */
     randomNumber(maxValue, minValue) {
         return Math.floor(Math.random() * (maxValue - minValue) + minValue)
+    }
+
+    /**
+     * Subit el array de conductores a la BD
+     */
+    driversToDB() {
+        for (let i = 0; i < this.drivers.length; i++) {
+            this.drivers[i].uploadDriverToDB()
+        }
+        localStorage.setItem("driversAdded", 1)
+    }
+
+
+
+    addUser() {
+        const newUser = new User()
+        this.users.push(newUser)
+        return "User OK"
+    }
+
+
+    userSelectTeam(teamCode) {
+        if (this.users[0]) {
+            if (this.users[0].getTeamCode == "") {
+                var teamFound = false
+                teamFound = this.searchTeam(teamCode)
+
+                if (teamFound) {
+                    return "escudería encontrada"
+                } else {
+                    return "escudería NO encontrada"
+                }
+            } else {
+                return "el usuario ya tiene escudería"
+            }
+        } else {
+            return "no hay un usuario declarado"
+        }
+    }
+
+    searchTeam(searchTeamCode) {
+        var found = false
+        for (let i = 0; i < this.teams.length; i++) {
+            if (searchTeamCode == this.teams[i].getCode) {
+                this.users[0].setTeamCode = this.teams[i].getCode
+                found = true
+            }
+        }
+        return found
+    }
+
+
+    userSelectDriver(driverCode) {
+        if (this.users[0]) {
+            if (this.users[0].getTeamCode != "") {
+                if (this.users[0].getCodeFirstDiver == "") {
+                    var driver1Found = this.searchDriver(driverCode, 1)
+
+                    if (driver1Found) {
+                        return "piloto 1 encontrado"
+                    } else {
+                        return "piloto NO encontrada"
+                    }
+
+                } else if (this.users[0].getCodeSecondDriver == "") {
+                    var driver2Found = this.searchDriver(driverCode, 2)
+
+                    if (driver2Found) {
+                        return "piloto 2 encontrado"
+                    } else {
+                        return "piloto NO encontrada"
+                    }
+                } else {
+                    return "el usuario ya tiene pilotos"
+                }
+            } else {
+                return "usuario sin equipo"
+            }
+
+        } else {
+            return "no hay un usuario declarado"
+        }
+
+    }
+    searchDriver(searchDriverCode, nDriver) {
+        var found = false
+        for (let i = 0; i < this.drivers.length; i++) {
+            if ((searchDriverCode == this.drivers[i].getCode) & (this.drivers[i].getTeamName == null)) {
+                switch (nDriver) {
+                    case 1:
+                        this.users[0].setCodeFirstDiver = this.drivers[i].getCode
+                        this.drivers[i].setTeamName = this.users[0].getTeamCode
+                        break;
+
+                    case 2:
+                        this.users[0].setCodeSecondDriver = this.drivers[i].getCode
+                        this.drivers[i].setTeamName = this.users[0].getTeamCode
+                        break;
+                }
+                found = true
+            }
+        }
+        return found
     }
 }
