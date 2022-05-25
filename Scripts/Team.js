@@ -85,4 +85,22 @@ class Team extends general {
             }
         })
     }
+
+    getFromDB() {
+        var teamJSON
+        $.ajax({
+            url: "selectTeam.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                teamJSON = JSON.parse(response)
+                /*this.setName = teamJSON.name
+                this.setCode = teamJSON.code
+                this.setPoints = teamJSON.points*/
+                console.log(response)
+            }
+        })
+        return teamJSON
+
+    }
 }

@@ -3,6 +3,7 @@
  */
 class Model {
     constructor() {
+        this.preload = new Preload()
         /**
          * Array con los datos de los pilotos
          * Inicializo uno para poder acceder a sus funciones
@@ -46,24 +47,26 @@ class Model {
 
 
 
-        //if (localStorage.getItem("teamsAdded") != 1) {
-        /**
-        * Número maximo de equipos
-        */
-        this.nMaxTeams = this.teams[0].maxTeams()
-        //Elimino el valor que inicialice en la declaración
-        this.teams.pop()
+        if (this.preload.teamsAdded != 1) {
+            /**
+            * Número maximo de equipos
+            */
+            this.nMaxTeams = this.teams[0].maxTeams()
+            //Elimino el valor que inicialice en la declaración
+            this.teams.pop()
 
-        for (this.nTeam; this.nTeam < this.nMaxTeams; this.nTeam++) {
-            this.addTeam()
+            for (this.nTeam; this.nTeam < this.nMaxTeams; this.nTeam++) {
+                this.addTeam()
+            }
+            localStorage.setItem("teamsAdded", 1)
+
+
+        } else {
+
+            this.teams = this.preload.preloadTeam
+
+            //this.teams = JSON.parse(this.teams)
         }
-
-        localStorage.setItem("teams", JSON.stringify(this.teams))
-        // } else {
-        // this.teams = localStorage.getItem("teams")
-        console.log(this.teams)
-        //this.teams = JSON.parse(this.teams)
-        //}
 
 
         //if (localStorage.getItem("driversAdded") != 1) {
@@ -117,7 +120,7 @@ class Model {
         newTeam.setPoints = 0
         newTeam.uploadTeamToDB()
         this.teams.push(newTeam)
-        localStorage.setItem("teamsAdded", 1)
+
         //console.log(this.teams)
         //this.nTeam++
     }
