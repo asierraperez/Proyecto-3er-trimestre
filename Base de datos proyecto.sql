@@ -25,7 +25,7 @@ create table piloto(
     puntos integer,
     ID_escuderia varchar(30),
     primary key(ID),
-    foreign key(ID_escuderia) references escuderia(ID) on delete cascade on update cascade
+    foreign key(ID_escuderia) references escuderia(ID)
 );
 
 create table coche(
@@ -33,7 +33,7 @@ create table coche(
     velocidad integer,
     manejo integer,
     ID_escuderia varchar(30),
-    foreign key(ID_escuderia) references escuderia(ID)on delete cascade on update cascade
+    foreign key(ID_escuderia) references escuderia(ID)
 );
 
 create table compite(
@@ -41,8 +41,8 @@ create table compite(
     ID_circuito varchar(30),
     primary key(ID_piloto, ID_circuito),
 	foreign key(ID_piloto) references piloto(ID),
-	foreign key(ID_circuito) references circuito(ID) on delete cascade on update cascade
+	foreign key(ID_circuito) references circuito(ID) 
 );
 
-
-
+select * from piloto;
+select * from circuito order by rand() limit 1;

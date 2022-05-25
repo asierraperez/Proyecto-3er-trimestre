@@ -116,6 +116,10 @@ class Driver extends general {
         this.setSurname = auxSurname
 
     }
+    /**
+     * Obtener el número máximo de pilotos
+     * @returns {number}
+     */
     maxDrivers() {
         var nMaxDrivers = 0
         $.ajax(this.SETTINGSDRIVER).done(function (response) {
@@ -123,5 +127,26 @@ class Driver extends general {
         });
         return nMaxDrivers
 
+    }
+    /**
+     * Subir datos del objeto a BD
+     */
+    uploadDriverToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "surname": this.getSurname,
+                "dexterity": this.getDexterity,
+                "luck": this.getLuck,
+                "points": this.getPoints,
+                "teamID": this.getTeamName
+            },
+            url: "insertDriver.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
     }
 }

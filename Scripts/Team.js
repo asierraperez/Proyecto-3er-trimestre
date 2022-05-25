@@ -18,7 +18,7 @@ class Team extends general {
     }
 
     get getPoints() {
-        return this.name
+        return this.points
     }
 
     set setPoints(aux) {
@@ -56,6 +56,10 @@ class Team extends general {
         });
         this.setCode = auxCode
     }
+    /**
+     * Obteber número máximo de escuderías
+     * @returns {number}
+     */
     maxTeams() {
         var nMaxTeams = 0
         $.ajax(this.SETTINGSCONTRUCTOR).done(function (response) {
@@ -63,5 +67,22 @@ class Team extends general {
         });
         return nMaxTeams
 
+    }
+    /**
+     * Subir datos del objeto a BD
+     */
+    uploadTeamToDB() {
+        $.ajax({
+            data: {
+                "name": this.getName,
+                "code": this.getCode,
+                "points": this.getPoints
+            },
+            url: "insertTeam.php",
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+            }
+        })
     }
 }
