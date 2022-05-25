@@ -54,7 +54,6 @@ class Car extends general {
     uploadCarToDB() {
         $.ajax({
             data: {
-                "name": this.getName,
                 "code": this.getCode,
                 "velocity": this.getVelocity,
                 "handling": this.getHandling,

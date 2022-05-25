@@ -29,20 +29,18 @@
      */
     class Car{
         public $code;
-        public $name;
         public $velocity;
         public $handling;
         public $teamID;
-        function __construct($code,$name,$velocity,$handling,$teamID){
+        function __construct($code,$velocity,$handling,$teamID){
             $this->code=$code;
-            $this->name=$name;
             $this->velocity=$velocity;
             $this->handling=$handling;
             $this->teamID=$teamID;
         }
     }
     //Inicializo la variable 'newCar' con los datos recibidos desde js
-    $newCar= new Car($_POST["code"],$_POST["name"],$_POST["velocity"],$_POST["handling"],$_POST["teamID"]);
+    $newCar= new Car($_POST["code"],$_POST["velocity"],$_POST["handling"],$_POST["teamID"]);
     $newCar->velocity=(int)$newCar->velocity;
     $newCar->handling=(int)$newCar->handling;
     echo json_encode($newCar);
