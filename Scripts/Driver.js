@@ -128,6 +128,9 @@ class Driver extends general {
         return nMaxDrivers
 
     }
+    /**
+     * Subir datos del objeto a BD
+     */
     uploadDriverToDB() {
         $.ajax({
             data: {

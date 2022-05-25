@@ -25,7 +25,7 @@
     }
     
     /**
-     * Objeto Team para almacenar temporalmente los datos
+     * Objeto Driver para almacenar temporalmente los datos
      */
     class Driver{
         public $code;
@@ -46,7 +46,7 @@
             
         }
     }
-    //Inicializo la variable 'newTeam' con los datos recibidos desde js
+    //Inicializo la variable 'newDriver' con los datos recibidos desde js
     $newDriver= new Driver($_POST["code"],$_POST["name"],$_POST["surname"],$_POST["dexterity"],
         $_POST["luck"],$_POST["points"],$_POST["teamID"]);
     $newDriver->points=(int)$newDriver->points;

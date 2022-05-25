@@ -68,6 +68,9 @@ class Team extends general {
         return nMaxTeams
 
     }
+    /**
+     * Subir datos del objeto a BD
+     */
     uploadTeamToDB() {
         $.ajax({
             data: {

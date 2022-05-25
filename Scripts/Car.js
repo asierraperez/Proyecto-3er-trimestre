@@ -48,7 +48,9 @@ class Car extends general {
         //Manejo aleatoria
         this.setHandling = Math.floor(Math.random() * (101 - 0))
     }
-
+    /**
+     * Subir datos del objeto a BD
+     */
     uploadCarToDB() {
         $.ajax({
             data: {

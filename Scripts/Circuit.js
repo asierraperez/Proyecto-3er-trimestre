@@ -63,6 +63,9 @@ class Circuit extends general {
 
         return nMaxCircuits
     }
+    /**
+     * Subir datos del objeto a BD
+     */
     uploadCircuitToDB() {
         $.ajax({
             data: {
