@@ -101,6 +101,8 @@ class Model {
         newTeam.assignName(this.nTeam)
         newTeam.assignCode(this.nTeam)
         newTeam.setPoints = 0
+        newTeam.uploadTeamToDB()
+
         this.teams.push(newTeam)
         //console.log(this.teams)
         //this.nTeam++
@@ -113,9 +115,8 @@ class Model {
         newCircuit.assignName(this.nCircuit)
         newCircuit.assignCode(this.nCircuit)
         newCircuit.assignLaps()
+        newCircuit.uploadCircuitToDB()
         this.circuits.push(newCircuit)
-        //console.log(this.circuits)
-        //this.nCircuit++
     }
     /**
      * Añadir piloto
@@ -126,11 +127,10 @@ class Model {
         newDriver.assignName(this.nDriver)
         newDriver.assignCode(this.nDriver)
         newDriver.assignSurname(this.nDriver)
-        newDriver.setTeamName = ""
+        newDriver.setTeamName = this.teams[0].code
         newDriver.setPoints = 0
+        newDriver.uploadDriverToDB()
         this.drivers.push(newDriver)
-        //console.log(this.drivers)
-        //this.nDriver++
     }
     /**
      * Añadir Coche
@@ -138,9 +138,10 @@ class Model {
     addCar() {
         const newCar = new Car()
         newCar.setAttributes()
-        newCar.setName = "Coche de " + this.teams[this.nCar].getName
-        newCar.setCode = "Car_" + this.teams[this.nCar].getCode
-        newCar.setteamName = this.teams[this.nCar].getCode
+        newCar.setCode = "Car_" + this.teams[this.nCar].getCode;
+        newCar.setTeamName = this.teams[this.nCar].getCode;
+        newCar.uploadCarToDB();
         this.cars.push(newCar)
     }
+
 }
