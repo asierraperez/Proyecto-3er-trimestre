@@ -97,10 +97,6 @@ class Team extends general {
             async: false,
             success: function (response) {
                 teamJSON = JSON.parse(response)
-                /*this.setName = teamJSON.name
-                this.setCode = teamJSON.code
-                this.setPoints = teamJSON.points*/
-                console.log(response)
             }
         })
         return teamJSON

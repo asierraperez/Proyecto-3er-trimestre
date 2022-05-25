@@ -47,7 +47,7 @@ class Model {
 
 
 
-        if (this.preload.teamsAdded != 1) {
+        if (this.preload.driversAdded != 1) {
             /**
             * Número maximo de equipos
             */
@@ -69,19 +69,25 @@ class Model {
         }
 
 
-        //if (localStorage.getItem("driversAdded") != 1) {
-        /**
-         * Número máximo de pilotos
-         */
-        this.nMaxDrivers = this.drivers[0].maxDrivers()
-        //Elimino el valor que inicialice en la declaración
-        this.drivers.pop()
+        if (this.preload.driversAdded != 1) {
+            /**
+             * Número máximo de pilotos
+             */
+            this.nMaxDrivers = this.drivers[0].maxDrivers()
+            //Elimino el valor que inicialice en la declaración
+            this.drivers.pop()
 
-        for (this.nDriver; this.nDriver < this.nMaxDrivers; this.nDriver++) {
-            this.addDriver()
+            for (this.nDriver; this.nDriver < this.nMaxDrivers; this.nDriver++) {
+                this.addDriver()
+            }
+            console.log(this.drivers)
+            localStorage.setItem("driversAdded", 1)
+        } else {
+
+            this.drivers = this.preload.preloadDrivers
+
+
         }
-        console.log(this.drivers)
-        // }
 
         if (this.preload.circuitsAdded != 1) {
             /**
@@ -155,7 +161,6 @@ class Model {
         newDriver.setPoints = 0
         newDriver.uploadDriverToDB()
         this.drivers.push(newDriver)
-        localStorage.setItem("driversAdded", 1)
     }
     /**
      * Añadir Coche

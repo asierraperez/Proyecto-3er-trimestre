@@ -25,29 +25,39 @@
     }
     
     /**
-     * Objeto Team para almacenar temporalmente los datos
+     * Objeto Driver para almacenar temporalmente los datos
      */
-    class Circuit{
+    class Driver{
         public $code;
         public $name;
-        public $laps;
-        function __construct($code,$name,$laps){
+        public $surname;
+        public $dexterity;       
+        public $luck;
+        public $points;
+        public $teamID;        
+        function __construct($code,$name,$surname,$dexterity,$luck,$points,$teamID){
             $this->code=$code;
             $this->name=$name;
-            $this->laps=$laps;
+            $this->surname=$surname;
+            $this->dexterity=$dexterity;
+            $this->luck=$luck;
+            $this->points=$points;
+            $this->teamID=$teamID;
+            
         }
     }
     
 
-    $selectCircuit = "SELECT * FROM circuito";
-    $result = $connection->query($selectCircuit);
+    $selectDriver = "SELECT * FROM piloto";
+    $result = $connection->query($selectDriver);
     $response = array();
     if($result->num_rows>0){
         
         //echo "Exito en select <br>";
         while($row=$result->fetch_assoc()){
-            $newCircuit=new Circuit($row["ID"],$row["nombre"],$row["vueltas"]);  
-            array_push($response,$newCircuit);  
+            $newDriver= new Driver($row["ID"],$row["nombre"],$row["apellidos"],$row["destreza"],
+            $row["suerte"],$row["puntos"],$row["ID_escuderia"]);
+                array_push($response,$newDriver);  
   
         }
 

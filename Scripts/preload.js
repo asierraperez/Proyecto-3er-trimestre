@@ -43,6 +43,10 @@ class Preload {
             this.addCarFromDB()
         }
 
+        if (this.driversAdded == 1) {
+            this.addDriverFromDB()
+        }
+
     }
     /**
      * obtener equipos de la base de datos
@@ -88,6 +92,22 @@ class Preload {
         for (let i = 0; i < totalCars.length; i++) {
             const newCar = new Car("", totalCars[i].code, totalCars[i].velocity, totalCars[i].handling, totalCars[i].teamName)
             this.preloadCars.push(newCar)
+        }
+
+    }
+    /**
+    * Obtener pilotos de la bas de datos
+    */
+    addDriverFromDB() {
+        /**
+         * Respuesta de la conexión
+         */
+        var totalDrivers = this.preloadDrivers[0].getFromDB()
+        this.preloadDrivers.pop()
+        //Separo los detos del JSON y los guardo en un array
+        for (let i = 0; i < totalDrivers.length; i++) {
+            const newDriver = new Driver(totalDrivers[i].name, totalDrivers[i].code, totalDrivers[i].surname, totalDrivers[i].luck, totalDrivers[i].dexterity, totalDrivers[i].points, totalDrivers[i].teamName)
+            this.preloadDrivers.push(newDriver)
         }
 
     }

@@ -149,4 +149,22 @@ class Driver extends general {
             }
         })
     }
+    /**
+     * Consulta a la BD
+     * @returns {JSON}
+     */
+    getFromDB() {
+        var driverJSON
+        $.ajax({
+            url: "selectDriver.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                driverJSON = JSON.parse(response)
+
+            }
+        })
+        return driverJSON
+
+    }
 }
