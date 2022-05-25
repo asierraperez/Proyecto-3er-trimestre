@@ -101,16 +101,19 @@ class Model {
             this.circuits = this.preload.preloadCircuits
         }
 
-        //if (localStorage.getItem("carsAdded") != 1) {
-        /**
-     * Número máximo de coches
-     */
-        this.nMaxCars = this.nMaxTeams
-        for (this.nCar; this.nCar < this.nMaxCars; this.nCar++) {
-            this.addCar()
+        if (localStorage.getItem("carsAdded") != 1) {
+            /**
+            * Número máximo de coches
+            */
+            this.nMaxCars = this.nMaxTeams
+            for (this.nCar; this.nCar < this.nMaxCars; this.nCar++) {
+                this.addCar()
+            }
+            console.log(this.cars)
+            localStorage.setItem("carsAdded", 1)
+        } else {
+            this.cars = this.preload.preloadCars
         }
-        console.log(this.cars)
-        //}
 
 
     }
@@ -164,7 +167,7 @@ class Model {
         newCar.setTeamName = this.teams[this.nCar].getCode;
         newCar.uploadCarToDB();
         this.cars.push(newCar)
-        localStorage.setItem("carsAdded", 1)
+
     }
     /**
      * Reparto a los pilotos entre todas las escuderías al azar

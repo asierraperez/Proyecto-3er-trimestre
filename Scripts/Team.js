@@ -85,7 +85,10 @@ class Team extends general {
             }
         })
     }
-
+    /**
+     * Consulta a la BD
+     * @returns {JSON}
+     */
     getFromDB() {
         var teamJSON
         $.ajax({

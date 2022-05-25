@@ -66,5 +66,26 @@ class Car extends general {
             }
         })
     }
+    /**
+     * Consulta a la BD
+     * @returns {JSON}
+     */
+    getFromDB() {
+        /**
+         * Respuesta del la BD
+         */
+        var carJSON
+        $.ajax({
+            url: "selectCar.php",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                carJSON = JSON.parse(response)
+
+            }
+        })
+        return carJSON
+    }
 
 }
+

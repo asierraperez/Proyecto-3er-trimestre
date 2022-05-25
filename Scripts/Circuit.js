@@ -80,7 +80,14 @@ class Circuit extends general {
             }
         })
     }
+    /**
+     * Consulta a la BD
+     * @returns {JSON}
+     */
     getFromDB() {
+        /**
+         * Respuesta del la BD
+         */
         var circuitJSON
         $.ajax({
             url: "selectCircuit.php",
