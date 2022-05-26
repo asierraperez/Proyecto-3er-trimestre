@@ -263,14 +263,21 @@ class Model {
     }
 
 
-
+    /**
+     * Añadir usuario
+     * @returns {Console} - salida por consola de comandos
+     */
     addUser() {
         const newUser = new User()
         this.users.push(newUser)
         return "User OK"
     }
 
-
+    /**
+     * Selección de equipo, previamente tiene que haber un user declarado
+     * @param {string} teamCode 
+     * @returns {Console} - salida por consola de comandos
+     */
     userSelectTeam(teamCode) {
         if (this.users[0]) {
             if (this.users[0].getTeamCode == "") {
@@ -290,6 +297,11 @@ class Model {
         }
     }
 
+    /**
+     * Busqueda del equipo. recorrer el array de equipos para buscarlo
+     * @param {string} searchTeamCode 
+     * @returns {boolean} 
+     */
     searchTeam(searchTeamCode) {
         var found = false
         for (let i = 0; i < this.teams.length; i++) {
@@ -301,7 +313,13 @@ class Model {
         return found
     }
 
-
+    /**
+     * Selección de pilotos, previamente tiene que haber un user declarado y con
+     * equipo asignado. 
+     * Se asignan dos 
+     * @param {string} driverCode 
+     * @returns {Console} - salida por consola de comandos
+     */
     userSelectDriver(driverCode) {
         if (this.users[0]) {
             if (this.users[0].getTeamCode != "") {
@@ -334,6 +352,12 @@ class Model {
         }
 
     }
+    /**
+     * Busqueda del piloto. recorrer el array de equipos para buscarlo
+     * @param {string} searchDriverCode 
+     * @param {number} nDriver - 1er o 2o piloto del equipo
+     * @returns {boolean}
+     */
     searchDriver(searchDriverCode, nDriver) {
         var found = false
         for (let i = 0; i < this.drivers.length; i++) {
