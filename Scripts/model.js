@@ -34,7 +34,10 @@ class Model {
          * @type {Array}
          */
         this.cars = []
-
+        /**
+         * Datos de los usuarios
+         * @type {Array}
+         */
         this.users = []
 
         /**
@@ -173,7 +176,6 @@ class Model {
         newDriver.assignSurname(this.nDriver)
         newDriver.setTeamName = null
         newDriver.setPoints = 0
-        newDriver.uploadDriverToDB()
         this.drivers.push(newDriver)
     }
     /**
@@ -211,8 +213,10 @@ class Model {
                     //compruebo si ya salió o no
                     var check = this.checkDriver(nDriver, auxDrivers)
                 } while (check)
-
-                this.drivers[nDriver].setTeamName = this.teams[i].getCode
+                var checkUserDrivers = this.checkUserDriver(nDriver)
+                if (!checkUserDrivers) {
+                    this.drivers[nDriver].setTeamName = this.teams[i].getCode
+                }
                 auxDrivers[0] = nDriver
                 auxDrivers.push(nDriver)
             }
@@ -230,9 +234,12 @@ class Model {
      */
     checkDriver(driverNumber, driversAssigned) {
         for (let k = 0; k < driversAssigned.length; k++) {
-            if (driversAssigned[k] == driverNumber) {
-                var auxCheck = true
+            if (this.drivers[driverNumber].getCode != "") {
+                if (driversAssigned[k] == driverNumber) {
+                    var auxCheck = true
+                }
             }
+
         }
         if (auxCheck) {
             return true
@@ -240,6 +247,19 @@ class Model {
             return false
         }
 
+    }
+    /**
+     * Compruebo si el piloto ya está asignado al usuario
+     * @param {number} driverNumber 
+     * @returns {boolean}
+     */
+    checkUserDriver(driverNumber) {
+        if (this.users[0].getCodeFirstDiver == this.drivers[driverNumber].getCode |
+            this.users[0].getCodeSecondDriver == this.drivers[driverNumber].getCode) {
+            return true
+        } else {
+            return false
+        }
     }
 
     /**
