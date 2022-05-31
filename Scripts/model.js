@@ -137,21 +137,36 @@ class Model {
         var nDriver = 0
         //Recorro el array de escuderías
         for (let i = 0; i < this.teams.length; i++) {
-            //Cada una tiene 2 pilotos
-            for (let j = 0; j < 2; j++) {
-                do {
-                    //asigno el piloto al azar, número de [0-20]
-                    nDriver = this.randomNumber(this.drivers.length, 0)
-                    //compruebo si ya salió o no
-                    var check = this.checkDriver(nDriver, auxDrivers)
-                } while (check)
-                var checkUserDrivers = this.checkUserDriver(nDriver)
-                if (!checkUserDrivers) {
-                    this.drivers[nDriver].setTeamName = this.teams[i].getCode
+
+            var checkUserTeam = this.checkUserTeam(this.teams[i].getCode)
+
+            if (!checkUserTeam) {
+                //Cada una tiene 2 pilotos
+                for (let j = 0; j < 2; j++) {
+                    // if (!checkUserTeam) {
+                    do {
+                        //asigno el piloto al azar, número de [0-20]
+                        nDriver = this.randomNumber(this.drivers.length, 0)
+                        //compruebo si ya salió o no
+                        var check = this.checkDriver(nDriver, auxDrivers)
+
+                    } while (check)
+                    var checkUserDriver = this.checkUserDriver(nDriver)
+
+                    if (!checkUserDriver) {
+                        this.drivers[nDriver].setTeamName = this.teams[i].getCode
+                    }
+                    //auxDrivers[0] = nDriver
+                    auxDrivers.push(nDriver)
                 }
-                auxDrivers[0] = nDriver
-                auxDrivers.push(nDriver)
+            } else {
+                for (let j = 0; j < this.drivers.length; j++) {
+                    if (this.drivers[j].getTeamName == this.teams[i].getCode) {
+                        auxDrivers.push(j)
+                    }
+                }
             }
+
         }
 
         return "pilotos repartidos correctamente"
@@ -188,7 +203,18 @@ class Model {
     checkUserDriver(driverNumber) {
         if (this.users[0].getCodeFirstDiver == this.drivers[driverNumber].getCode |
             this.users[0].getCodeSecondDriver == this.drivers[driverNumber].getCode) {
+
+            //if (this.users[0].getTeamCode == teamCode) {
             return true
+
+        } else {
+            return false
+        }
+    }
+    checkUserTeam(teamCode) {
+        if (this.users[0].getTeamCode == teamCode) {
+            return true
+
         } else {
             return false
         }
@@ -201,7 +227,7 @@ class Model {
      * @returns {number}
      */
     randomNumber(maxValue, minValue) {
-        return Math.floor(Math.random() * (maxValue - minValue) + minValue)
+        return Math.floor(Math.random() * (maxValue - minValue)) + minValue
     }
 
     /**

@@ -123,7 +123,7 @@ class Driver extends general {
     maxDrivers() {
         var nMaxDrivers = 0
         $.ajax(this.SETTINGSDRIVER).done(function (response) {
-            nMaxDrivers = response.MRData.DriverTable.Drivers.length
+            nMaxDrivers = response.MRData.DriverTable.Drivers.length - 1
         });
         return nMaxDrivers
 

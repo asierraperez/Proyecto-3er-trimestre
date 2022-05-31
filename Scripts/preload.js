@@ -60,6 +60,7 @@ class Preload {
         //Separo los detos del JSON y los guardo en un array
         for (let i = 0; i < totalTeams.length; i++) {
             const newTeam = new Team(totalTeams[i].name, totalTeams[i].code, totalTeams[i].points)
+            newTeam.setPoints = parseInt(newTeam.getPoints)
             this.preloadTeam.push(newTeam)
         }
     }
@@ -75,6 +76,7 @@ class Preload {
         //Separo los detos del JSON y los guardo en un array
         for (let i = 0; i < totalCircuits.length; i++) {
             const newCircuit = new Circuit(totalCircuits[i].name, totalCircuits[i].code, totalCircuits[i].laps)
+            newCircuit.setLaps = parseInt(newCircuit.getLaps)
             this.preloadCircuits.push(newCircuit)
         }
 
@@ -91,6 +93,8 @@ class Preload {
         //Separo los detos del JSON y los guardo en un array
         for (let i = 0; i < totalCars.length; i++) {
             const newCar = new Car("", totalCars[i].code, totalCars[i].velocity, totalCars[i].handling, totalCars[i].teamName)
+            newCar.setHandling = parseInt(newCar.getHandling)
+            newCar.setVelocity = parseInt(newCar.getVelocity)
             this.preloadCars.push(newCar)
         }
 
@@ -107,6 +111,10 @@ class Preload {
         //Separo los detos del JSON y los guardo en un array
         for (let i = 0; i < totalDrivers.length; i++) {
             const newDriver = new Driver(totalDrivers[i].name, totalDrivers[i].code, totalDrivers[i].surname, totalDrivers[i].luck, totalDrivers[i].dexterity, totalDrivers[i].points, totalDrivers[i].teamName)
+            newDriver.setDexterity = parseInt(newDriver.getDexterity)
+            newDriver.setLuck = parseInt(newDriver.getLuck)
+            newDriver.setPoints = parseInt(newDriver.getPoints)
+
             this.preloadDrivers.push(newDriver)
         }
 

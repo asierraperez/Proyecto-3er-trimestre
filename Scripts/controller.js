@@ -22,8 +22,8 @@ class Controller {
         this.carsStatus = this.getCars()
         console.log(this.carsStatus)
 
-        this.polePosition = this.positions()
-        console.log(this.polePosition)
+        //this.polePosition = this.positions()
+        //console.log(this.polePosition)
 
         //this.raceTime = null
     }
@@ -133,8 +133,17 @@ class Controller {
     positions() {
         var positions = []
         for (let i = 0; i < this.model.nMaxDrivers; i++) {
-            positions[i] = this.model.drivers[i].getCode
+            positions[i] = new Array(2)
+            positions[i][0] = this.model.drivers[i].getCode
+
+            positions[i][1] = this.search(positions[i][0])
+
+
+
+            console.log(positions)
+
         }
+        console.log(positions)
         positions = this.randomPosition(positions)
         return positions
 
@@ -157,13 +166,16 @@ class Controller {
     race() {
         var time = this.model.circuits[0].getLaps * 1000
         this.model.circuits[0].setCurrentLap = 1
-        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[0])
+        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[0],
+            this.model.drivers, this.model.cars, this.model.teams, this.polePosition)
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
-    startRace(circuit) {
+    startRace(circuit, drivers, cars, teams, positions) {
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
+        //this.search(drivers, cars, teams, positions)
         circuit.countLaps()
+
         //startLap = this.countLaps(startLap, laps)
         //console.log("ok")
     }
@@ -175,6 +187,35 @@ class Controller {
     countLaps(currentLap, endingLap) {
         console.log("vuelta " + currentLap + "/" + endingLap)
     }
+    search(searchPositions) {
+        //for (let i = (searchPositions.length - 1); i <= 0; index--) {
+        var driver = this.searchDrivers(searchPositions)
+        var car = this.searchCar(driver)
+        var totalAtributePoints = driver.getLuck + driver.getDexterity + car.getVelocity + car.getHandling
+        return totalAtributePoints
+        //}
+    }
+    searchDrivers(code) {
+        for (let i = 0; i < this.model.drivers.length; i++) {
+            if (this.model.drivers[i].getCode == code) {
+                var found = this.model.drivers[i]
+            }
+        }
+        return found
+    }
+    searchCar(driver) {
+        for (let i = 0; i < this.model.teams.length; i++) {
+            if (driver.getTeamName == this.model.teams[i].getCode) {
+                for (let j = 0; j < this.model.cars.length; j++) {
+                    if (this.model.teams[i].getCode == this.model.cars[j].getCode) {
+                        var found = this.model.cars[j]
+                    }
+                }
+            }
+        }
+        return found
+    }
+
 }
 
 const app = new Controller(new Model);
