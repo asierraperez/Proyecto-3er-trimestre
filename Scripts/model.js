@@ -169,7 +169,8 @@ class Model {
 
         }
 
-        return "pilotos repartidos correctamente"
+        console.log("pilotos repartidos correctamente")
+        return auxDrivers
 
 
     }

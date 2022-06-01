@@ -56,7 +56,7 @@ class Circuit extends general {
      * Asignar numero de vueltas del 50 al 100
      */
     assignLaps() {
-        this.setLaps = Math.floor(Math.random() * (101 - 50) + 50)
+        this.setLaps = Math.floor(Math.random() * (70 - 30) + 30)
     }
 
     countLaps() {
