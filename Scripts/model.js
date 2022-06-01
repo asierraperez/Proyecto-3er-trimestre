@@ -56,19 +56,7 @@ class Model {
          * Número de coches; Parametro para el for
          */
         this.nCar = 0
-
-
-        //----------------------------------------------------------------------
-        //------------------------LLAMADAS A FUNCIONES--------------------------
-        //----------------------------------------------------------------------
-
-
-        //this.addUser()
-
-
     }
-
-
 
     //----------------------------------------------------------------------
     //----------------------------FUNCIONES---------------------------------
@@ -261,7 +249,7 @@ class Model {
         if (this.users[0]) {
             if (this.users[0].getTeamCode == "") {
                 var teamFound = false
-                teamFound = this.searchTeam(teamCode)
+                teamFound = this.searchUserTeam(teamCode)
 
                 if (teamFound) {
                     return "escudería encontrada"
@@ -281,7 +269,7 @@ class Model {
      * @param {string} searchTeamCode 
      * @returns {boolean} 
      */
-    searchTeam(searchTeamCode) {
+    searchUserTeam(searchTeamCode) {
         var found = false
         for (let i = 0; i < this.teams.length; i++) {
             if (searchTeamCode == this.teams[i].getCode) {
@@ -303,7 +291,7 @@ class Model {
         if (this.users[0]) {
             if (this.users[0].getTeamCode != "") {
                 if (this.users[0].getCodeFirstDiver == "") {
-                    var driver1Found = this.searchDriver(driverCode, 1)
+                    var driver1Found = this.searchUserDriver(driverCode, 1)
 
                     if (driver1Found) {
                         return "piloto 1 encontrado"
@@ -312,7 +300,7 @@ class Model {
                     }
 
                 } else if (this.users[0].getCodeSecondDriver == "") {
-                    var driver2Found = this.searchDriver(driverCode, 2)
+                    var driver2Found = this.searchUserDriver(driverCode, 2)
 
                     if (driver2Found) {
                         return "piloto 2 encontrado"
@@ -337,7 +325,7 @@ class Model {
      * @param {number} nDriver - 1er o 2o piloto del equipo
      * @returns {boolean}
      */
-    searchDriver(searchDriverCode, nDriver) {
+    searchUserDriver(searchDriverCode, nDriver) {
         var found = false
         for (let i = 0; i < this.drivers.length; i++) {
             if ((searchDriverCode == this.drivers[i].getCode) & (this.drivers[i].getTeamName == null)) {
@@ -357,4 +345,95 @@ class Model {
         }
         return found
     }
+    /**
+     * busco el piloto por su código
+     * @param {String} code 
+     * @returns {Object}
+     */
+    searchDrivers(code) {
+        for (let i = 0; i < this.drivers.length; i++) {
+            if (this.drivers[i].getCode == code) {
+                var found = i
+            }
+        }
+        return found
+    }
+    /**
+     * Busco el coche por el código del piloto
+     * @param {Object} driver 
+     * @returns {Object}
+     */
+    searchCar(driver) {
+        //primero busco el equipo al que pertenece el piloto
+        for (let i = 0; i < this.teams.length; i++) {
+            if (driver.getTeamName == this.teams[i].getCode) {
+                //una vez encontrado busco el coche del equipo
+                for (let j = 0; j < this.cars.length; j++) {
+                    if (this.teams[i].getCode == this.cars[j].getCode) {
+                        var found = j
+                    }
+                }
+            }
+        }
+        return found
+    }
+    searchTeam(code) {
+        for (let i = 0; i < this.teams.length; i++) {
+            if (code == this.teams[i].getCode) {
+                var found = i
+            }
+        }
+        return found
+    }
+    addPoints(endingPositions) {
+        var driverNumber
+        var teamNumber
+        for (let i = 0; i < 10; i++) {
+            driverNumber = this.searchDrivers(endingPositions[i][0])
+            teamNumber = this.searchTeam(this.drivers[driverNumber].getTeamName)
+            switch (i) {
+                case 0:
+                    this.drivers[driverNumber].addPoints(25)
+                    this.teams[teamNumber].addPoints(25)
+                    break;
+                case 1:
+                    this.drivers[driverNumber].addPoints(18)
+                    this.teams[teamNumber].addPoints(18)
+                    break;
+                case 2:
+                    this.drivers[driverNumber].addPoints(15)
+                    this.teams[teamNumber].addPoints(15)
+                    break;
+                case 3:
+                    this.drivers[driverNumber].addPoints(10)
+                    this.teams[teamNumber].addPoints(10)
+                    break;
+                case 4:
+                    this.drivers[driverNumber].addPoints(8)
+                    this.teams[teamNumber].addPoints(8)
+                    break;
+                case 5:
+                    this.drivers[driverNumber].addPoints(6)
+                    this.teams[teamNumber].addPoints(6)
+                    break;
+                case 6:
+                    this.drivers[driverNumber].addPoints(5)
+                    this.teams[teamNumber].addPoints(5)
+                    break;
+                case 7:
+                    this.drivers[driverNumber].addPoints(3)
+                    this.teams[teamNumber].addPoints(3)
+                    break;
+                case 8:
+                    this.drivers[driverNumber].addPoints(2)
+                    this.teams[teamNumber].addPoints(2)
+                    break;
+                case 9:
+                    this.drivers[driverNumber].addPoints(1)
+                    this.teams[teamNumber].addPoints(1)
+                    break;
+            }
+        }
+    }
+
 }

@@ -58,7 +58,9 @@ class Circuit extends general {
     assignLaps() {
         this.setLaps = Math.floor(Math.random() * (70 - 30) + 30)
     }
-
+    /**
+     * Sumo una vuelta a las vueltas actuales
+     */
     countLaps() {
         this.setCurrentLap = this.getCurrentLap + 1
     }

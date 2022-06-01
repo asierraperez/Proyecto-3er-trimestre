@@ -7,9 +7,6 @@ class Controller {
         this.model = model
 
 
-
-
-
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
         //----------------------------------------------------------------------
@@ -27,9 +24,9 @@ class Controller {
         console.log(this.carsStatus)
 
         this.model.addUser()
-        this.model.userSelectTeam('alfa')
-        this.model.userSelectDriver('ALB')
-        this.model.userSelectDriver('ALO')
+        this.model.userSelectTeam('ferrari')
+        this.model.userSelectDriver('VET')
+        this.model.userSelectDriver('HUL')
 
         this.model.assignDriversToTeams()
 
@@ -151,7 +148,20 @@ class Controller {
         positions = this.randomPosition(positions)
         return positions
     }
-
+    /**
+    * Busco el piloto para asociarlo al coche y tener el total de puntos de atributo
+    * @param {String} searchPositions - código identificativo del piloto
+    * @returns {Number}
+    */
+    search(searchPositions) {
+        //busco el piloto y lo guardo 
+        var driver = this.model.searchDrivers(searchPositions)
+        //busco el coche 
+        var car = this.model.searchCar(this.model.drivers[driver])
+        var totalAtributePoints = this.model.drivers[driver].getLuck + this.model.drivers[driver].getDexterity
+            + this.model.cars[car].getVelocity + this.model.cars[car].getHandling
+        return totalAtributePoints
+    }
     /**
      * aleatorizar posiciones
      * @param {Array} rPositions - array con os códigod identificativos de cada piloto
@@ -164,6 +174,7 @@ class Controller {
         })
         return auxPositions
     }
+
     /**
      * Activación del intervalo que maneja la carrera
      */
@@ -174,93 +185,73 @@ class Controller {
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
+    /**
+     * Gestion del intervalo
+     * @param {object} circuit - circuito actual
+     * @param {Array} positions - posiciones de parrilla
+     */
     startRace(circuit, positions) {
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
-        if (circuit.getCurrentLap % 10 == 0) {
+        //cada 5 vueltas hago un adelantamiento
+        if (circuit.getCurrentLap % 5 == 0) {
             positions = app.surpass(positions)
 
-            /*
-                        //-------------------------------------
-                        document.getElementsByTagName("body")[0].innerHTML = ""
-                        for (let i = 0; i < positions.length; i++) {
-                            var posicion = document.createElement("div")
-                            posicion.innerHTML = positions[i]
-                            document.getElementsByTagName("body")[0].appendChild(posicion)
-                        }
-                        //-------------------------------------
-            */
+
+            //-------------------------------------
+            document.getElementsByTagName("body")[0].innerHTML = ""
+            for (let i = 0; i < positions.length; i++) {
+                var posicion = document.createElement("div")
+                posicion.innerHTML = positions[i]
+                document.getElementsByTagName("body")[0].appendChild(posicion)
+            }
+            //-------------------------------------
+
         }
+        //sumo una vuelta
         circuit.countLaps()
     }
+    /**
+     * Adelantamientos durante la carrera
+     * @param {Array} positions - Posiciones actuales
+     * @returns {Array}
+     */
     surpass(positions) {
         var auxPositions = positions
-
+        //empiezo desde el último
         for (let i = (auxPositions.length - 1); i >= 1; i--) {
+            //comparo la puntuación asociada al piloto i y al i-1
+            //si es mayor, adelanta esa posición
             if (auxPositions[i][1] > auxPositions[i - 1][1]) {
                 var aux = auxPositions[i]
                 var aux1 = auxPositions[i - 1]
                 auxPositions[i] = aux1
                 auxPositions[i - 1] = aux
+                //para controlarlo un poco mejor, 
+                //solo permito un adelantamiento por piloto
                 i--
             }
 
         }
-        console.log(auxPositions)
         return auxPositions
     }
+    /**
+     * fin de la carrera (termina el temporizador)
+     * @param {TimerHandler} interval - intervalo de la carrera
+     * @param {TimerHandler} timeout - temporizador
+     */
     finishRace(interval, timeout) {
         console.log('fin de la carrera')
+        //reseteo ambos
         clearInterval(interval)
         clearTimeout(timeout)
+
+        //app.addPoints()
     }
-    countLaps(currentLap, endingLap) {
-        console.log("vuelta " + currentLap + "/" + endingLap)
-    }
-    /**
-     * Busco el piloto para asociarlo al coche y tener el total de puntos de atributo
-     * @param {String} searchPositions - código identificativo del piloto
-     * @returns {Number}
-     */
-    search(searchPositions) {
-        //busco el piloto y lo guardo 
-        var driver = this.searchDrivers(searchPositions)
-        //busco el coche 
-        var car = this.searchCar(driver)
-        var totalAtributePoints = driver.getLuck + driver.getDexterity + car.getVelocity + car.getHandling
-        return totalAtributePoints
-    }
-    /**
-     * busco el piloto por su código
-     * @param {String} code 
-     * @returns {Object}
-     */
-    searchDrivers(code) {
-        for (let i = 0; i < this.model.drivers.length; i++) {
-            if (this.model.drivers[i].getCode == code) {
-                var found = this.model.drivers[i]
-            }
-        }
-        return found
-    }
-    /**
-     * Busco el coche por el código del piloto
-     * @param {Object} driver 
-     * @returns {Object}
-     */
-    searchCar(driver) {
-        //primero busco el equipo al que pertenece el piloto
-        for (let i = 0; i < this.model.teams.length; i++) {
-            if (driver.getTeamName == this.model.teams[i].getCode) {
-                //una vez encontrado busco el coche del equipo
-                for (let j = 0; j < this.model.cars.length; j++) {
-                    if (this.model.teams[i].getCode == this.model.cars[j].getCode) {
-                        var found = this.model.cars[j]
-                    }
-                }
-            }
-        }
-        return found
-    }
+
+
+
+
+
 
 }
 
