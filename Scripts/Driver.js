@@ -168,6 +168,9 @@ class Driver extends general {
         return driverJSON
 
     }
+    /**
+     * Subir los puntos
+     */
     uploadPointsToDB() {
         $.ajax({
             data: {

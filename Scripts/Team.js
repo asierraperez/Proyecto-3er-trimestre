@@ -102,4 +102,21 @@ class Team extends general {
         return teamJSON
 
     }
+    /**
+     * Subir los puntos
+     */
+    uploadPointsToDB() {
+        $.ajax({
+            data: {
+                "points": this.getPoints,
+                "id": this.getCode
+            },
+            url: "insertTeamPoints.php",
+            type: "POST",
+            async: false,
+            success: function (response) {
+                console.log(response)
+            }
+        })
+    }
 }

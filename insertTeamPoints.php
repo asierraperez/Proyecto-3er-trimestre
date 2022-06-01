@@ -27,7 +27,7 @@
     //Variables para almacenar los datos de los puntos
     $points = $_POST["points"];
     $code=$_POST["id"];
-    $consultPoints="UPDATE piloto SET puntos=$points WHERE ID ='$code';";
+    $consultPoints="UPDATE escuderia SET puntos=$points WHERE ID ='$code';";
     
     if($connection->query($consultPoints)==TRUE){
         echo "insercion correcta";
