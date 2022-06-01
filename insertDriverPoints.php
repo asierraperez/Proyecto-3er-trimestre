@@ -27,7 +27,11 @@
     /**
      * Objeto Driver para almacenar temporalmente los datos
      */
-    class Driver{
+
+    $points = $_POST["points"];
+    $code=$_POST["id"];
+    $consultPoints="UPDATE piloto SET puntos=$points WHERE ID ='$code';";
+    /*class Driver{
         public $code;
         public $name;
         public $surname;
@@ -45,21 +49,21 @@
             $this->teamID=$teamID;
             
         }
-    }
+    }*/
     //Inicializo la variable 'newDriver' con los datos recibidos desde js
-    $newDriver= new Driver($_POST["code"],$_POST["name"],$_POST["surname"],$_POST["dexterity"],
-        $_POST["luck"],$_POST["points"],$_POST["teamID"]);
-    $newDriver->points=(int)$newDriver->points;
-    $newDriver->dexterity=(int)$newDriver->dexterity;
-    $newDriver->luck=(int)$newDriver->luck;    
+   // $newDriver= new Driver($_POST["code"],$_POST["name"],$_POST["surname"],$_POST["dexterity"],
+    //    $_POST["luck"],$_POST["points"],$_POST["teamID"]);
+    //$newDriver->points=(int)$newDriver->points;
+    //$newDriver->dexterity=(int)$newDriver->dexterity;
+    //$newDriver->luck=(int)$newDriver->luck;    
     //los inserto en la BD
-    $consultDriver = "INSERT INTO piloto VALUES('$newDriver->code', '$newDriver->name', '$newDriver->surname',
-        $newDriver->dexterity, $newDriver->luck, $newDriver->points, '$newDriver->teamID');";
-    if($connection->query($consultDriver)==TRUE){
+    //$consultDriver = "INSERT INTO piloto VALUES('$newDriver->code', '$newDriver->name', '$newDriver->surname',
+     //   $newDriver->dexterity, $newDriver->luck, $newDriver->points, NULL);";
+    if($connection->query($consultPoints)==TRUE){
         echo "insercion correcta";
-        echo json_encode($newDriver);
+        //echo json_encode($newDriver);
     } else {
         echo "fallo en insercion";
     }
-   
+
 ?>

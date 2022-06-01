@@ -161,10 +161,25 @@ class Driver extends general {
             async: false,
             success: function (response) {
                 driverJSON = JSON.parse(response)
+                console.log(driverJSON)
 
             }
         })
         return driverJSON
 
+    }
+    uploadPointsToDB() {
+        $.ajax({
+            data: {
+                "points": this.getPoints,
+                "id": this.getCode
+            },
+            url: "insertDriverPoints.php",
+            type: "POST",
+            async: false,
+            success: function (response) {
+                console.log(response)
+            }
+        })
     }
 }

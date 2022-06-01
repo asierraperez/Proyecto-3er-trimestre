@@ -110,7 +110,7 @@ class Preload {
         this.preloadDrivers.pop()
         //Separo los detos del JSON y los guardo en un array
         for (let i = 0; i < totalDrivers.length; i++) {
-            const newDriver = new Driver(totalDrivers[i].name, totalDrivers[i].code, totalDrivers[i].surname, totalDrivers[i].luck, totalDrivers[i].dexterity, totalDrivers[i].points, totalDrivers[i].teamName)
+            const newDriver = new Driver(totalDrivers[i].name, totalDrivers[i].code, totalDrivers[i].surname, totalDrivers[i].luck, totalDrivers[i].dexterity, totalDrivers[i].points, totalDrivers[i].teamID)
             newDriver.setDexterity = parseInt(newDriver.getDexterity)
             newDriver.setLuck = parseInt(newDriver.getLuck)
             newDriver.setPoints = parseInt(newDriver.getPoints)

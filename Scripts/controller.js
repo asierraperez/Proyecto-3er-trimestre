@@ -28,9 +28,9 @@ class Controller {
         this.model.userSelectDriver('VET')
         this.model.userSelectDriver('HUL')
 
-        this.model.assignDriversToTeams()
+        //this.model.assignDriversToTeams()
 
-        this.polePosition = this.positions()
+        //this.polePosition = this.positions()
         //console.log(this.polePosition)
 
         //this.raceTime = null

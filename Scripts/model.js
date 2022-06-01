@@ -156,8 +156,14 @@ class Model {
             }
 
         }
+        if (this.preload.driversAdded != 1) {
+            this.driversToDB()
+            localStorage.setItem("driversAdded", 1)
+        }
 
-        console.log("pilotos repartidos correctamente")
+
+
+        //console.log("pilotos repartidos correctamente")
         return auxDrivers
 
 
@@ -394,42 +400,52 @@ class Model {
             switch (i) {
                 case 0:
                     this.drivers[driverNumber].addPoints(25)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(25)
                     break;
                 case 1:
                     this.drivers[driverNumber].addPoints(18)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(18)
                     break;
                 case 2:
                     this.drivers[driverNumber].addPoints(15)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(15)
                     break;
                 case 3:
                     this.drivers[driverNumber].addPoints(10)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(10)
                     break;
                 case 4:
                     this.drivers[driverNumber].addPoints(8)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(8)
                     break;
                 case 5:
                     this.drivers[driverNumber].addPoints(6)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(6)
                     break;
                 case 6:
                     this.drivers[driverNumber].addPoints(5)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(5)
                     break;
                 case 7:
                     this.drivers[driverNumber].addPoints(3)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(3)
                     break;
                 case 8:
                     this.drivers[driverNumber].addPoints(2)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(2)
                     break;
                 case 9:
                     this.drivers[driverNumber].addPoints(1)
+                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(1)
                     break;
             }
