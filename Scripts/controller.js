@@ -178,10 +178,10 @@ class Controller {
     /**
      * Activación del intervalo que maneja la carrera
      */
-    race() {
-        var time = this.model.circuits[0].getLaps * 1000
-        this.model.circuits[0].setCurrentLap = 1
-        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[0], this.polePosition)
+    race(nCircuit) {
+        var time = this.model.circuits[nCircuit].getLaps * 1000
+        this.model.circuits[nCircuit].setCurrentLap = 1
+        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[nCircuit], this.polePosition)
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
@@ -198,12 +198,12 @@ class Controller {
 
 
             //-------------------------------------
-            document.getElementsByTagName("body")[0].innerHTML = ""
-            for (let i = 0; i < positions.length; i++) {
-                var posicion = document.createElement("div")
-                posicion.innerHTML = positions[i]
-                document.getElementsByTagName("body")[0].appendChild(posicion)
-            }
+            //document.getElementsByTagName("body")[0].innerHTML = ""
+            /* for (let i = 0; i < positions.length; i++) {
+                 var posicion = document.createElement("div")
+                 posicion.innerHTML = positions[i]
+                 document.getElementsByTagName("body")[0].appendChild(posicion)
+             }*/
             //-------------------------------------
 
         }

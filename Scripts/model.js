@@ -155,11 +155,11 @@ class Model {
                 }
             }
 
-        }
+        }/*
         if (this.preload.driversAdded != 1) {
             this.driversToDB()
             localStorage.setItem("driversAdded", 1)
-        }
+        }*/
 
 
 
@@ -400,65 +400,47 @@ class Model {
             switch (i) {
                 case 0:
                     this.drivers[driverNumber].addPoints(25)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(25)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 1:
                     this.drivers[driverNumber].addPoints(18)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(18)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 2:
                     this.drivers[driverNumber].addPoints(15)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(15)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 3:
                     this.drivers[driverNumber].addPoints(10)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(10)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 4:
                     this.drivers[driverNumber].addPoints(8)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(8)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 5:
                     this.drivers[driverNumber].addPoints(6)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(6)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 6:
                     this.drivers[driverNumber].addPoints(5)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(5)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 7:
                     this.drivers[driverNumber].addPoints(3)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(3)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 8:
                     this.drivers[driverNumber].addPoints(2)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(2)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
                 case 9:
                     this.drivers[driverNumber].addPoints(1)
-                    this.drivers[driverNumber].uploadPointsToDB()
                     this.teams[teamNumber].addPoints(1)
-                    this.teams[teamNumber].uploadPointsToDB()
                     break;
             }
+            this.drivers[driverNumber].uploadPointsToDB()
+            this.teams[teamNumber].uploadPointsToDB()
         }
     }
 
