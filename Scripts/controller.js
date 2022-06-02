@@ -250,8 +250,12 @@ class Controller {
 
         //app.addPoints()
     }
+    /**
+     * clasificación general
+     */
     clasification() {
-        this.driverOrder = driverClasification()
+        this.driverOrder = this.model.driverClasification()
+        this.teamOrder = this.model.teamClasification()
     }
 
 

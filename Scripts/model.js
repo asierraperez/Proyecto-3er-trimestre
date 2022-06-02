@@ -451,6 +451,15 @@ class Model {
         var clasificationOrdered = this.order(clasification)
         return clasificationOrdered
     }
+
+    teamClasification() {
+        var team = new Team()
+        var clasification = team.getFromDB()
+        //driver.pop()
+        var clasificationOrdered = this.order(clasification)
+        return clasificationOrdered
+    }
+
     order(data) {
         var auxData = data
         var auxDataPosition
