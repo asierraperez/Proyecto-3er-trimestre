@@ -443,5 +443,45 @@ class Model {
             this.teams[teamNumber].uploadPointsToDB()
         }
     }
+    /**
+     * Clasificación de los pilotos
+     * @returns {JSON}
+     */
+    driverClasification() {
+        var driver = new Driver()
+        var clasification = driver.getFromDB()
+        var clasificationOrdered = this.order(clasification)
+        return clasificationOrdered
+    }
+    /**
+     * Clasificación de los equipos
+     * @returns {JSON}
+     */
+    teamClasification() {
+        var team = new Team()
+        var clasification = team.getFromDB()
+        var clasificationOrdered = this.order(clasification)
+        return clasificationOrdered
+    }
+    /**
+     * Los arrays de datos de mayor a menor
+     * @param {JSON} data 
+     * @returns {JSON}
+     */
+    order(data) {
+        var auxData = data
+        var auxDataPosition
+        for (let i = 0; i < auxData.length; i++) {
+            for (let j = 0; j < (auxData.length - 1); j++) {
+                if (auxData[j].points < auxData[j + 1].points) {
+                    auxDataPosition = auxData[j]
+                    auxData[j] = auxData[j + 1]
+                    auxData[j + 1] = auxDataPosition
+                }
+            }
+        }
+
+        return auxData
+    }
 
 }

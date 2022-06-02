@@ -47,6 +47,7 @@
         //echo "Exito en select <br>";
         while($row=$result->fetch_assoc()){
             $newTeam=new Team($row["ID"],$row["nombre"],$row["puntos"]);  
+            $newTeam->points=(int)$newTeam->points;
             array_push($response,$newTeam);  
         }
 
