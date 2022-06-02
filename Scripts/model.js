@@ -443,23 +443,31 @@ class Model {
             this.teams[teamNumber].uploadPointsToDB()
         }
     }
-
+    /**
+     * Clasificación de los pilotos
+     * @returns {JSON}
+     */
     driverClasification() {
         var driver = new Driver()
         var clasification = driver.getFromDB()
-        //driver.pop()
         var clasificationOrdered = this.order(clasification)
         return clasificationOrdered
     }
-
+    /**
+     * Clasificación de los equipos
+     * @returns {JSON}
+     */
     teamClasification() {
         var team = new Team()
         var clasification = team.getFromDB()
-        //driver.pop()
         var clasificationOrdered = this.order(clasification)
         return clasificationOrdered
     }
-
+    /**
+     * Los arrays de datos de mayor a menor
+     * @param {JSON} data 
+     * @returns {JSON}
+     */
     order(data) {
         var auxData = data
         var auxDataPosition
