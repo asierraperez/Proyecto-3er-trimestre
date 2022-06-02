@@ -444,4 +444,27 @@ class Model {
         }
     }
 
+    driverClasification() {
+        var driver = new Driver()
+        var clasification = driver.getFromDB()
+        //driver.pop()
+        var clasificationOrdered = this.order(clasification)
+        return clasificationOrdered
+    }
+    order(data) {
+        var auxData = data
+        var auxDataPosition
+        for (let i = 0; i < auxData.length; i++) {
+            for (let j = 0; j < (auxData.length - 1); j++) {
+                if (auxData[j].points < auxData[j + 1].points) {
+                    auxDataPosition = auxData[j]
+                    auxData[j] = auxData[j + 1]
+                    auxData[j + 1] = auxDataPosition
+                }
+            }
+        }
+
+        return auxData
+    }
+
 }

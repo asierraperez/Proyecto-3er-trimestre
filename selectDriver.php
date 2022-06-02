@@ -57,7 +57,10 @@
         while($row=$result->fetch_assoc()){
             $newDriver= new Driver($row["ID"],$row["nombre"],$row["apellidos"],$row["destreza"],
             $row["suerte"],$row["puntos"],$row["ID_escuderia"]);
-                array_push($response,$newDriver);  
+            $newDriver->points=(int)$newDriver->points;
+            $newDriver->dexterity=(int)$newDriver->dexterity;
+            $newDriver->luck=(int)$newDriver->luck;    
+            array_push($response,$newDriver);  
   
         }
 

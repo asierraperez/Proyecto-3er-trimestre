@@ -6,6 +6,9 @@ class Controller {
     constructor(model) {
         this.model = model
 
+        this.driverOrder
+        this.teamOrder
+
 
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
@@ -246,6 +249,9 @@ class Controller {
         clearTimeout(timeout)
 
         //app.addPoints()
+    }
+    clasification() {
+        this.driverOrder = driverClasification()
     }
 
 
