@@ -54,7 +54,7 @@
     $newDriver->luck=(int)$newDriver->luck;    
     //los inserto en la BD
     $consultDriver = "INSERT INTO piloto VALUES('$newDriver->code', '$newDriver->name', '$newDriver->surname',
-        $newDriver->dexterity, $newDriver->luck, $newDriver->points, NULL);";
+        $newDriver->dexterity, $newDriver->luck, $newDriver->points, '$newDriver->teamID');";
     if($connection->query($consultDriver)==TRUE){
         echo "insercion correcta";
         echo json_encode($newDriver);
