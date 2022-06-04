@@ -63,9 +63,10 @@ class View {
      * Agregar información de los pilotos
      * @param {} param0 
      */
-    driverInformation({ name, surname, dexterity, luck }) {
+    driverInformation({ code, name, surname, dexterity, luck }) {
         var displayDrivers = document.createElement("div")
         displayDrivers.className = "drivers"
+        displayDrivers.id = code
         displayDrivers.innerHTML = (
             name + " " + surname + "<br>" +
             "Destreza: " + dexterity + "<br>" +
@@ -85,8 +86,25 @@ class View {
             })
 
         }
+    }
 
+    bindSelectDrivers(handler) {
+        var countDrivers = 0
+        var drivers = document.getElementsByClassName("drivers")
+        for (let i = 0; i < drivers.length; i++) {
+            drivers[i].addEventListener("click", (evt) => {
+                var driverCode = drivers[i].id
+                handler(driverCode)
+                countDrivers++
+                if (countDrivers == 2) {
+                    this.selectDriver.style.display = "none"
+                } else {
+                    drivers[i].style.backgroundColor = "gray"
+                    evt.currentTarget.removeEventListener("click", (evt))
+                }
+            })
 
+        }
     }
 
 

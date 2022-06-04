@@ -34,6 +34,7 @@ class Controller {
 
         this.view.bindMainWindow(this.handleDeclareUser.bind(this))
         this.view.bindSelectTeam(this.handleSelectUserTeam.bind(this))
+        this.view.bindSelectDrivers(this.handleSelectUserDriver.bind(this))
 
         //this.model.addUser()
         //this.model.userSelectTeam('ferrari')
@@ -301,6 +302,10 @@ class Controller {
 
     handleSelectUserTeam(code) {
         this.model.userSelectTeam(code)
+    }
+
+    handleSelectUserDriver(code) {
+        this.model.userSelectDriver(code)
     }
 
 
