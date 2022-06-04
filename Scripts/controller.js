@@ -10,6 +10,10 @@ class Controller {
         this.driverOrder
         this.teamOrder
 
+        this.auxTeamUser = ''
+        this.auxDriver1User = ''
+        this.auxDriver2User = ''
+
 
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
@@ -34,8 +38,9 @@ class Controller {
 
         this.view.bindMainWindow(this.handleDeclareUser.bind(this))
         this.view.bindSelectTeam(this.handleSelectUserTeam.bind(this))
+        this.view.acceptTeam(this.acceptTeam.bind(this))
         this.view.bindSelectDrivers(this.handleSelectUserDriver.bind(this))
-
+        this.view.acceptDrivers(this.acceptDrivers.bind(this))
         //this.model.addUser()
         //this.model.userSelectTeam('ferrari')
         //this.model.userSelectDriver('VET')
@@ -301,17 +306,44 @@ class Controller {
     }
 
     handleSelectUserTeam(code) {
-        if (this.model.users[0].getTeamCode == "") {
+
+        this.auxTeamUser = code
+        /*if (this.model.users[0].getTeamCode == "") {
             this.model.userSelectTeam(code)
         } else {
             this.model.users[0].setTeamCode = ""
             this.model.userSelectTeam(code)
+        }*/
+
+    }
+
+    acceptTeam() {
+        this.model.userSelectTeam(this.auxTeamUser)
+    }
+
+    handleSelectUserDriver(code, operation) {
+        switch (operation) {
+            case 0:
+                if (this.auxDriver1User == '') {
+                    this.auxDriver1User = code
+                } else {
+                    this.auxDriver2User = code
+                }
+                break;
+            case 1:
+                this.auxDriver1User = ""
+                break;
+            case 2:
+                this.auxDriver2User = ""
+                break;
+
         }
 
     }
 
-    handleSelectUserDriver(code) {
-        this.model.userSelectDriver(code)
+    acceptDrivers() {
+        this.model.userSelectDriver(this.auxDriver1User)
+        this.model.userSelectDriver(this.auxDriver2User)
     }
 
 

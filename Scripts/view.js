@@ -21,9 +21,11 @@ class View {
         this.selectDriver = document.getElementById("chooseDrivers")
 
         this.teamSelected = document.getElementById('teamSelected')
+        this.driversSelected = document.getElementById('driversSelected')
 
         this.bindMainWindow()
         this.acceptTeam()
+        this.acceptDrivers()
     }
 
     /**
@@ -108,8 +110,9 @@ class View {
         }
     }
 
-    acceptTeam() {
+    acceptTeam(handler) {
         this.teamSelected.addEventListener('click', evt => {
+            handler()
             this.selectTeam.style.display = "none"
             this.selectDriver.style.display = "block"
         })
@@ -117,20 +120,64 @@ class View {
 
     bindSelectDrivers(handler) {
         var countDrivers = 0
+        var driver1
+        var driver2
+        var driver1Selected = false
+        var driver2Selected = false
         var drivers = document.getElementsByClassName("drivers")
         for (let i = 0; i < drivers.length; i++) {
             drivers[i].addEventListener("click", (evt) => {
-                var driverCode = drivers[i].id
-                handler(driverCode)
-                countDrivers++
-                if (countDrivers == 2) {
-                    this.selectDriver.style.display = "none"
+
+                if (driver1 == drivers[i]) {
+                    driver1Selected = false
+                    driver1.style.backgroundColor = ""
+                    driver1 = null
+                    countDrivers--
+                    handler("", 1)
+                } else if (driver2 == drivers[i]) {
+                    driver2Selected = false
+                    driver2.style.backgroundColor = ""
+                    driver2 = null
+                    countDrivers--
+                    handler("", 2)
                 } else {
-                    drivers[i].style.backgroundColor = "gray"
+
+                    var driverCode = drivers[i].id
+                    if (!driver1Selected) {
+                        handler(driverCode, 0)
+                        driver1Selected = true
+                        driver1 = drivers[i]
+                        countDrivers++
+                        drivers[i].style.backgroundColor = "gray"
+
+                    } else if (driver1Selected & !driver2Selected) {
+                        handler(driverCode, 0)
+                        driver2Selected = true
+                        driver2 = drivers[i]
+                        countDrivers++
+                        drivers[i].style.backgroundColor = "gray"
+
+                    }
+
+
+
+                }
+                if (countDrivers == 2) {
+                    this.driversSelected.disabled = false
+                } else {
+                    this.driversSelected.disabled = true
+
                 }
             })
 
         }
+    }
+    acceptDrivers(handler) {
+        this.driversSelected.addEventListener('click', evt => {
+            handler()
+            this.driversSelected.style.display = "none"
+            this.driversSelected.style.display = "none"
+        })
     }
 
 
