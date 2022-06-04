@@ -201,12 +201,12 @@ class Controller {
 
 
             //-------------------------------------
-            //document.getElementsByTagName("body")[0].innerHTML = ""
-            /* for (let i = 0; i < positions.length; i++) {
-                 var posicion = document.createElement("div")
-                 posicion.innerHTML = positions[i]
-                 document.getElementsByTagName("body")[0].appendChild(posicion)
-             }*/
+            document.getElementsByTagName("body")[0].innerHTML = ""
+            for (let i = 0; i < positions.length; i++) {
+                var posicion = document.createElement("div")
+                posicion.innerHTML = positions[i]
+                document.getElementsByTagName("body")[0].appendChild(posicion)
+            }
             //-------------------------------------
 
         }
