@@ -383,6 +383,11 @@ class Model {
         }
         return found
     }
+    /**
+     * Busqueda de equipo dado un codigo
+     * @param {string} code 
+     * @returns {number}
+     */
     searchTeam(code) {
         for (let i = 0; i < this.teams.length; i++) {
             if (code == this.teams[i].getCode) {
@@ -391,6 +396,10 @@ class Model {
         }
         return found
     }
+    /**
+     * Sumar puntos en función de las posiciones
+     * @param {Array} endingPositions 
+     */
     addPoints(endingPositions) {
         var driverNumber
         var teamNumber

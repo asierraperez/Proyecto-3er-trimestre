@@ -19,12 +19,20 @@ class View {
          * pantalla con los datos de los pilotos
          */
         this.selectDriver = document.getElementById("chooseDrivers")
-
+        /**
+         * botón para aceptar los equipos
+         */
         this.teamSelected = document.getElementById('teamSelected')
+        /**
+         * botón para aceptar los pilotos
+         */
         this.driversSelected = document.getElementById('driversSelected')
 
+        //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
+        //pasar a pantalla de pilotos
         this.acceptTeam()
+        //pasar a campeonato
         this.acceptDrivers()
     }
 
@@ -47,6 +55,10 @@ class View {
      * @param {*} param0 
      */
     teamsInformation({ name, code }) {
+        /**
+         * equipos mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
         var displayTeam = document.createElement("div")
         displayTeam.className = "team"
         displayTeam.id = code
@@ -58,6 +70,10 @@ class View {
      * @param {*} param0 
      */
     carInformation({ code, velocity, handling }) {
+        /**
+         * coches mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
         var displayCars = document.createElement("div")
         displayCars.innerHTML = (
             "Datos del coche: <br>" +
@@ -71,6 +87,10 @@ class View {
      * @param {} param0 
      */
     driverInformation({ code, name, surname, dexterity, luck }) {
+        /**
+         * pilotos mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
         var displayDrivers = document.createElement("div")
         displayDrivers.className = "drivers"
         displayDrivers.id = code
@@ -81,7 +101,10 @@ class View {
         )
         this.selectDriver.appendChild(displayDrivers)
     }
-
+    /**
+     * selección de equipos
+     * @param {*} handler 
+     */
     bindSelectTeam(handler) {
         var teamSelected = false
         var prevTeam
@@ -109,7 +132,10 @@ class View {
 
         }
     }
-
+    /**
+     * con el equio seleccionado, aceptar
+     * @param {*} handler 
+     */
     acceptTeam(handler) {
         this.teamSelected.addEventListener('click', evt => {
             handler()
@@ -117,13 +143,34 @@ class View {
             this.selectDriver.style.display = "block"
         })
     }
-
+    /**
+     * seleccionar pilotos
+     * @param {*} handler 
+     */
     bindSelectDrivers(handler) {
+        /**
+         * cuenta de los pilotos
+         */
         var countDrivers = 0
+        /**
+         * auxiliar para guardar el piloto 1 
+         */
         var driver1
+        /**
+         * auxiliar para guardar el piloto 2 
+         */
         var driver2
+        /**
+         * piloto 1 seleccionado
+         */
         var driver1Selected = false
+        /**
+         * piloto 2 seleccionado
+         */
         var driver2Selected = false
+        /**
+         * clase pilotos
+         */
         var drivers = document.getElementsByClassName("drivers")
         for (let i = 0; i < drivers.length; i++) {
             drivers[i].addEventListener("click", (evt) => {
@@ -172,6 +219,10 @@ class View {
 
         }
     }
+    /**
+     * con los pilotos seleccionados, aceptar
+     * @param {*} handler 
+     */
     acceptDrivers(handler) {
         this.driversSelected.addEventListener('click', evt => {
             handler()

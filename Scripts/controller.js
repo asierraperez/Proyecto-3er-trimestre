@@ -31,22 +31,27 @@ class Controller {
         this.carsStatus = this.getCars()
         console.log(this.carsStatus)
 
-
+        //Muestro los datos 
         this.displayTeams()
         this.displayCars()
         this.displayDrivers()
 
+        //comienzo el juego y declaro un usuario
         this.view.bindMainWindow(this.handleDeclareUser.bind(this))
+
+        //selecciono un equipo
         this.view.bindSelectTeam(this.handleSelectUserTeam.bind(this))
         this.view.acceptTeam(this.acceptTeam.bind(this))
+
+        //selecciono 2 pilotos
         this.view.bindSelectDrivers(this.handleSelectUserDriver.bind(this))
         this.view.acceptDrivers(this.acceptDrivers.bind(this))
-        //this.model.addUser()
-        //this.model.userSelectTeam('ferrari')
-        //this.model.userSelectDriver('VET')
-        //this.model.userSelectDriver('HUL')
 
+        //asigno los pilotos a los equipos aleatoriamente
         //this.model.assignDriversToTeams()
+
+        //subo los pilotos a la BD
+        //this.model.driversToDB()
 
         //this.polePosition = this.positions()
         //console.log(this.polePosition)
@@ -305,22 +310,26 @@ class Controller {
         console.log(statusUser)
     }
 
+    /**
+     * seleccion de equipo
+     * @param {string} code 
+     */
     handleSelectUserTeam(code) {
-
         this.auxTeamUser = code
-        /*if (this.model.users[0].getTeamCode == "") {
-            this.model.userSelectTeam(code)
-        } else {
-            this.model.users[0].setTeamCode = ""
-            this.model.userSelectTeam(code)
-        }*/
-
     }
 
+    /**
+     * aceptar equipo seleccionado
+     */
     acceptTeam() {
         this.model.userSelectTeam(this.auxTeamUser)
     }
 
+    /**
+     * seleccion de pilotos
+     * @param {string} code - código del piloto
+     * @param {number} operation - numero que indica la operación a realizar
+     */
     handleSelectUserDriver(code, operation) {
         switch (operation) {
             case 0:
@@ -340,10 +349,15 @@ class Controller {
         }
 
     }
-
+    /**
+     * acptar pilotos seleccionados
+     */
     acceptDrivers() {
         this.model.userSelectDriver(this.auxDriver1User)
         this.model.userSelectDriver(this.auxDriver2User)
+
+        this.model.assignDriversToTeams()
+        this.model.driversToDB()
     }
 
 
