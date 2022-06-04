@@ -301,7 +301,13 @@ class Controller {
     }
 
     handleSelectUserTeam(code) {
-        this.model.userSelectTeam(code)
+        if (this.model.users[0].getTeamCode == "") {
+            this.model.userSelectTeam(code)
+        } else {
+            this.model.users[0].setTeamCode = ""
+            this.model.userSelectTeam(code)
+        }
+
     }
 
     handleSelectUserDriver(code) {

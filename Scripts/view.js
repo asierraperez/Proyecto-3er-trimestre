@@ -19,8 +19,13 @@ class View {
          * pantalla con los datos de los pilotos
          */
         this.selectDriver = document.getElementById("chooseDrivers")
+
+        this.teamSelected = document.getElementById('teamSelected')
+
         this.bindMainWindow()
+        this.acceptTeam()
     }
+
     /**
      * Declarar usuario para empezar el juego
      * @param {} handler 
@@ -76,16 +81,38 @@ class View {
     }
 
     bindSelectTeam(handler) {
+        var teamSelected = false
+        var prevTeam
         var teams = document.getElementsByClassName("team")
         for (let i = 0; i < teams.length; i++) {
             teams[i].addEventListener("click", evt => {
                 var teamCode = teams[i].id
-                handler(teamCode)
-                this.selectTeam.style.display = "none"
-                this.selectDriver.style.display = "block"
+                if (!teamSelected) {
+                    handler(teamCode)
+                    teamSelected = true
+                    prevTeam = teams[i]
+                    prevTeam.style.backgroundColor = ""
+                    teams[i].style.backgroundColor = "gray"
+
+                } else {
+                    handler(teamCode)
+
+                    //teamSelected = false
+                    prevTeam.style.backgroundColor = ""
+                    teams[i].style.backgroundColor = "gray"
+                    prevTeam = teams[i]
+                }
+                this.teamSelected.disabled = false
             })
 
         }
+    }
+
+    acceptTeam() {
+        this.teamSelected.addEventListener('click', evt => {
+            this.selectTeam.style.display = "none"
+            this.selectDriver.style.display = "block"
+        })
     }
 
     bindSelectDrivers(handler) {
@@ -100,7 +127,6 @@ class View {
                     this.selectDriver.style.display = "none"
                 } else {
                     drivers[i].style.backgroundColor = "gray"
-                    evt.currentTarget.removeEventListener("click", (evt))
                 }
             })
 
