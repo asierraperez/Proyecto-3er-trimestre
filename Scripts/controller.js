@@ -3,8 +3,9 @@
  * controlador de la aplicación
  */
 class Controller {
-    constructor(model) {
+    constructor(model, view) {
         this.model = model
+        this.view = view
 
         this.driverOrder
         this.teamOrder
@@ -26,10 +27,17 @@ class Controller {
         this.carsStatus = this.getCars()
         console.log(this.carsStatus)
 
-        this.model.addUser()
-        this.model.userSelectTeam('ferrari')
-        this.model.userSelectDriver('VET')
-        this.model.userSelectDriver('HUL')
+
+        this.displayTeams()
+        this.displayCars()
+        this.displayDrivers()
+
+        this.view.bindMainWindow(this.handleDeclareUser.bind(this))
+
+        //this.model.addUser()
+        //this.model.userSelectTeam('ferrari')
+        //this.model.userSelectDriver('VET')
+        //this.model.userSelectDriver('HUL')
 
         //this.model.assignDriversToTeams()
 
@@ -257,6 +265,28 @@ class Controller {
         this.driverOrder = this.model.driverClasification()
         this.teamOrder = this.model.teamClasification()
     }
+    displayTeams() {
+        for (let i = 0; i < this.model.teams.length; i++) {
+            this.view.teamsInformation(this.model.teams[i])
+        }
+    }
+    displayCars() {
+        for (let i = 0; i < this.model.teams.length; i++) {
+            this.view.carInformation(this.model.cars[i])
+        }
+    }
+    displayDrivers() {
+        for (let i = 0; i < this.model.drivers.length; i++) {
+            this.view.driverInformation(this.model.drivers[i])
+        }
+    }
+    handleDeclareUser() {
+        var statusUser = this.model.addUser()
+        console.log(statusUser)
+    }
+
+
+
 
 
 
@@ -265,4 +295,4 @@ class Controller {
 
 }
 
-const app = new Controller(new Model);
+const app = new Controller(new Model, new View);
