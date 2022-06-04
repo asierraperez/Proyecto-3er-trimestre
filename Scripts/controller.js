@@ -33,6 +33,7 @@ class Controller {
         this.displayDrivers()
 
         this.view.bindMainWindow(this.handleDeclareUser.bind(this))
+        this.view.bindSelectTeam(this.handleSelectUserTeam.bind(this))
 
         //this.model.addUser()
         //this.model.userSelectTeam('ferrari')
@@ -265,24 +266,41 @@ class Controller {
         this.driverOrder = this.model.driverClasification()
         this.teamOrder = this.model.teamClasification()
     }
+
+    /**
+     * mostrar equipos 
+     */
     displayTeams() {
         for (let i = 0; i < this.model.teams.length; i++) {
             this.view.teamsInformation(this.model.teams[i])
         }
     }
+    /**
+     * mostrar coches
+     */
     displayCars() {
         for (let i = 0; i < this.model.teams.length; i++) {
             this.view.carInformation(this.model.cars[i])
         }
     }
+    /**
+     * mostrar conductores
+     */
     displayDrivers() {
         for (let i = 0; i < this.model.drivers.length; i++) {
             this.view.driverInformation(this.model.drivers[i])
         }
     }
+    /**
+     * evento para declarar usuarios
+     */
     handleDeclareUser() {
         var statusUser = this.model.addUser()
         console.log(statusUser)
+    }
+
+    handleSelectUserTeam(code) {
+        this.model.userSelectTeam(code)
     }
 
 

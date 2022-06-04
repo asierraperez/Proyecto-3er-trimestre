@@ -1,12 +1,30 @@
+/**
+ * Vista del juego
+ */
 class View {
     constructor() {
+        /**
+         * pantalla de inicio
+         */
         this.begin = document.getElementById("main")
+        /**
+         * boton de comienzo
+         */
         this.startButton = document.getElementById("start")
+        /**
+         * pantalla con los datos de las escuderías
+         */
         this.selectTeam = document.getElementById("chooseTeam")
+        /**
+         * pantalla con los datos de los pilotos
+         */
         this.selectDriver = document.getElementById("chooseDrivers")
         this.bindMainWindow()
     }
-
+    /**
+     * Declarar usuario para empezar el juego
+     * @param {} handler 
+     */
     bindMainWindow(handler) {
         this.startButton.addEventListener("click", evt => {
 
@@ -17,7 +35,10 @@ class View {
 
         })
     }
-
+    /**
+     * Agregar información de las escuderías
+     * @param {*} param0 
+     */
     teamsInformation({ name, code }) {
         var displayTeam = document.createElement("div")
         displayTeam.className = "team"
@@ -25,7 +46,10 @@ class View {
         displayTeam.innerHTML = name
         this.selectTeam.appendChild(displayTeam)
     }
-
+    /**
+     * Agregar información de los coches al de las escuderías
+     * @param {*} param0 
+     */
     carInformation({ code, velocity, handling }) {
         var displayCars = document.createElement("div")
         displayCars.innerHTML = (
@@ -35,7 +59,10 @@ class View {
         )
         document.getElementById(code).appendChild(displayCars)
     }
-
+    /**
+     * Agregar información de los pilotos
+     * @param {} param0 
+     */
     driverInformation({ name, surname, dexterity, luck }) {
         var displayDrivers = document.createElement("div")
         displayDrivers.className = "drivers"
@@ -45,6 +72,20 @@ class View {
             "Suerte: " + luck + "<br>"
         )
         this.selectDriver.appendChild(displayDrivers)
+    }
+
+    bindSelectTeam(handler) {
+        var teams = document.getElementsByClassName("team")
+        for (let i = 0; i < teams.length; i++) {
+            teams[i].addEventListener("click", evt => {
+                var teamCode = teams[i].id
+                handler(teamCode)
+                this.selectTeam.style.display = "none"
+                this.selectDriver.style.display = "block"
+            })
+
+        }
+
 
     }
 
