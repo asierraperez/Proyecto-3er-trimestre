@@ -143,6 +143,8 @@ class Model {
 
                     if (!checkUserDriver) {
                         this.drivers[nDriver].setTeamName = this.teams[i].getCode
+                    } else {
+                        j--
                     }
                     //auxDrivers[0] = nDriver
                     auxDrivers.push(nDriver)

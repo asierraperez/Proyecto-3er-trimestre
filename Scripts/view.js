@@ -27,6 +27,15 @@ class View {
          * botón para aceptar los pilotos
          */
         this.driversSelected = document.getElementById('driversSelected')
+        /**
+         * Pantalla para empezar la carrera
+         */
+        this.raceScreen = document.getElementById('raceTime')
+        this.clasification = document.getElementById('clasification')
+        /**
+         * botón para gestionar la carrera
+         */
+        this.btnRace = document.getElementById('race')
 
         //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
@@ -226,9 +235,35 @@ class View {
     acceptDrivers(handler) {
         this.driversSelected.addEventListener('click', evt => {
             handler()
-            this.driversSelected.style.display = "none"
-            this.driversSelected.style.display = "none"
+            this.selectDriver.style.display = "none"
+            this.raceScreen.style.display = "block"
         })
+    }
+    eventClasification(handler) {
+        this.btnRace.addEventListener('click', evt => {
+            handler()
+        })
+    }
+    showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDiver }, position) {
+        var driver = document.createElement('div')
+        driver.innerHTML = (
+            (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
+        )
+        switch (position) {
+            case 0:
+                driver.style.backgroundColor = "gold"
+                break;
+            case 1:
+                driver.style.backgroundColor = "silver"
+                break;
+            case 2:
+                driver.style.backgroundColor = "bronze"
+                break;
+
+            default:
+                break;
+        }
+        this.clasification.appendChild(driver)
     }
 
 

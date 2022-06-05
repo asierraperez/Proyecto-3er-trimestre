@@ -47,6 +47,8 @@ class Controller {
         this.view.bindSelectDrivers(this.handleSelectUserDriver.bind(this))
         this.view.acceptDrivers(this.acceptDrivers.bind(this))
 
+        this.view.eventClasification(this.handleShowDrivers.bind(this))
+
         //asigno los pilotos a los equipos aleatoriamente
         //this.model.assignDriversToTeams()
 
@@ -360,6 +362,17 @@ class Controller {
         this.model.driversToDB()
     }
 
+    driversOrdered() {
+        var driversOrdered = this.model.driverClasification()
+        for (let i = 0; i < driversOrdered.length; i++) {
+            this.view.showDriverClasification(driversOrdered[i], this.model.users[0], i)
+        }
+
+    }
+
+    handleShowDrivers() {
+        this.driversOrdered()
+    }
 
 
 
