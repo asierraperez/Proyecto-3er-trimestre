@@ -31,11 +31,16 @@ class View {
          * Pantalla para empezar la carrera
          */
         this.raceScreen = document.getElementById('raceTime')
+        this.btnClasification = document.getElementById('btnClasification')
         this.clasification = document.getElementById('clasification')
         /**
          * botón para gestionar la carrera
          */
         this.btnRace = document.getElementById('race')
+
+        this.auxRaceClasification = false
+
+
 
         //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
@@ -237,11 +242,16 @@ class View {
             handler()
             this.selectDriver.style.display = "none"
             this.raceScreen.style.display = "block"
+
         })
     }
     eventClasification(handler) {
-        this.btnRace.addEventListener('click', evt => {
+        this.btnClasification.addEventListener('click', evt => {
             handler()
+            //this.btnClasification.innerHTML = "volver"
+            this.clasification.style.display = "block"
+            this.raceScreen.style.display = "none"
+
         })
     }
     showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDiver }, position) {
@@ -265,6 +275,47 @@ class View {
         }
         this.clasification.appendChild(driver)
     }
+
+    eventRace(getPole, startRace) {
+        var buttonPressed = false
+        this.btnRace.addEventListener('click', evt => {
+            if (!buttonPressed) {
+                getPole()
+                this.btnRace.innerText = "Comenzar carrera"
+                buttonPressed = true
+            } else {
+                startRace()
+                //this.btnRace.innerText = "Siguiente carrera"
+                buttonPressed = false
+                this.btnRace.disabled = true
+            }
+
+        })
+    }
+
+    showPositions(positions) {
+        var posicion = document.createElement("div")
+        posicion.id = "position"
+        if (this.auxRaceClasification) {
+            this.raceScreen.removeChild(document.getElementById("position"))
+            this.auxRaceClasification = false
+        }
+        for (let i = 0; i < positions.length; i++) {
+            posicion.innerHTML = posicion.innerHTML + "<div>" + (i + 1) + ". " + positions[i][0] + "</div>"
+            this.raceScreen.appendChild(posicion)
+            this.auxRaceClasification = true
+        }
+
+    }
+
+    handleRaceButton() {
+        this.btnClasification.innerText = "Siguiente carrera"
+
+
+
+    }
+
+
 
 
 

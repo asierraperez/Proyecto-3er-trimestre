@@ -9,6 +9,7 @@ class Controller {
 
         this.driverOrder
         this.teamOrder
+        this.raceNumber = 0
 
         this.auxTeamUser = ''
         this.auxDriver1User = ''
@@ -49,13 +50,10 @@ class Controller {
 
         this.view.eventClasification(this.handleShowDrivers.bind(this))
 
-        //asigno los pilotos a los equipos aleatoriamente
-        //this.model.assignDriversToTeams()
+        this.view.eventRace(this.handleGetPolePositions.bind(this),
+            this.handleStartRace.bind(this))
 
-        //subo los pilotos a la BD
-        //this.model.driversToDB()
-
-        //this.polePosition = this.positions()
+        this.polePosition
         //console.log(this.polePosition)
 
         //this.raceTime = null
@@ -203,10 +201,10 @@ class Controller {
     /**
      * Activación del intervalo que maneja la carrera
      */
-    race(nCircuit) {
-        var time = this.model.circuits[nCircuit].getLaps * 1000
-        this.model.circuits[nCircuit].setCurrentLap = 1
-        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[nCircuit], this.polePosition)
+    race() {
+        var time = this.model.circuits[this.raceNumber].getLaps * 1000
+        this.model.circuits[this.raceNumber].setCurrentLap = 1
+        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[this.raceNumber], this.polePosition)
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
@@ -220,15 +218,16 @@ class Controller {
         //cada 5 vueltas hago un adelantamiento
         if (circuit.getCurrentLap % 5 == 0) {
             positions = app.surpass(positions)
+            app.view.showPositions(positions)
 
 
             //-------------------------------------
-            document.getElementsByTagName("body")[0].innerHTML = ""
+            /*document.getElementsByTagName("body")[0].innerHTML = ""
             for (let i = 0; i < positions.length; i++) {
                 var posicion = document.createElement("div")
                 posicion.innerHTML = positions[i]
                 document.getElementsByTagName("body")[0].appendChild(posicion)
-            }
+            }*/
             //-------------------------------------
 
         }
@@ -269,8 +268,8 @@ class Controller {
         //reseteo ambos
         clearInterval(interval)
         clearTimeout(timeout)
-
-        //app.addPoints()
+        app.raceNumber++
+        app.model.addpoints(app.polePosition)
     }
     /**
      * clasificación general
@@ -372,6 +371,15 @@ class Controller {
 
     handleShowDrivers() {
         this.driversOrdered()
+    }
+
+    handleGetPolePositions() {
+        this.polePosition = this.positions()
+        this.view.showPositions(this.polePosition)
+    }
+
+    handleStartRace() {
+        this.race()
     }
 
 
