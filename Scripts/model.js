@@ -495,4 +495,24 @@ class Model {
         return auxData
     }
 
+    checkDriverWinner({ code }) {
+        if (this.users[0].getCodeFirstDiver == code |
+            this.users[0].getCodeSecondDriver == code) {
+            return true
+
+        } else {
+            return false
+        }
+
+    }
+
+    checkTeamWinner({ code }) {
+        if (this.users[0].getTeamCode == code) {
+            return true
+
+        } else {
+            return false
+        }
+    }
+
 }

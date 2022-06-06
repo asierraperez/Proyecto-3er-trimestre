@@ -60,6 +60,7 @@ class View {
          * div con laclasificación general
          */
         this.driverClasification = document.createElement('div')
+        this.teamClasification = document.createElement('div')
 
         //handleNextRaceButton
 
@@ -273,9 +274,10 @@ class View {
      * evento que gestiona el mostrar la clasificación
      * @param {*} handler 
      */
-    eventClasification(handler) {
+    eventClasification(handlerDrivers, handlerTeams) {
         this.btnClasification.addEventListener('click', evt => {
-            handler()
+            handlerDrivers()
+            handlerTeams()
             //this.btnClasification.innerHTML = "volver"
             this.clasification.style.display = "block"
             this.raceScreen.style.display = "none"
@@ -294,11 +296,32 @@ class View {
             (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
         )
         this.checkPlace(driver, position)
+        this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
         this.driverClasification.appendChild(driver)
         this.driverClasification.id = "driverClasification"
-        this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
         this.clasification.appendChild(this.driverClasification)
     }
+    /**
+     * ordena los equipos para mostrarlo por orden de puntos
+     * @param {*} param0 
+     * @param {*} param1 
+     * @param {number} position 
+     */
+    showTeamClasification({ code, name, points }, { teamCode }, position) {
+        var team = document.createElement('div')
+        team.innerHTML = (
+            (position + 1) + ".  " + name + " " + points + " puntos<br>"
+        )
+        this.checkPlace(team, position)
+        this.checkUserTeam(code, teamCode, team)
+        this.teamClasification.appendChild(team)
+        this.teamClasification.id = "teamClasification"
+        this.clasification.appendChild(this.teamClasification)
+    }
+
+
+
+
     /**
      * evento para volver de la pantalla de clasificación a la de carrera
      */
@@ -308,6 +331,7 @@ class View {
             this.raceScreen.style.display = "block"
             this.clasification.removeChild(document.getElementById("driverClasification"))
             this.driverClasification.innerHTML = ''
+            this.teamClasification.innerHTML = ''
         })
     }
     /**
@@ -446,9 +470,50 @@ class View {
             position.style.color = "green"
         }
     }
+    checkUserTeam(code, teamUser, team) {
+        if (code == teamUser) {
+            team.style.color = "green"
+        }
+    }
     enableNextRace() {
         this.btnNextRace.disabled = false
     }
+
+    finishChampionship() {
+        this.clasification.removeChild(this.btnBack)
+        this.clasification.style.display = "block"
+        this.raceScreen.style.display = "none"
+
+    }
+
+    showDriverWinner({ name, surname }, userWinner) {
+        var winner = document.createElement("h2")
+        var user = document.createElement("h4")
+        winner.innerText = "Ha ganado " + name + " " + surname
+        if (userWinner) {
+            user.innerText = "Enhorabuena, tu piloto ha ganado!"
+        } else {
+            user.innerHTML = "Confía en <b><i>el plan</b></i>, ganarás la siguiente"
+        }
+        this.clasification.appendChild(winner)
+        this.clasification.appendChild(user)
+    }
+
+    showTeamWinner({ name }, userWinner) {
+        var winner = document.createElement("h2")
+        var user = document.createElement("h4")
+        winner.innerText = "Ha ganado " + name
+        if (userWinner) {
+            user.innerText = "Enhorabuena, tu escudería ha ganado!"
+        } else {
+            user.innerHTML = "Más suerte la próxima"
+        }
+        this.clasification.appendChild(winner)
+        this.clasification.appendChild(user)
+        this.restart()
+    }
+
+
 
 
 

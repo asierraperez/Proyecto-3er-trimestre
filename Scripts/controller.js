@@ -50,7 +50,8 @@ class Controller {
         this.view.acceptDrivers(this.acceptDrivers.bind(this))
 
         //evento de muestra de clasificación
-        this.view.eventClasification(this.handleShowDrivers.bind(this))
+        this.view.eventClasification(this.handleShowDrivers.bind(this),
+            this.handleShowTeams.bind(this))
 
         //evento carrera
         this.view.eventRace(this.handleGetPolePositions.bind(this),
@@ -272,6 +273,11 @@ class Controller {
         app.model.addPoints(app.polePosition)
         //habilito el botón de pasar a otro circuito
         app.view.enableNextRace()
+        if (app.raceNumber == app.model.circuits.length) {
+            app.view.finishChampionship()
+            app.showDriverWinner()
+            app.showTeamWinner()
+        }
 
     }
     /**
@@ -376,11 +382,21 @@ class Controller {
         }
 
     }
+    teamsOrdered() {
+        var teamsOrdered = this.model.teamClasification()
+        for (let i = 0; i < teamsOrdered.length; i++) {
+
+            this.view.showTeamClasification(teamsOrdered[i], this.model.users[0], i)
+        }
+    }
     /**
      * Handler del evento de muestra
      */
     handleShowDrivers() {
         this.driversOrdered()
+    }
+    handleShowTeams() {
+        this.teamsOrdered()
     }
     /**
      * Handler del evento para la clasificación de la carrera
@@ -403,7 +419,37 @@ class Controller {
 
     }
 
+    showDriverWinner() {
+        var drivers = this.model.driverClasification()
+        this.driversOrdered()
+        //this.view.showDriverClasification(drivers[i], this.model.users[0], i)
+        var winner = drivers[0]
+        var userWinner = this.model.checkDriverWinner(winner)
+        if (userWinner) {
+            this.view.showDriverWinner(winner, true)
+        } else {
+            this.view.showDriverWinner(winner, false)
+        }
 
+
+
+    }
+
+    showTeamWinner() {
+        var teams = this.model.teamClasification()
+        this.teamsOrdered()
+        //this.view.showDriverClasification(drivers[i], this.model.users[0], i)
+        var winner = teams[0]
+        var userWinner = this.model.checkTeamWinner(winner)
+        if (userWinner) {
+            this.view.showTeamWinner(winner, true)
+        } else {
+            this.view.showTeamWinner(winner, false)
+        }
+
+
+
+    }
 
 
 
