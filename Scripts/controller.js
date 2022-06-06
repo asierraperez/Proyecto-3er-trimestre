@@ -15,7 +15,7 @@ class Controller {
         this.auxDriver1User = ''
         this.auxDriver2User = ''
 
-
+        this.polePosition
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
         //----------------------------------------------------------------------
@@ -42,24 +42,29 @@ class Controller {
 
         //selecciono un equipo
         this.view.bindSelectTeam(this.handleSelectUserTeam.bind(this))
+        //lo acepto
         this.view.acceptTeam(this.acceptTeam.bind(this))
-
         //selecciono 2 pilotos
         this.view.bindSelectDrivers(this.handleSelectUserDriver.bind(this))
+        //los acepto
         this.view.acceptDrivers(this.acceptDrivers.bind(this))
 
+        //evento de muestra de clasificación
         this.view.eventClasification(this.handleShowDrivers.bind(this))
 
+        //evento carrera
         this.view.eventRace(this.handleGetPolePositions.bind(this),
             this.handleStartRace.bind(this))
-
+        //pasar a la siguiente carrera
         this.view.handleNextRaceButton(this.handlerNextRace.bind(this))
 
-        this.polePosition
-        //console.log(this.polePosition)
 
-        //this.raceTime = null
     }
+
+    //----------------------------------------------------------------------
+    //----------------------------FUNCIONES---------------------------------
+    //----------------------------------------------------------------------
+
 
     /**
      * Obtener Equipos
@@ -223,17 +228,6 @@ class Controller {
         if (circuit.getCurrentLap % 5 == 0) {
             positions = app.surpass(positions)
             app.view.showPositions(positions, app.model.users[0])
-
-
-            //-------------------------------------
-            /*document.getElementsByTagName("body")[0].innerHTML = ""
-            for (let i = 0; i < positions.length; i++) {
-                var posicion = document.createElement("div")
-                posicion.innerHTML = positions[i]
-                document.getElementsByTagName("body")[0].appendChild(posicion)
-            }*/
-            //-------------------------------------
-
         }
         //sumo una vuelta
         circuit.countLaps()
@@ -272,8 +266,11 @@ class Controller {
         //reseteo ambos
         clearInterval(interval)
         clearTimeout(timeout)
+        //sumo 1 al numero de circuito para pasar al siguiente
         app.raceNumber++
+        //sumo puntos a pilotos y equipos
         app.model.addPoints(app.polePosition)
+        //habilito el botón de pasar a otro circuito
         app.view.handleNextRaceButton()
 
     }
@@ -369,7 +366,9 @@ class Controller {
         this.view.raceInfo(this.model.circuits[this.raceNumber], 0)
 
     }
-
+    /**
+     * Mostrar pilotos ordenados
+     */
     driversOrdered() {
         var driversOrdered = this.model.driverClasification()
         for (let i = 0; i < driversOrdered.length; i++) {
@@ -377,20 +376,28 @@ class Controller {
         }
 
     }
-
+    /**
+     * Handler del evento de muestra
+     */
     handleShowDrivers() {
         this.driversOrdered()
     }
-
+    /**
+     * Handler del evento para la clasificación de la carrera
+     */
     handleGetPolePositions() {
         this.polePosition = this.positions()
         this.view.showPositions(this.polePosition, this.model.users[0])
     }
-
+    /**
+     * handler para empezar la carrera
+     */
     handleStartRace() {
         this.race()
     }
-
+    /**
+     * handler para pasar a la siguiente carrera
+     */
     handlerNextRace() {
         this.view.raceInfo(this.model.circuits[this.raceNumber], 2)
 

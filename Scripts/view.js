@@ -31,22 +31,37 @@ class View {
          * Pantalla para empezar la carrera
          */
         this.raceScreen = document.getElementById('raceTime')
+        /**
+         * Botón para acceder a la clasificación
+         */
         this.btnClasification = document.getElementById('btnClasification')
+        /**
+         * Pantalla para mostrar la clasificación
+         */
         this.clasification = document.getElementById('clasification')
         /**
          * botón para gestionar la carrera
          */
         this.btnRace = document.getElementById('race')
-
+        /**
+         * botón para pasar a la siguiente carrera
+         */
         this.btnNextRace = document.getElementById('nextRace')
-
+        /**
+         * volver de clasificación a carrera
+         */
         this.btnBack = document.getElementById("back")
 
+        /**
+         * auxiliar para mostrar la clasificación durante la carrera
+         */
         this.auxRaceClasification = false
-
+        /**
+         * div con laclasificación general
+         */
         this.driverClasification = document.createElement('div')
 
-
+        handleNextRaceButton
 
         //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
@@ -253,6 +268,10 @@ class View {
 
         })
     }
+    /**
+     * evento que gestiona el mostrar la clasificación
+     * @param {*} handler 
+     */
     eventClasification(handler) {
         this.btnClasification.addEventListener('click', evt => {
             handler()
@@ -262,6 +281,12 @@ class View {
 
         })
     }
+    /**
+     * ordena los pilotos para mostrarlo por orden de puntos
+     * @param {*} param0 
+     * @param {*} param1 
+     * @param {number} position 
+     */
     showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
         var driver = document.createElement('div')
         //driver.id = "driverClasification"
@@ -291,7 +316,9 @@ class View {
         }*/
         this.clasification.appendChild(this.driverClasification)
     }
-
+    /**
+     * evento para volver de la pantalla de clasificación a la de carrera
+     */
     eventBack() {
         this.btnBack.addEventListener('click', evt => {
             this.clasification.style.display = "none"
@@ -300,27 +327,47 @@ class View {
             this.driverClasification.innerHTML = ''
         })
     }
-
+    /**
+     * empezar carrera
+     * @param {*} getPole - funcion bind. Obtener posiciones de salida
+     * @param {*} startRace - función bind. Empezar carrera
+     */
     eventRace(getPole, startRace) {
+        //con solo 1 botón gestiono la carrera.
         var buttonPressed = false
         this.btnRace.addEventListener('click', evt => {
             if (!buttonPressed) {
+                /*
+                si el botón no se pulsó, quiere decir que aun no se empezó la carrera,
+                así que primero muestro las posiciones de salida
+                */
                 getPole()
                 this.btnRace.innerText = "Comenzar carrera"
                 buttonPressed = true
+
             } else {
+                /*
+                con el botón ya pulsado 1 vez, es el momento de empezar una carrera
+                */
                 startRace()
-                //this.btnRace.innerText = "Siguiente carrera"
                 buttonPressed = false
                 this.btnRace.disabled = true
             }
 
         })
     }
-
+    /**
+     * Mostrar posiciones de salida
+     * @param {array} positions - array con el orden de salida
+     * @param {*} param1 - atributos objeto
+     */
     showPositions(positions, { codeFirstDiver, codeSecondDriver }) {
         var posicion = document.createElement("div")
         posicion.id = "position"
+        /*
+        antes de nada compruebo si ya se esta mostrando,
+        si es así, la borro
+        */
         if (this.auxRaceClasification) {
             this.raceScreen.removeChild(document.getElementById("position"))
             this.auxRaceClasification = false
@@ -334,21 +381,30 @@ class View {
 
     }
 
+
+    /**
+     * información relativa al circuito
+     * @param {*} param0 - atributos del objeto circuito
+     * @param {number} operation - operación a realizar
+     */
     raceInfo({ name, currentLap, laps }, operation) {
         var info = document.createElement("div")
         info.id = "raceInfo"
         switch (operation) {
+            //0 = muestra inicial del primer circuito de todos, solo muestroel nombre
             case 0:
                 info.innerHTML = (
                     name
                 )
                 break;
+            //1 = ya se estaba enseñando el nombre, ahora añado vueltas
             case 1:
                 this.raceScreen.removeChild(document.getElementById("raceInfo"))
                 info.innerHTML = (
                     name + ",  vuelta " + currentLap + " de " + laps
                 )
                 break;
+            //2 = la carrera anterior acabó, muestro la siguiente    
             case 2:
                 this.raceScreen.removeChild(document.getElementById("raceInfo"))
                 info.innerHTML = (
@@ -361,7 +417,10 @@ class View {
 
 
     }
-
+    /**
+     * gestión del botón de siguiente carrera
+     * @param {*} handle - función bind. gestión del botón
+     */
     handleNextRaceButton(handle) {
         this.btnNextRace.disabled = false
         this.btnNextRace.addEventListener("click", evt => {
@@ -373,7 +432,13 @@ class View {
 
 
     }
-
+    /**
+     * comprobación de cuales son los pilotos del usuario para destacarlos
+     * @param {string} code - id a comprobar
+     * @param {string} driver1 - id del piloto 1 del usuario
+     * @param {string} driver2 - id del piloto 2 del usuario
+     * @param {DOMException} position 
+     */
     checkUserDrivers(code, driver1, driver2, position) {
         if ((code == driver1) | (code == driver2)) {
             position.style.color = "green"
