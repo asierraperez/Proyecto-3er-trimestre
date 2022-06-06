@@ -53,6 +53,8 @@ class Controller {
         this.view.eventRace(this.handleGetPolePositions.bind(this),
             this.handleStartRace.bind(this))
 
+        this.view.handleNextRaceButton(this.handlerNextRace.bind(this))
+
         this.polePosition
         //console.log(this.polePosition)
 
@@ -202,9 +204,9 @@ class Controller {
      * Activación del intervalo que maneja la carrera
      */
     race() {
-        var time = this.model.circuits[this.raceNumber].getLaps * 1000
+        var time = this.model.circuits[this.raceNumber].getLaps * 100
         this.model.circuits[this.raceNumber].setCurrentLap = 1
-        var raceInterval = window.setInterval(this.startRace, 1000, this.model.circuits[this.raceNumber], this.polePosition)
+        var raceInterval = window.setInterval(this.startRace, 100, this.model.circuits[this.raceNumber], this.polePosition)
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
@@ -214,11 +216,13 @@ class Controller {
      * @param {Array} positions - posiciones de parrilla
      */
     startRace(circuit, positions) {
+        app.view.raceInfo(circuit, 1)
+
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
         //cada 5 vueltas hago un adelantamiento
         if (circuit.getCurrentLap % 5 == 0) {
             positions = app.surpass(positions)
-            app.view.showPositions(positions)
+            app.view.showPositions(positions, app.model.users[0])
 
 
             //-------------------------------------
@@ -269,7 +273,9 @@ class Controller {
         clearInterval(interval)
         clearTimeout(timeout)
         app.raceNumber++
-        app.model.addpoints(app.polePosition)
+        app.model.addPoints(app.polePosition)
+        app.view.handleNextRaceButton()
+
     }
     /**
      * clasificación general
@@ -359,6 +365,9 @@ class Controller {
 
         this.model.assignDriversToTeams()
         this.model.driversToDB()
+
+        this.view.raceInfo(this.model.circuits[this.raceNumber], 0)
+
     }
 
     driversOrdered() {
@@ -375,12 +384,19 @@ class Controller {
 
     handleGetPolePositions() {
         this.polePosition = this.positions()
-        this.view.showPositions(this.polePosition)
+        this.view.showPositions(this.polePosition, this.model.users[0])
     }
 
     handleStartRace() {
         this.race()
     }
+
+    handlerNextRace() {
+        this.view.raceInfo(this.model.circuits[this.raceNumber], 2)
+
+    }
+
+
 
 
 

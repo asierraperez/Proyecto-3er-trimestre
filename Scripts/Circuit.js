@@ -21,14 +21,14 @@ class Circuit extends general {
         return this.laps
     }
     get getCurrentLap() {
-        return this.currentlap
+        return this.currentLap
     }
 
     set setLaps(aux) {
         this.laps = aux
     }
     set setCurrentLap(aux) {
-        this.currentlap = aux
+        this.currentLap = aux
     }
     /**
      * Asignar nombre al circuito

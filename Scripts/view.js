@@ -38,7 +38,13 @@ class View {
          */
         this.btnRace = document.getElementById('race')
 
+        this.btnNextRace = document.getElementById('nextRace')
+
+        this.btnBack = document.getElementById("back")
+
         this.auxRaceClasification = false
+
+        this.driverClasification = document.createElement('div')
 
 
 
@@ -48,6 +54,8 @@ class View {
         this.acceptTeam()
         //pasar a campeonato
         this.acceptDrivers()
+        //volver a pantalla de carrera
+        this.eventBack()
     }
 
     /**
@@ -254,8 +262,9 @@ class View {
 
         })
     }
-    showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDiver }, position) {
+    showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
         var driver = document.createElement('div')
+        //driver.id = "driverClasification"
         driver.innerHTML = (
             (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
         )
@@ -273,7 +282,23 @@ class View {
             default:
                 break;
         }
-        this.clasification.appendChild(driver)
+
+        this.driverClasification.appendChild(driver)
+        this.driverClasification.id = "driverClasification"
+        this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
+        /*if ((code == codeFirstDiver) | (code == codeSecondDriver)) {
+            driver.style.color = "green"
+        }*/
+        this.clasification.appendChild(this.driverClasification)
+    }
+
+    eventBack() {
+        this.btnBack.addEventListener('click', evt => {
+            this.clasification.style.display = "none"
+            this.raceScreen.style.display = "block"
+            this.clasification.removeChild(document.getElementById("driverClasification"))
+            this.driverClasification.innerHTML = ''
+        })
     }
 
     eventRace(getPole, startRace) {
@@ -293,7 +318,7 @@ class View {
         })
     }
 
-    showPositions(positions) {
+    showPositions(positions, { codeFirstDiver, codeSecondDriver }) {
         var posicion = document.createElement("div")
         posicion.id = "position"
         if (this.auxRaceClasification) {
@@ -302,17 +327,57 @@ class View {
         }
         for (let i = 0; i < positions.length; i++) {
             posicion.innerHTML = posicion.innerHTML + "<div>" + (i + 1) + ". " + positions[i][0] + "</div>"
-            this.raceScreen.appendChild(posicion)
+            this.checkUserDrivers(positions[i][0], codeFirstDiver, codeSecondDriver, posicion)
+            this.raceScreen.append(posicion)
             this.auxRaceClasification = true
         }
 
     }
 
-    handleRaceButton() {
-        this.btnClasification.innerText = "Siguiente carrera"
+    raceInfo({ name, currentLap, laps }, operation) {
+        var info = document.createElement("div")
+        info.id = "raceInfo"
+        switch (operation) {
+            case 0:
+                info.innerHTML = (
+                    name
+                )
+                break;
+            case 1:
+                this.raceScreen.removeChild(document.getElementById("raceInfo"))
+                info.innerHTML = (
+                    name + ",  vuelta " + currentLap + " de " + laps
+                )
+                break;
+            case 2:
+                this.raceScreen.removeChild(document.getElementById("raceInfo"))
+                info.innerHTML = (
+                    name
+                )
+                break;
+        }
+        this.raceScreen.appendChild(info)
 
 
 
+    }
+
+    handleNextRaceButton(handle) {
+        this.btnNextRace.disabled = false
+        this.btnNextRace.addEventListener("click", evt => {
+            this.btnNextRace.disabled = true
+            this.btnRace.disabled = false
+            handle()
+            this.btnRace.innerText = 'Clasificación para la carrera'
+        })
+
+
+    }
+
+    checkUserDrivers(code, driver1, driver2, position) {
+        if ((code == driver1) | (code == driver2)) {
+            position.style.color = "green"
+        }
     }
 
 
