@@ -1,0 +1,55 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+}
+
+#driversToChoose,
+#teamsToChoose {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: minmax(auto, auto);
+    max-width: 1000px;
+}
+
+.team {
+    border: 1px black;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.drivers {
+    border: 1px black;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.screen {
+    text-align: center;
+    display: none
+}
+
+.screen :first {
+    display: block
+}
+
+
+#clasification {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}

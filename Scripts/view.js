@@ -101,8 +101,8 @@ class View {
         var displayTeam = document.createElement("div")
         displayTeam.className = "team"
         displayTeam.id = code
-        displayTeam.innerHTML = name
-        this.selectTeam.appendChild(displayTeam)
+        displayTeam.innerHTML = "<b>" + name + "</b>"
+        document.getElementById("teamsToChoose").appendChild(displayTeam)
     }
     /**
      * Agregar información de los coches al de las escuderías
@@ -134,11 +134,11 @@ class View {
         displayDrivers.className = "drivers"
         displayDrivers.id = code
         displayDrivers.innerHTML = (
-            name + " " + surname + "<br>" +
+            "<b>" + name + " " + surname + "</b><br>" +
             "Destreza: " + dexterity + "<br>" +
             "Suerte: " + luck + "<br>"
         )
-        this.selectDriver.appendChild(displayDrivers)
+        document.getElementById("driversToChoose").appendChild(displayDrivers)
     }
     /**
      * selección de equipos
