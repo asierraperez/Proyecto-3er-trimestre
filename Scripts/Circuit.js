@@ -21,14 +21,22 @@ class Circuit extends general {
         return this.laps
     }
     get getCurrentLap() {
-        return this.currentlap
+
+
+        return this.currentLap
+
+
     }
 
     set setLaps(aux) {
         this.laps = aux
     }
     set setCurrentLap(aux) {
-        this.currentlap = aux
+
+
+        this.currentLap = aux
+
+
     }
     /**
      * Asignar nombre al circuito
@@ -56,7 +64,13 @@ class Circuit extends general {
      * Asignar numero de vueltas del 50 al 100
      */
     assignLaps() {
-        this.setLaps = Math.floor(Math.random() * (70 - 30) + 30)
+
+
+        this.setLaps = Math.floor(Math.random() * (50 - 30) + 30)
+
+        
+
+
     }
     /**
      * Sumo una vuelta a las vueltas actuales

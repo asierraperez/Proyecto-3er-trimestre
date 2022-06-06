@@ -143,6 +143,11 @@ class Model {
 
                     if (!checkUserDriver) {
                         this.drivers[nDriver].setTeamName = this.teams[i].getCode
+
+
+                    } else {
+                        j--
+
                     }
                     //auxDrivers[0] = nDriver
                     auxDrivers.push(nDriver)
@@ -383,6 +388,15 @@ class Model {
         }
         return found
     }
+
+
+    /**
+     * Busqueda de equipo dado un codigo
+     * @param {string} code 
+     * @returns {number}
+     */
+
+
     searchTeam(code) {
         for (let i = 0; i < this.teams.length; i++) {
             if (code == this.teams[i].getCode) {
@@ -391,6 +405,12 @@ class Model {
         }
         return found
     }
+
+
+    /**
+     * Sumar puntos en función de las posiciones
+     * @param {Array} endingPositions 
+     */
     addPoints(endingPositions) {
         var driverNumber
         var teamNumber
@@ -483,5 +503,29 @@ class Model {
 
         return auxData
     }
+
+
+
+    checkDriverWinner({ code }) {
+        if (this.users[0].getCodeFirstDiver == code |
+            this.users[0].getCodeSecondDriver == code) {
+            return true
+
+        } else {
+            return false
+        }
+
+    }
+
+    checkTeamWinner({ code }) {
+        if (this.users[0].getTeamCode == code) {
+            return true
+
+        } else {
+            return false
+        }
+    }
+
+
 
 }
