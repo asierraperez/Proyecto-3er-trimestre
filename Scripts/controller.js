@@ -4,6 +4,7 @@
  */
 class Controller {
 
+
     constructor(model, view) {
         this.model = model
         this.view = view
@@ -17,6 +18,7 @@ class Controller {
         this.auxDriver2User = ''
 
         this.polePosition
+
 
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
@@ -68,6 +70,7 @@ class Controller {
     //----------------------------------------------------------------------
     //----------------------------FUNCIONES---------------------------------
     //----------------------------------------------------------------------
+
 
 
 
@@ -214,10 +217,12 @@ class Controller {
      * Activación del intervalo que maneja la carrera
      */
 
+
     race() {
         var time = this.model.circuits[this.raceNumber].getLaps * 100
         this.model.circuits[this.raceNumber].setCurrentLap = 1
         var raceInterval = window.setInterval(this.startRace, 100, this.model.circuits[this.raceNumber], this.polePosition)
+
 
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
@@ -229,7 +234,9 @@ class Controller {
      */
     startRace(circuit, positions) {
 
+
         app.view.raceInfo(circuit, 1)
+
 
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
         //cada 5 vueltas hago un adelantamiento
@@ -237,6 +244,7 @@ class Controller {
             positions = app.surpass(positions)
 
             app.view.showPositions(positions, app.model.users[0])
+
 
         }
         //sumo una vuelta
@@ -277,6 +285,7 @@ class Controller {
         clearInterval(interval)
         clearTimeout(timeout)
 
+
         //sumo 1 al numero de circuito para pasar al siguiente
         app.raceNumber++
         //sumo puntos a pilotos y equipos
@@ -298,6 +307,7 @@ class Controller {
         this.driverOrder = this.model.driverClasification()
         this.teamOrder = this.model.teamClasification()
     }
+
 
 
     /**
@@ -471,8 +481,11 @@ class Controller {
 
 
 
+
 }
 
 
+
 const app = new Controller(new Model, new View);
+
 

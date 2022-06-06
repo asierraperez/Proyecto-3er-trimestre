@@ -22,7 +22,9 @@ class Circuit extends general {
     }
     get getCurrentLap() {
 
+
         return this.currentLap
+
 
     }
 
@@ -31,7 +33,9 @@ class Circuit extends general {
     }
     set setCurrentLap(aux) {
 
+
         this.currentLap = aux
+
 
     }
     /**
@@ -61,9 +65,11 @@ class Circuit extends general {
      */
     assignLaps() {
 
+
         this.setLaps = Math.floor(Math.random() * (50 - 30) + 30)
 
         
+
 
     }
     /**
