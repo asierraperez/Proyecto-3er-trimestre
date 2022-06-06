@@ -61,7 +61,7 @@ class View {
          */
         this.driverClasification = document.createElement('div')
 
-        handleNextRaceButton
+        //handleNextRaceButton
 
         //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
@@ -71,6 +71,7 @@ class View {
         this.acceptDrivers()
         //volver a pantalla de carrera
         this.eventBack()
+
     }
 
     /**
@@ -289,31 +290,13 @@ class View {
      */
     showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
         var driver = document.createElement('div')
-        //driver.id = "driverClasification"
         driver.innerHTML = (
             (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
         )
-        switch (position) {
-            case 0:
-                driver.style.backgroundColor = "gold"
-                break;
-            case 1:
-                driver.style.backgroundColor = "silver"
-                break;
-            case 2:
-                driver.style.backgroundColor = "bronze"
-                break;
-
-            default:
-                break;
-        }
-
+        this.checkPlace(driver, position)
         this.driverClasification.appendChild(driver)
         this.driverClasification.id = "driverClasification"
         this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
-        /*if ((code == codeFirstDiver) | (code == codeSecondDriver)) {
-            driver.style.color = "green"
-        }*/
         this.clasification.appendChild(this.driverClasification)
     }
     /**
@@ -373,13 +356,32 @@ class View {
             this.auxRaceClasification = false
         }
         for (let i = 0; i < positions.length; i++) {
-            posicion.innerHTML = posicion.innerHTML + "<div>" + (i + 1) + ". " + positions[i][0] + "</div>"
-            this.checkUserDrivers(positions[i][0], codeFirstDiver, codeSecondDriver, posicion)
-            this.raceScreen.append(posicion)
+            var individual = document.createElement('div')
+            individual.innerHTML = (i + 1) + ". " + positions[i][0]
+            this.checkUserDrivers(positions[i][0], codeFirstDiver, codeSecondDriver, individual)
+            this.checkPlace(individual, i)
+            posicion.append(individual)
             this.auxRaceClasification = true
         }
-
+        this.raceScreen.append(posicion)
     }
+    checkPlace(name, place) {
+        switch (place) {
+            case 0:
+                name.style.backgroundColor = "gold"
+                break;
+            case 1:
+                name.style.backgroundColor = "silver"
+                break;
+            case 2:
+                name.style.backgroundColor = "bronze"
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
 
     /**
@@ -422,7 +424,7 @@ class View {
      * @param {*} handle - función bind. gestión del botón
      */
     handleNextRaceButton(handle) {
-        this.btnNextRace.disabled = false
+
         this.btnNextRace.addEventListener("click", evt => {
             this.btnNextRace.disabled = true
             this.btnRace.disabled = false
@@ -443,6 +445,9 @@ class View {
         if ((code == driver1) | (code == driver2)) {
             position.style.color = "green"
         }
+    }
+    enableNextRace() {
+        this.btnNextRace.disabled = false
     }
 
 

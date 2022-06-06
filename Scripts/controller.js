@@ -271,7 +271,7 @@ class Controller {
         //sumo puntos a pilotos y equipos
         app.model.addPoints(app.polePosition)
         //habilito el botón de pasar a otro circuito
-        app.view.handleNextRaceButton()
+        app.view.enableNextRace()
 
     }
     /**
