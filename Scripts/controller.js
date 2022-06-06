@@ -3,6 +3,7 @@
  * controlador de la aplicación
  */
 class Controller {
+
     constructor(model, view) {
         this.model = model
         this.view = view
@@ -16,6 +17,7 @@ class Controller {
         this.auxDriver2User = ''
 
         this.polePosition
+
         //----------------------------------------------------------------------
         //------------------------LLAMADAS A FUNCIONES--------------------------
         //----------------------------------------------------------------------
@@ -31,6 +33,7 @@ class Controller {
 
         this.carsStatus = this.getCars()
         console.log(this.carsStatus)
+
 
         //Muestro los datos 
         this.displayTeams()
@@ -65,6 +68,7 @@ class Controller {
     //----------------------------------------------------------------------
     //----------------------------FUNCIONES---------------------------------
     //----------------------------------------------------------------------
+
 
 
     /**
@@ -209,10 +213,12 @@ class Controller {
     /**
      * Activación del intervalo que maneja la carrera
      */
+
     race() {
         var time = this.model.circuits[this.raceNumber].getLaps * 100
         this.model.circuits[this.raceNumber].setCurrentLap = 1
         var raceInterval = window.setInterval(this.startRace, 100, this.model.circuits[this.raceNumber], this.polePosition)
+
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
 
     }
@@ -222,13 +228,16 @@ class Controller {
      * @param {Array} positions - posiciones de parrilla
      */
     startRace(circuit, positions) {
+
         app.view.raceInfo(circuit, 1)
 
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
         //cada 5 vueltas hago un adelantamiento
         if (circuit.getCurrentLap % 5 == 0) {
             positions = app.surpass(positions)
+
             app.view.showPositions(positions, app.model.users[0])
+
         }
         //sumo una vuelta
         circuit.countLaps()
@@ -267,6 +276,7 @@ class Controller {
         //reseteo ambos
         clearInterval(interval)
         clearTimeout(timeout)
+
         //sumo 1 al numero de circuito para pasar al siguiente
         app.raceNumber++
         //sumo puntos a pilotos y equipos
@@ -279,6 +289,7 @@ class Controller {
             app.showTeamWinner()
         }
 
+
     }
     /**
      * clasificación general
@@ -287,6 +298,7 @@ class Controller {
         this.driverOrder = this.model.driverClasification()
         this.teamOrder = this.model.teamClasification()
     }
+
 
     /**
      * mostrar equipos 
@@ -458,6 +470,9 @@ class Controller {
 
 
 
+
 }
 
+
 const app = new Controller(new Model, new View);
+
