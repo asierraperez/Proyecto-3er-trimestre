@@ -298,7 +298,7 @@ class View {
         }
         var driver = document.createElement('div')
         driver.innerHTML = (
-            (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
+            '<a>' + (position + 1) + ".</a>  <a> " + name + " " + surname + "<a>  </a>" + points + " puntos</a><br>"
         )
         this.checkPlace(driver, position)
         this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
@@ -319,7 +319,7 @@ class View {
         }
         var team = document.createElement('div')
         team.innerHTML = (
-            (position + 1) + ".  " + name + " " + points + " puntos<br>"
+            '<a>' + (position + 1) + ".</a>  <a>" + name + " <a>  </a>" + points + " puntos </a><br>"
         )
         this.checkPlace(team, position)
         this.checkUserTeam(code, teamCode, team)
@@ -396,7 +396,7 @@ class View {
         }
         for (let i = 0; i < positions.length; i++) {
             var individual = document.createElement('div')
-            individual.innerHTML = (i + 1) + ". " + positions[i][0]
+            individual.innerHTML = "<a>" + (i + 1) + ".</a> " + positions[i][0]
             this.checkUserDrivers(positions[i][0], codeFirstDiver, codeSecondDriver, individual)
             this.checkPlace(individual, i)
             posicion.append(individual)
@@ -413,7 +413,7 @@ class View {
                 name.style.backgroundColor = "silver"
                 break;
             case 2:
-                name.style.backgroundColor = "bronze"
+                name.style.backgroundColor = "#CD7F32"
                 break;
 
             default:
