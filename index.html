@@ -2,13 +2,14 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
 
-    <header>EL PLAN</header>
+    <header> <img src="images/F1.svg.png" alt="icono F1"> EL PLAN</header>
     <div class="screen" id="main">
 
         <button id="start">Comenzar temporada</button>
@@ -26,17 +27,25 @@
     </div>
     <div class="screen" id="raceTime" hidden>
 
-        <button id="race">Clasificación para la carrera</button>
+        <button id="race"> Clasificación para la carrera</button>
         <button id="nextRace" disabled="true">Siguiente carrera</button>
-        <button id="btnClasification">Clasificación general</button>
+        <button id="btnClasification"> Clasificación general</button>
         <div id="raceInfo"></div>
     </div>
     <div class="screen" id="clasification" hidden>
         <button id="back">Volver</button>
         <div id="show"></div>
-
-
     </div>
+    <div role="dialog" id="finalResult" hidden>
+        <div>
+            Resultado del campeonato
+
+            <img id='close' src="images/close.png" alt="Cerrar">
+
+        </div>
+    </div>
+
+
 
 
 </body>

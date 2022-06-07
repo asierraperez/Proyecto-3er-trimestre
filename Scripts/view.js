@@ -74,6 +74,8 @@ class View {
         //volver a pantalla de carrera
         this.eventBack()
 
+        this.closeWindow()
+
     }
 
     /**
@@ -499,6 +501,7 @@ class View {
         this.clasification.removeChild(this.btnBack)
         this.clasification.style.display = "block"
         this.raceScreen.style.display = "none"
+        document.getElementById('finalResult').style.display = 'block'
 
     }
 
@@ -511,8 +514,8 @@ class View {
         } else {
             user.innerHTML = "Confía en <b><i>el plan</b></i>, ganarás la siguiente"
         }
-        this.clasification.appendChild(winner)
-        this.clasification.appendChild(user)
+        document.getElementById('finalResult').appendChild(winner)
+        document.getElementById('finalResult').appendChild(user)
     }
 
     showTeamWinner({ name }, userWinner) {
@@ -524,9 +527,15 @@ class View {
         } else {
             user.innerHTML = "Más suerte la próxima"
         }
-        this.clasification.appendChild(winner)
-        this.clasification.appendChild(user)
-        this.restart()
+        document.getElementById('finalResult').appendChild(winner)
+        document.getElementById('finalResult').appendChild(user)
+        //this.restart()
+    }
+
+    closeWindow() {
+        document.getElementById('close').addEventListener('click', evt => {
+            document.getElementById('finalResult').style.display = 'none'
+        })
     }
 
 
