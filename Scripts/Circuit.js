@@ -63,7 +63,7 @@ class Circuit extends general {
 
         this.setLaps = Math.floor(Math.random() * (50 - 30) + 30)
 
-        
+
 
     }
     /**
@@ -94,7 +94,7 @@ class Circuit extends general {
                 "code": this.getCode,
                 "laps": this.getLaps
             },
-            url: "insertCircuit.php",
+            url: "php/insertCircuit.php",
             type: "POST",
             success: function (response) {
                 console.log(response)
@@ -111,7 +111,7 @@ class Circuit extends general {
          */
         var circuitJSON
         $.ajax({
-            url: "selectCircuit.php",
+            url: "php/selectCircuit.php",
             type: "GET",
             async: false,
             success: function (response) {
