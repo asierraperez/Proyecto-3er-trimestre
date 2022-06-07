@@ -430,6 +430,13 @@ class Controller {
         this.view.raceInfo(this.model.circuits[this.raceNumber], 2)
 
     }
+    /**
+     * clasificación general
+     */
+    clasification() {
+        this.driverOrder = this.model.driverClasification()
+        this.teamOrder = this.model.teamClasification()
+    }
 
     showDriverWinner() {
         var drivers = this.model.driverClasification()

@@ -57,12 +57,13 @@ class View {
          */
         this.auxRaceClasification = false
         /**
-         * div con laclasificación general
+         * div con laclasificación general de los pilotos
          */
         this.driverClasification = document.createElement('div')
+        /**
+         * div con la clasificacion de los equipos
+         */
         this.teamClasification = document.createElement('div')
-
-        //handleNextRaceButton
 
         //comenzar juego, pasar a pantalla de equipos
         this.bindMainWindow()
@@ -72,6 +73,8 @@ class View {
         this.acceptDrivers()
         //volver a pantalla de carrera
         this.eventBack()
+
+        this.closeWindow()
 
     }
 
@@ -101,8 +104,8 @@ class View {
         var displayTeam = document.createElement("div")
         displayTeam.className = "team"
         displayTeam.id = code
-        displayTeam.innerHTML = name
-        this.selectTeam.appendChild(displayTeam)
+        displayTeam.innerHTML = "<b>" + name + "</b>"
+        document.getElementById("teamsToChoose").appendChild(displayTeam)
     }
     /**
      * Agregar información de los coches al de las escuderías
@@ -134,11 +137,11 @@ class View {
         displayDrivers.className = "drivers"
         displayDrivers.id = code
         displayDrivers.innerHTML = (
-            name + " " + surname + "<br>" +
+            "<b>" + name + " " + surname + "</b><br>" +
             "Destreza: " + dexterity + "<br>" +
             "Suerte: " + luck + "<br>"
         )
-        this.selectDriver.appendChild(displayDrivers)
+        document.getElementById("driversToChoose").appendChild(displayDrivers)
     }
     /**
      * selección de equipos
@@ -291,15 +294,20 @@ class View {
      * @param {number} position 
      */
     showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
+        if (position == 0) {
+            this.driverClasification.innerHTML = "<div><b>Clasificación de pilotos</b></div>"
+
+        }
         var driver = document.createElement('div')
         driver.innerHTML = (
-            (position + 1) + ".  " + name + " " + surname + " " + points + " puntos<br>"
+            '<a>' + (position + 1) + ".</a>  <a> " + name + " " + surname + "<a>  </a>" + points + " puntos</a><br>"
         )
         this.checkPlace(driver, position)
         this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
         this.driverClasification.appendChild(driver)
         this.driverClasification.id = "driverClasification"
-        this.clasification.appendChild(this.driverClasification)
+        document.getElementById('show').appendChild(this.driverClasification)
+        //this.clasification.appendChild(this.driverClasification)
     }
     /**
      * ordena los equipos para mostrarlo por orden de puntos
@@ -308,15 +316,21 @@ class View {
      * @param {number} position 
      */
     showTeamClasification({ code, name, points }, { teamCode }, position) {
+        if (position == 0) {
+            this.teamClasification.innerHTML = "<div><b>Clasificación de escuderías</b></div>"
+        }
         var team = document.createElement('div')
         team.innerHTML = (
-            (position + 1) + ".  " + name + " " + points + " puntos<br>"
+            '<a>' + (position + 1) + ".</a>  <a>" + name + " <a>  </a>" + points + " puntos </a><br>"
         )
         this.checkPlace(team, position)
         this.checkUserTeam(code, teamCode, team)
         this.teamClasification.appendChild(team)
         this.teamClasification.id = "teamClasification"
-        this.clasification.appendChild(this.teamClasification)
+        document.getElementById('show').appendChild(this.teamClasification)
+
+
+        //this.clasification.appendChild(this.teamClasification)
     }
 
 
@@ -329,7 +343,10 @@ class View {
         this.btnBack.addEventListener('click', evt => {
             this.clasification.style.display = "none"
             this.raceScreen.style.display = "block"
-            this.clasification.removeChild(document.getElementById("driverClasification"))
+
+            document.getElementById('show').removeChild(document.getElementById("driverClasification"))
+            document.getElementById('show').removeChild(document.getElementById("teamClasification"))
+
             this.driverClasification.innerHTML = ''
             this.teamClasification.innerHTML = ''
         })
@@ -381,7 +398,7 @@ class View {
         }
         for (let i = 0; i < positions.length; i++) {
             var individual = document.createElement('div')
-            individual.innerHTML = (i + 1) + ". " + positions[i][0]
+            individual.innerHTML = "<a>" + (i + 1) + ".</a> " + positions[i][0]
             this.checkUserDrivers(positions[i][0], codeFirstDiver, codeSecondDriver, individual)
             this.checkPlace(individual, i)
             posicion.append(individual)
@@ -398,7 +415,7 @@ class View {
                 name.style.backgroundColor = "silver"
                 break;
             case 2:
-                name.style.backgroundColor = "bronze"
+                name.style.backgroundColor = "#CD7F32"
                 break;
 
             default:
@@ -414,8 +431,7 @@ class View {
      * @param {number} operation - operación a realizar
      */
     raceInfo({ name, currentLap, laps }, operation) {
-        var info = document.createElement("div")
-        info.id = "raceInfo"
+        var info = document.getElementById('raceInfo')
         switch (operation) {
             //0 = muestra inicial del primer circuito de todos, solo muestroel nombre
             case 0:
@@ -425,20 +441,20 @@ class View {
                 break;
             //1 = ya se estaba enseñando el nombre, ahora añado vueltas
             case 1:
-                this.raceScreen.removeChild(document.getElementById("raceInfo"))
+                info.innerHTML = ""
                 info.innerHTML = (
                     name + ",  vuelta " + currentLap + " de " + laps
                 )
                 break;
             //2 = la carrera anterior acabó, muestro la siguiente    
             case 2:
-                this.raceScreen.removeChild(document.getElementById("raceInfo"))
+                info.innerHTML = ""
                 info.innerHTML = (
                     name
                 )
                 break;
         }
-        this.raceScreen.appendChild(info)
+        //this.raceScreen.appendChild(info)
 
 
 
@@ -453,6 +469,8 @@ class View {
             this.btnNextRace.disabled = true
             this.btnRace.disabled = false
             handle()
+            this.raceScreen.removeChild(document.getElementById('position'))
+            this.auxRaceClasification = false
             this.btnRace.innerText = 'Clasificación para la carrera'
         })
 
@@ -483,6 +501,7 @@ class View {
         this.clasification.removeChild(this.btnBack)
         this.clasification.style.display = "block"
         this.raceScreen.style.display = "none"
+        document.getElementById('finalResult').style.display = 'block'
 
     }
 
@@ -495,8 +514,8 @@ class View {
         } else {
             user.innerHTML = "Confía en <b><i>el plan</b></i>, ganarás la siguiente"
         }
-        this.clasification.appendChild(winner)
-        this.clasification.appendChild(user)
+        document.getElementById('finalResult').appendChild(winner)
+        document.getElementById('finalResult').appendChild(user)
     }
 
     showTeamWinner({ name }, userWinner) {
@@ -508,9 +527,15 @@ class View {
         } else {
             user.innerHTML = "Más suerte la próxima"
         }
-        this.clasification.appendChild(winner)
-        this.clasification.appendChild(user)
-        this.restart()
+        document.getElementById('finalResult').appendChild(winner)
+        document.getElementById('finalResult').appendChild(user)
+        //this.restart()
+    }
+
+    closeWindow() {
+        document.getElementById('close').addEventListener('click', evt => {
+            document.getElementById('finalResult').style.display = 'none'
+        })
     }
 
 
