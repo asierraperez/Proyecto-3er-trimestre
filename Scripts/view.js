@@ -3,6 +3,12 @@
  */
 class View {
     constructor() {
+
+        //----------------------------------------------------------------------
+        //---------------------DECLARACIÓN DE VARIABLES-------------------------
+        //----------------------------------------------------------------------
+
+
         /**
          * pantalla de inicio
          */
@@ -65,88 +71,40 @@ class View {
          */
         this.teamClasification = document.createElement('div')
 
-        //comenzar juego, pasar a pantalla de equipos
-        this.bindMainWindow()
-        //pasar a pantalla de pilotos
-        this.acceptTeam()
-        //pasar a campeonato
-        this.acceptDrivers()
+
+        //----------------------------------------------------------------------
+        //----------------------LLAMADAS A FUNCIONES----------------------------
+        //----------------------------------------------------------------------
+
         //volver a pantalla de carrera
         this.eventBack()
-
+        //en¡vento de cerrar la ventana de ganadores
         this.closeWindow()
 
     }
 
+    //----------------------------------------------------------------------
+    //-----------------------FUNCIONES BIND---------------------------------
+    //----------------------------------------------------------------------
+
+
     /**
      * Declarar usuario para empezar el juego
-     * @param {} handler 
+     * @param {} handler - Manejador del evento
      */
     bindMainWindow(handler) {
         this.startButton.addEventListener("click", evt => {
-
             handler()
-
             this.begin.style.display = "none"
             this.selectTeam.style.display = "block"
 
         })
     }
+
     /**
-     * Agregar información de las escuderías
-     * @param {*} param0 
-     */
-    teamsInformation({ name, code }) {
-        /**
-         * equipos mostrados por en el HTML
-         * @type {DOMImplementation}
-         */
-        var displayTeam = document.createElement("div")
-        displayTeam.className = "team"
-        displayTeam.id = code
-        displayTeam.innerHTML = "<b>" + name + "</b>"
-        document.getElementById("teamsToChoose").appendChild(displayTeam)
-    }
-    /**
-     * Agregar información de los coches al de las escuderías
-     * @param {*} param0 
-     */
-    carInformation({ code, velocity, handling }) {
-        /**
-         * coches mostrados por en el HTML
-         * @type {DOMImplementation}
-         */
-        var displayCars = document.createElement("div")
-        displayCars.innerHTML = (
-            "Datos del coche: <br>" +
-            "   Velocidad: " + velocity + "<br>" +
-            "   Manejo: " + handling + "<br>"
-        )
-        document.getElementById(code).appendChild(displayCars)
-    }
-    /**
-     * Agregar información de los pilotos
-     * @param {} param0 
-     */
-    driverInformation({ code, name, surname, dexterity, luck }) {
-        /**
-         * pilotos mostrados por en el HTML
-         * @type {DOMImplementation}
-         */
-        var displayDrivers = document.createElement("div")
-        displayDrivers.className = "drivers"
-        displayDrivers.id = code
-        displayDrivers.innerHTML = (
-            "<b>" + name + " " + surname + "</b><br>" +
-            "Destreza: " + dexterity + "<br>" +
-            "Suerte: " + luck + "<br>"
-        )
-        document.getElementById("driversToChoose").appendChild(displayDrivers)
-    }
-    /**
-     * selección de equipos
-     * @param {*} handler 
-     */
+    * selección de equipos
+    * @param {*} handler - manejador del evento
+    */
     bindSelectTeam(handler) {
         var teamSelected = false
         var prevTeam
@@ -171,12 +129,12 @@ class View {
                 }
                 this.teamSelected.disabled = false
             })
-
         }
     }
+
     /**
      * con el equio seleccionado, aceptar
-     * @param {*} handler 
+     * @param {*} handler - manejador del evento
      */
     acceptTeam(handler) {
         this.teamSelected.addEventListener('click', evt => {
@@ -185,9 +143,10 @@ class View {
             this.selectDriver.style.display = "block"
         })
     }
+
     /**
      * seleccionar pilotos
-     * @param {*} handler 
+     * @param {*} handler - manejador del evento
      */
     bindSelectDrivers(handler) {
         /**
@@ -216,7 +175,9 @@ class View {
         var drivers = document.getElementsByClassName("drivers")
         for (let i = 0; i < drivers.length; i++) {
             drivers[i].addEventListener("click", (evt) => {
-
+                //Con esto desselecciono los pilotos
+                //así si quiere cambiar de eleccion solo hay que 
+                //pinchar en el mismo otra vez
                 if (driver1 == drivers[i]) {
                     driver1Selected = false
                     driver1.style.backgroundColor = ""
@@ -230,15 +191,15 @@ class View {
                     countDrivers--
                     handler("", 2)
                 } else {
-
                     var driverCode = drivers[i].id
+                    //Si no hay ningún piloto seleccionado
                     if (!driver1Selected) {
                         handler(driverCode, 0)
                         driver1Selected = true
                         driver1 = drivers[i]
                         countDrivers++
                         drivers[i].style.backgroundColor = "gray"
-
+                        //Si ya hay uno elegido
                     } else if (driver1Selected & !driver2Selected) {
                         handler(driverCode, 0)
                         driver2Selected = true
@@ -247,10 +208,8 @@ class View {
                         drivers[i].style.backgroundColor = "gray"
 
                     }
-
-
-
                 }
+                //Solo se podrá seguir si se tienen los dos pilotos aceptados
                 if (countDrivers == 2) {
                     this.driversSelected.disabled = false
                 } else {
@@ -261,6 +220,7 @@ class View {
 
         }
     }
+
     /**
      * con los pilotos seleccionados, aceptar
      * @param {*} handler 
@@ -273,6 +233,7 @@ class View {
 
         })
     }
+
     /**
      * evento que gestiona el mostrar la clasificación
      * @param {*} handler 
@@ -287,70 +248,7 @@ class View {
 
         })
     }
-    /**
-     * ordena los pilotos para mostrarlo por orden de puntos
-     * @param {*} param0 
-     * @param {*} param1 
-     * @param {number} position 
-     */
-    showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
-        if (position == 0) {
-            this.driverClasification.innerHTML = "<div><b>Clasificación de pilotos</b></div>"
 
-        }
-        var driver = document.createElement('div')
-        driver.innerHTML = (
-            '<a>' + (position + 1) + ".</a>  <a> " + name + " " + surname + "<a>  </a>" + points + " puntos</a><br>"
-        )
-        this.checkPlace(driver, position)
-        this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
-        this.driverClasification.appendChild(driver)
-        this.driverClasification.id = "driverClasification"
-        document.getElementById('show').appendChild(this.driverClasification)
-        //this.clasification.appendChild(this.driverClasification)
-    }
-    /**
-     * ordena los equipos para mostrarlo por orden de puntos
-     * @param {*} param0 
-     * @param {*} param1 
-     * @param {number} position 
-     */
-    showTeamClasification({ code, name, points }, { teamCode }, position) {
-        if (position == 0) {
-            this.teamClasification.innerHTML = "<div><b>Clasificación de escuderías</b></div>"
-        }
-        var team = document.createElement('div')
-        team.innerHTML = (
-            '<a>' + (position + 1) + ".</a>  <a>" + name + " <a>  </a>" + points + " puntos </a><br>"
-        )
-        this.checkPlace(team, position)
-        this.checkUserTeam(code, teamCode, team)
-        this.teamClasification.appendChild(team)
-        this.teamClasification.id = "teamClasification"
-        document.getElementById('show').appendChild(this.teamClasification)
-
-
-        //this.clasification.appendChild(this.teamClasification)
-    }
-
-
-
-
-    /**
-     * evento para volver de la pantalla de clasificación a la de carrera
-     */
-    eventBack() {
-        this.btnBack.addEventListener('click', evt => {
-            this.clasification.style.display = "none"
-            this.raceScreen.style.display = "block"
-
-            document.getElementById('show').removeChild(document.getElementById("driverClasification"))
-            document.getElementById('show').removeChild(document.getElementById("teamClasification"))
-
-            this.driverClasification.innerHTML = ''
-            this.teamClasification.innerHTML = ''
-        })
-    }
     /**
      * empezar carrera
      * @param {*} getPole - funcion bind. Obtener posiciones de salida
@@ -380,6 +278,126 @@ class View {
 
         })
     }
+
+    /**
+    * gestión del botón de siguiente carrera
+    * @param {*} handle - función bind. gestión del botón
+    */
+    handleNextRaceButton(handle) {
+
+        this.btnNextRace.addEventListener("click", evt => {
+            this.btnNextRace.disabled = true
+            this.btnRace.disabled = false
+            handle()
+            this.raceScreen.removeChild(document.getElementById('position'))
+            this.auxRaceClasification = false
+            this.btnRace.innerText = 'Clasificación para la carrera'
+        })
+
+
+    }
+
+    //----------------------------------------------------------------------
+    //---------------------FUNCIONES DE MUESTREO----------------------------
+    //----------------------------------------------------------------------
+
+    /**
+     * Agregar información de las escuderías
+     * @param {*} param0 - atributos de escudería
+     */
+    teamsInformation({ name, code }) {
+        /**
+         * equipos mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
+        var displayTeam = document.createElement("div")
+        displayTeam.className = "team"
+        displayTeam.id = code
+        displayTeam.innerHTML = "<b>" + name + "</b>"
+        document.getElementById("teamsToChoose").appendChild(displayTeam)
+    }
+
+    /**
+     * Agregar información de los coches al de las escuderías
+     * @param {*} param0 - atributos de coche
+     */
+    carInformation({ code, velocity, handling }) {
+        /**
+         * coches mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
+        var displayCars = document.createElement("div")
+        displayCars.innerHTML = (
+            "Datos del coche: <br>" +
+            "   Velocidad: " + velocity + "<br>" +
+            "   Manejo: " + handling + "<br>"
+        )
+        document.getElementById(code).appendChild(displayCars)
+    }
+
+    /**
+     * Agregar información de los pilotos
+     * @param {} param0 - atributos de piloto
+     */
+    driverInformation({ code, name, surname, dexterity, luck }) {
+        /**
+         * pilotos mostrados por en el HTML
+         * @type {DOMImplementation}
+         */
+        var displayDrivers = document.createElement("div")
+        displayDrivers.className = "drivers"
+        displayDrivers.id = code
+        displayDrivers.innerHTML = (
+            "<b>" + name + " " + surname + "</b><br>" +
+            "Destreza: " + dexterity + "<br>" +
+            "Suerte: " + luck + "<br>"
+        )
+        document.getElementById("driversToChoose").appendChild(displayDrivers)
+    }
+
+    /**
+     * ordena los pilotos para mostrarlo por orden de puntos
+     * @param {*} param0 
+     * @param {*} param1 
+     * @param {number} position 
+     */
+    showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
+        if (position == 0) {
+            this.driverClasification.innerHTML = "<div><b>Clasificación de pilotos</b></div>"
+
+        }
+        var driver = document.createElement('div')
+        driver.innerHTML = (
+            '<a>' + (position + 1) + ".</a>  <a> " + name + " " + surname + "<a>  </a>" + points + " puntos</a><br>"
+        )
+        this.checkPlace(driver, position)
+        this.checkUserDrivers(code, codeFirstDiver, codeSecondDriver, driver)
+        this.driverClasification.appendChild(driver)
+        this.driverClasification.id = "driverClasification"
+        document.getElementById('show').appendChild(this.driverClasification)
+    }
+
+    /**
+     * ordena los equipos para mostrarlo por orden de puntos
+     * @param {*} param0 
+     * @param {*} param1 
+     * @param {number} position 
+     */
+    showTeamClasification({ code, name, points }, { teamCode }, position) {
+        if (position == 0) {
+            this.teamClasification.innerHTML = "<div><b>Clasificación de escuderías</b></div>"
+        }
+        var team = document.createElement('div')
+        team.innerHTML = (
+            '<a>' + (position + 1) + ".</a>  <a>" + name + " <a>  </a>" + points + " puntos </a><br>"
+        )
+        this.checkPlace(team, position)
+        this.checkUserTeam(code, teamCode, team)
+        this.teamClasification.appendChild(team)
+        this.teamClasification.id = "teamClasification"
+        document.getElementById('show').appendChild(this.teamClasification)
+    }
+
     /**
      * Mostrar posiciones de salida
      * @param {array} positions - array con el orden de salida
@@ -406,24 +424,6 @@ class View {
         }
         this.raceScreen.append(posicion)
     }
-    checkPlace(name, place) {
-        switch (place) {
-            case 0:
-                name.style.backgroundColor = "gold"
-                break;
-            case 1:
-                name.style.backgroundColor = "silver"
-                break;
-            case 2:
-                name.style.backgroundColor = "#CD7F32"
-                break;
-
-            default:
-                break;
-        }
-    }
-
-
 
     /**
      * información relativa al circuito
@@ -454,57 +454,13 @@ class View {
                 )
                 break;
         }
-        //this.raceScreen.appendChild(info)
-
-
-
     }
+
     /**
-     * gestión del botón de siguiente carrera
-     * @param {*} handle - función bind. gestión del botón
+     * Mostrar Piloto ganador
+     * @param {*} param0 - atributos del objeto piloto
+     * @param {boolean} userWinner - comprobación de si ganó uno de los pilotos del usuario
      */
-    handleNextRaceButton(handle) {
-
-        this.btnNextRace.addEventListener("click", evt => {
-            this.btnNextRace.disabled = true
-            this.btnRace.disabled = false
-            handle()
-            this.raceScreen.removeChild(document.getElementById('position'))
-            this.auxRaceClasification = false
-            this.btnRace.innerText = 'Clasificación para la carrera'
-        })
-
-
-    }
-    /**
-     * comprobación de cuales son los pilotos del usuario para destacarlos
-     * @param {string} code - id a comprobar
-     * @param {string} driver1 - id del piloto 1 del usuario
-     * @param {string} driver2 - id del piloto 2 del usuario
-     * @param {DOMException} position 
-     */
-    checkUserDrivers(code, driver1, driver2, position) {
-        if ((code == driver1) | (code == driver2)) {
-            position.style.color = "green"
-        }
-    }
-    checkUserTeam(code, teamUser, team) {
-        if (code == teamUser) {
-            team.style.color = "green"
-        }
-    }
-    enableNextRace() {
-        this.btnNextRace.disabled = false
-    }
-
-    finishChampionship() {
-        this.clasification.removeChild(this.btnBack)
-        this.clasification.style.display = "block"
-        this.raceScreen.style.display = "none"
-        document.getElementById('finalResult').style.display = 'block'
-
-    }
-
     showDriverWinner({ name, surname }, userWinner) {
         var winner = document.createElement("h2")
         var user = document.createElement("h4")
@@ -518,6 +474,11 @@ class View {
         document.getElementById('finalResult').appendChild(user)
     }
 
+    /**
+     * Mostrar escudería ganador
+     * @param {*} param0 - atributos del objeto escudería
+     * @param {boolean} userWinner - comprobación de si ganó la escudería del usuario
+     */
     showTeamWinner({ name }, userWinner) {
         var winner = document.createElement("h2")
         var user = document.createElement("h4")
@@ -529,20 +490,102 @@ class View {
         }
         document.getElementById('finalResult').appendChild(winner)
         document.getElementById('finalResult').appendChild(user)
-        //this.restart()
+
     }
 
+    /**
+     * Habilitar botón de siguiente carrera
+     */
+    enableNextRace() {
+        this.btnNextRace.disabled = false
+    }
+
+    /**
+     * Termina el campeonato
+     */
+    finishChampionship() {
+        this.clasification.removeChild(this.btnBack)
+        this.clasification.style.display = "block"
+        this.raceScreen.style.display = "none"
+        document.getElementById('finalResult').style.display = 'block'
+
+    }
+    //----------------------------------------------------------------------
+    //-------------------EVENTOS Y COMPROBACIONES---------------------------
+    //----------------------------------------------------------------------
+
+    /**
+     * evento para volver de la pantalla de clasificación a la de carrera
+     */
+    eventBack() {
+        this.btnBack.addEventListener('click', evt => {
+            this.clasification.style.display = "none"
+            this.raceScreen.style.display = "block"
+
+            document.getElementById('show').removeChild(document.getElementById("driverClasification"))
+            document.getElementById('show').removeChild(document.getElementById("teamClasification"))
+
+            this.driverClasification.innerHTML = ''
+            this.teamClasification.innerHTML = ''
+        })
+    }
+
+    /**
+     * Compruebo cuales son los tres primeros para colorearlo
+     * @param {DOMException} name - etiqueta HTML a cambiar de color
+     * @param {number} place - posicion
+     */
+    checkPlace(name, place) {
+        switch (place) {
+            case 0:
+                name.style.backgroundColor = "gold"
+                break;
+            case 1:
+                name.style.backgroundColor = "silver"
+                break;
+            case 2:
+                name.style.backgroundColor = "#CD7F32"
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * comprobación de cuales son los pilotos del usuario para destacarlos
+     * @param {string} code - id a comprobar
+     * @param {string} driver1 - id del piloto 1 del usuario
+     * @param {string} driver2 - id del piloto 2 del usuario
+     * @param {DOMException} position 
+     */
+    checkUserDrivers(code, driver1, driver2, position) {
+        if ((code == driver1) | (code == driver2)) {
+            position.style.color = "green"
+        }
+    }
+
+    /**
+     * Compruebo Los equipos para saber cual es el del usuario,
+     * cuando lo encuentre lo señalo en verde
+     * @param {string} code - código a comprobar
+     * @param {string} teamUser - Código del piloto del usuario
+     * @param {DOMImplementation} team - Objeto del html a destacar
+     */
+    checkUserTeam(code, teamUser, team) {
+        if (code == teamUser) {
+            team.style.color = "green"
+        }
+    }
+
+
+    /**
+     * gestión del evento de cerrar la ventana de ganador
+     */
     closeWindow() {
         document.getElementById('close').addEventListener('click', evt => {
             document.getElementById('finalResult').style.display = 'none'
         })
     }
-
-
-
-
-
-
-
 
 }
