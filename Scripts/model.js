@@ -374,13 +374,13 @@ class Model {
     /**
      * Busco el coche por el código del piloto
      * @param {Object} Driver - objeto piloto
-     * @param {string} Driver.TeamName - Nombre de la escudería a la que pertenece
+     * @param {string} Driver.teamName - Nombre de la escudería a la que pertenece
      * @returns {number}  
      */
-    searchCar({ TeamName }) {
+    searchCar({ teamName }) {
         //primero busco el equipo al que pertenece el piloto
         for (let i = 0; i < this.teams.length; i++) {
-            if (TeamName == this.teams[i].getCode) {
+            if (teamName == this.teams[i].getCode) {
                 //una vez encontrado busco el coche del equipo
                 for (let j = 0; j < this.cars.length; j++) {
                     if (this.teams[i].getCode == this.cars[j].getCode) {
