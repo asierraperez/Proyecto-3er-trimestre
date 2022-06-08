@@ -90,7 +90,7 @@ class View {
 
     /**
      * Declarar usuario para empezar el juego
-     * @param {} handler - Manejador del evento
+     * @param {Function} handler - Manejador del evento, declara un usuario
      */
     bindMainWindow(handler) {
         this.startButton.addEventListener("click", evt => {
@@ -103,7 +103,7 @@ class View {
 
     /**
     * selección de equipos
-    * @param {*} handler - manejador del evento
+    * @param {function} handler - manejador del evento, asigna el codigo del equipo seleccionado a un auxiliar
     */
     bindSelectTeam(handler) {
         var teamSelected = false
@@ -134,7 +134,7 @@ class View {
 
     /**
      * con el equio seleccionado, aceptar
-     * @param {*} handler - manejador del evento
+     * @param {Function} handler - manejador del evento, asignar código de equipo al user
      */
     acceptTeam(handler) {
         this.teamSelected.addEventListener('click', evt => {
@@ -146,7 +146,7 @@ class View {
 
     /**
      * seleccionar pilotos
-     * @param {*} handler - manejador del evento
+     * @param {Function} handler - manejador del evento, guardo en una variable temporal los códigos de los pilotos
      */
     bindSelectDrivers(handler) {
         /**
@@ -223,7 +223,7 @@ class View {
 
     /**
      * con los pilotos seleccionados, aceptar
-     * @param {*} handler 
+     * @param {Function} handler - Cargar datos de los pilotos seleccionados al user
      */
     acceptDrivers(handler) {
         this.driversSelected.addEventListener('click', evt => {
@@ -236,13 +236,13 @@ class View {
 
     /**
      * evento que gestiona el mostrar la clasificación
-     * @param {*} handler 
+     * @param {Function} handlerDrivers - mostrar clasificacion de los pilotos
+     * @param {Function} handlerTeams - mostrar clasificación de los equipos
      */
     eventClasification(handlerDrivers, handlerTeams) {
         this.btnClasification.addEventListener('click', evt => {
             handlerDrivers()
             handlerTeams()
-            //this.btnClasification.innerHTML = "volver"
             this.clasification.style.display = "block"
             this.raceScreen.style.display = "none"
 
@@ -251,8 +251,8 @@ class View {
 
     /**
      * empezar carrera
-     * @param {*} getPole - funcion bind. Obtener posiciones de salida
-     * @param {*} startRace - función bind. Empezar carrera
+     * @param {Function} getPole - funcion bind. Obtener posiciones de salida
+     * @param {Function} startRace - función bind. Empezar carrera
      */
     eventRace(getPole, startRace) {
         //con solo 1 botón gestiono la carrera.
@@ -281,7 +281,7 @@ class View {
 
     /**
     * gestión del botón de siguiente carrera
-    * @param {*} handle - función bind. gestión del botón
+    * @param {Function} handle - función bind. gestión del botón
     */
     handleNextRaceButton(handle) {
 
@@ -303,7 +303,9 @@ class View {
 
     /**
      * Agregar información de las escuderías
-     * @param {*} param0 - atributos de escudería
+     * @param {Object} Team - atributos de escudería
+     * @param {string} Team.name - nombre
+     * @param {string} Team.code - código identificativo
      */
     teamsInformation({ name, code }) {
         /**
@@ -319,7 +321,9 @@ class View {
 
     /**
      * Agregar información de los coches al de las escuderías
-     * @param {*} param0 - atributos de coche
+     * @param {Object} Car - atributos de coche
+     * @param {Number} Car.velocity - atributos de coche
+     * @param {Number} Car.handling - atributos de coche
      */
     carInformation({ code, velocity, handling }) {
         /**
@@ -337,7 +341,12 @@ class View {
 
     /**
      * Agregar información de los pilotos
-     * @param {} param0 - atributos de piloto
+     * @param {Object} Driver - Objeto piloto
+     * @param {string} Driver.code - codigo identificativo
+     * @param {string} Driver.name - nombre
+     * @param {string} Driver.surname - Apellido
+     * @param {number} Driver.dexterity - destreza
+     * @param {number} Driver.luck - suerte
      */
     driverInformation({ code, name, surname, dexterity, luck }) {
         /**
@@ -357,8 +366,14 @@ class View {
 
     /**
      * ordena los pilotos para mostrarlo por orden de puntos
-     * @param {*} param0 
-     * @param {*} param1 
+     * @param {Object} Driver - objeto piloto
+     * @param {string} Driver.code - codigo identificativo
+     * @param {string} Driver.name - nombre
+     * @param {string} Driver.surname - Apellido 
+     * @param {number} Driver.points - puntos     
+     * @param {Object} User - objeto usuario
+     * @param {String} User.codeFirstDiver - codigo del primer piloto del usuario
+     * @param {String} User.codeSecondDriver - codigo del segundo piloto del usuario 
      * @param {number} position 
      */
     showDriverClasification({ code, name, surname, points }, { codeFirstDiver, codeSecondDriver }, position) {
@@ -379,8 +394,11 @@ class View {
 
     /**
      * ordena los equipos para mostrarlo por orden de puntos
-     * @param {*} param0 
-     * @param {*} param1 
+     * @param {object} Team - objeto escudería
+     * @param {string} Team.name - nombre
+     * @param {string} Team.code - código identificativo
+     * @param {Object} User - Objeto Usuario
+     * @param {string} User.teamCode - Codigo del equipo del usuario
      * @param {number} position 
      */
     showTeamClasification({ code, name, points }, { teamCode }, position) {
@@ -401,7 +419,9 @@ class View {
     /**
      * Mostrar posiciones de salida
      * @param {array} positions - array con el orden de salida
-     * @param {*} param1 - atributos objeto
+     * @param {Object} User - Objeto usuario
+     * @param {string} User.codeFirstDiver - Código del primer piloto del usuario
+     * @param {string} User.codeSecondDriver - Código des segundo piloto
      */
     showPositions(positions, { codeFirstDiver, codeSecondDriver }) {
         var posicion = document.createElement("div")
@@ -427,7 +447,10 @@ class View {
 
     /**
      * información relativa al circuito
-     * @param {*} param0 - atributos del objeto circuito
+     * @param {Object} Circuit - atributos del objeto circuito
+     * @param {string} Circuit.name - nombre
+     * @param {number} Circuit.currentLap- vueltas actuales
+     * @param {number} Circuit.laps- vueltas totales
      * @param {number} operation - operación a realizar
      */
     raceInfo({ name, currentLap, laps }, operation) {
@@ -458,7 +481,9 @@ class View {
 
     /**
      * Mostrar Piloto ganador
-     * @param {*} param0 - atributos del objeto piloto
+     * @param {Object} Driver - atributos del objeto piloto
+     * @param {string} Driver.name - nombre
+     * @param {string} Driver.surname - Apellido
      * @param {boolean} userWinner - comprobación de si ganó uno de los pilotos del usuario
      */
     showDriverWinner({ name, surname }, userWinner) {
@@ -476,7 +501,8 @@ class View {
 
     /**
      * Mostrar escudería ganador
-     * @param {*} param0 - atributos del objeto escudería
+     * @param {Object} Team - atributos del objeto escudería
+     * @param {Object} Team.name - nombre
      * @param {boolean} userWinner - comprobación de si ganó la escudería del usuario
      */
     showTeamWinner({ name }, userWinner) {
@@ -532,7 +558,7 @@ class View {
 
     /**
      * Compruebo cuales son los tres primeros para colorearlo
-     * @param {DOMException} name - etiqueta HTML a cambiar de color
+     * @param {DOMImplementation} name - etiqueta HTML a cambiar de color
      * @param {number} place - posicion
      */
     checkPlace(name, place) {

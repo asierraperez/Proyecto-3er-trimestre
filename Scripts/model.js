@@ -373,13 +373,14 @@ class Model {
 
     /**
      * Busco el coche por el código del piloto
-     * @param {Object} driver 
-     * @returns {Object}
+     * @param {Object} Driver - objeto piloto
+     * @param {string} Driver.TeamName - Nombre de la escudería a la que pertenece
+     * @returns {number}  
      */
-    searchCar(driver) {
+    searchCar({ TeamName }) {
         //primero busco el equipo al que pertenece el piloto
         for (let i = 0; i < this.teams.length; i++) {
-            if (driver.getTeamName == this.teams[i].getCode) {
+            if (TeamName == this.teams[i].getCode) {
                 //una vez encontrado busco el coche del equipo
                 for (let j = 0; j < this.cars.length; j++) {
                     if (this.teams[i].getCode == this.cars[j].getCode) {
@@ -508,7 +509,8 @@ class Model {
 
     /**
      * Comprobación de si el piloto ganador es uno de los del usuario
-     * @param {*} param0 - objeto Driver
+     * @param {Object} Driver - objeto Driver
+     * @param {String} Driver - Código identificativo
      * @returns {boolean}
      */
     checkDriverWinner({ code }) {
@@ -523,7 +525,8 @@ class Model {
     }
     /**
      * Comprobación de si el equipo ganador es el del usuario
-     * @param {*} param0 - Objeto Team
+     * @param {Object} Team - Objeto Team
+     * @param {Object} Team.code - Código identificativo
      * @returns {boolean}
      */
     checkTeamWinner({ code }) {
