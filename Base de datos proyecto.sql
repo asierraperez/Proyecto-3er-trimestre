@@ -43,5 +43,3 @@ create table compite(
 	foreign key(ID_piloto) references piloto(ID) on update cascade,
 	foreign key(ID_circuito) references circuito(ID) on update cascade
 );
-
-select * from compite;
