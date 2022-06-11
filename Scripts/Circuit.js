@@ -21,14 +21,19 @@ class Circuit extends general {
         return this.laps
     }
     get getCurrentLap() {
-        return this.currentlap
+
+        return this.currentLap
+
+
     }
 
     set setLaps(aux) {
         this.laps = aux
     }
     set setCurrentLap(aux) {
-        this.currentlap = aux
+        this.currentLap = aux
+
+
     }
     /**
      * Asignar nombre al circuito
@@ -56,7 +61,11 @@ class Circuit extends general {
      * Asignar numero de vueltas del 50 al 100
      */
     assignLaps() {
-        this.setLaps = Math.floor(Math.random() * (70 - 30) + 30)
+
+        this.setLaps = Math.floor(Math.random() * (50 - 30) + 30)
+
+
+
     }
     /**
      * Sumo una vuelta a las vueltas actuales
@@ -86,7 +95,7 @@ class Circuit extends general {
                 "code": this.getCode,
                 "laps": this.getLaps
             },
-            url: "insertCircuit.php",
+            url: "php/insertCircuit.php",
             type: "POST",
             success: function (response) {
                 console.log(response)
@@ -103,7 +112,7 @@ class Circuit extends general {
          */
         var circuitJSON
         $.ajax({
-            url: "selectCircuit.php",
+            url: "php/selectCircuit.php",
             type: "GET",
             async: false,
             success: function (response) {

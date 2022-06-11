@@ -4,7 +4,6 @@
 class Model {
     constructor() {
 
-
         //----------------------------------------------------------------------
         //---------------------DECLARACIÓN DE VARIABLES-------------------------
         //----------------------------------------------------------------------
@@ -74,6 +73,7 @@ class Model {
         newTeam.uploadTeamToDB()
         this.teams.push(newTeam)
     }
+
     /**
      * Añadir circuitos
      */
@@ -85,6 +85,7 @@ class Model {
         newCircuit.uploadCircuitToDB()
         this.circuits.push(newCircuit)
     }
+
     /**
      * Añadir piloto
      */
@@ -98,6 +99,7 @@ class Model {
         newDriver.setPoints = 0
         this.drivers.push(newDriver)
     }
+
     /**
      * Añadir Coche
      */
@@ -110,6 +112,7 @@ class Model {
         this.cars.push(newCar)
 
     }
+
     /**
      * Reparto a los pilotos entre todas las escuderías al azar
      */
@@ -143,8 +146,14 @@ class Model {
 
                     if (!checkUserDriver) {
                         this.drivers[nDriver].setTeamName = this.teams[i].getCode
+
+                        //Si coincide con uno de los pilotos del equipo, resto en j,
+                        //ya que si no el piloto se irá sin equipo
+                    } else {
+
+                        j--
+
                     }
-                    //auxDrivers[0] = nDriver
                     auxDrivers.push(nDriver)
                 }
             } else {
@@ -155,19 +164,10 @@ class Model {
                 }
             }
 
-        }/*
-        if (this.preload.driversAdded != 1) {
-            this.driversToDB()
-            localStorage.setItem("driversAdded", 1)
-        }*/
-
-
-
-        //console.log("pilotos repartidos correctamente")
+        }
         return auxDrivers
-
-
     }
+
     /**
      * Comprobación de si el piloto está asignado a un equipo o no
      * @param {number} driverNumber - número del piloto
@@ -175,13 +175,13 @@ class Model {
      * @returns {boolean}
      */
     checkDriver(driverNumber, driversAssigned) {
+        //Recorro el array de pilotos comprobando los códigos
         for (let k = 0; k < driversAssigned.length; k++) {
             if (this.drivers[driverNumber].getCode != "") {
                 if (driversAssigned[k] == driverNumber) {
                     var auxCheck = true
                 }
             }
-
         }
         if (auxCheck) {
             return true
@@ -190,6 +190,7 @@ class Model {
         }
 
     }
+
     /**
      * Compruebo si el piloto ya está asignado al usuario
      * @param {number} driverNumber 
@@ -199,13 +200,17 @@ class Model {
         if (this.users[0].getCodeFirstDiver == this.drivers[driverNumber].getCode |
             this.users[0].getCodeSecondDriver == this.drivers[driverNumber].getCode) {
 
-            //if (this.users[0].getTeamCode == teamCode) {
             return true
 
         } else {
             return false
         }
     }
+    /**
+     * Comprobación del equipo del usuario
+     * @param {string} teamCode - Equipo a comprobar
+     * @returns {boolean}
+     */
     checkUserTeam(teamCode) {
         if (this.users[0].getTeamCode == teamCode) {
             return true
@@ -325,6 +330,7 @@ class Model {
         }
 
     }
+
     /**
      * Busqueda del piloto. recorrer el array de equipos para buscarlo
      * @param {string} searchDriverCode 
@@ -351,6 +357,7 @@ class Model {
         }
         return found
     }
+
     /**
      * busco el piloto por su código
      * @param {String} code 
@@ -364,15 +371,17 @@ class Model {
         }
         return found
     }
+
     /**
      * Busco el coche por el código del piloto
-     * @param {Object} driver 
-     * @returns {Object}
+     * @param {Object} Driver - objeto piloto
+     * @param {string} Driver.teamName - Nombre de la escudería a la que pertenece
+     * @returns {number}  
      */
-    searchCar(driver) {
+    searchCar({ teamName }) {
         //primero busco el equipo al que pertenece el piloto
         for (let i = 0; i < this.teams.length; i++) {
-            if (driver.getTeamName == this.teams[i].getCode) {
+            if (teamName == this.teams[i].getCode) {
                 //una vez encontrado busco el coche del equipo
                 for (let j = 0; j < this.cars.length; j++) {
                     if (this.teams[i].getCode == this.cars[j].getCode) {
@@ -383,6 +392,13 @@ class Model {
         }
         return found
     }
+
+
+    /**
+     * Busqueda de equipo dado un codigo
+     * @param {string} code 
+     * @returns {number}
+     */
     searchTeam(code) {
         for (let i = 0; i < this.teams.length; i++) {
             if (code == this.teams[i].getCode) {
@@ -391,9 +407,16 @@ class Model {
         }
         return found
     }
+
+
+    /**
+     * Sumar puntos en función de las posiciones
+     * @param {Array} endingPositions 
+     */
     addPoints(endingPositions) {
         var driverNumber
         var teamNumber
+        //solo los 10 primeros reciben puntos
         for (let i = 0; i < 10; i++) {
             driverNumber = this.searchDrivers(endingPositions[i][0])
             teamNumber = this.searchTeam(this.drivers[driverNumber].getTeamName)
@@ -443,6 +466,7 @@ class Model {
             this.teams[teamNumber].uploadPointsToDB()
         }
     }
+
     /**
      * Clasificación de los pilotos
      * @returns {JSON}
@@ -453,6 +477,7 @@ class Model {
         var clasificationOrdered = this.order(clasification)
         return clasificationOrdered
     }
+
     /**
      * Clasificación de los equipos
      * @returns {JSON}
@@ -463,6 +488,7 @@ class Model {
         var clasificationOrdered = this.order(clasification)
         return clasificationOrdered
     }
+
     /**
      * Los arrays de datos de mayor a menor
      * @param {JSON} data 
@@ -484,4 +510,36 @@ class Model {
         return auxData
     }
 
+
+    /**
+     * Comprobación de si el piloto ganador es uno de los del usuario
+     * @param {Object} Driver - objeto Driver
+     * @param {String} Driver - Código identificativo
+     * @returns {boolean}
+     */
+    checkDriverWinner({ code }) {
+        if (this.users[0].getCodeFirstDiver == code |
+            this.users[0].getCodeSecondDriver == code) {
+            return true
+
+        } else {
+            return false
+        }
+
+    }
+
+    /**
+     * Comprobación de si el equipo ganador es el del usuario
+     * @param {Object} Team - Objeto Team
+     * @param {Object} Team.code - Código identificativo
+     * @returns {boolean}
+     */
+    checkTeamWinner({ code }) {
+        if (this.users[0].getTeamCode == code) {
+            return true
+
+        } else {
+            return false
+        }
+    }
 }
