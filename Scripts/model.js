@@ -146,6 +146,7 @@ class Model {
 
                     if (!checkUserDriver) {
                         this.drivers[nDriver].setTeamName = this.teams[i].getCode
+
                         //Si coincide con uno de los pilotos del equipo, resto en j,
                         //ya que si no el piloto se irá sin equipo
                     } else {
@@ -392,6 +393,7 @@ class Model {
         return found
     }
 
+
     /**
      * Busqueda de equipo dado un codigo
      * @param {string} code 
@@ -405,6 +407,7 @@ class Model {
         }
         return found
     }
+
 
     /**
      * Sumar puntos en función de las posiciones
@@ -507,6 +510,7 @@ class Model {
         return auxData
     }
 
+
     /**
      * Comprobación de si el piloto ganador es uno de los del usuario
      * @param {Object} Driver - objeto Driver
@@ -523,6 +527,7 @@ class Model {
         }
 
     }
+
     /**
      * Comprobación de si el equipo ganador es el del usuario
      * @param {Object} Team - Objeto Team
@@ -537,6 +542,4 @@ class Model {
             return false
         }
     }
-
-
 }

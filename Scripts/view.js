@@ -4,10 +4,10 @@
 class View {
     constructor() {
 
+
         //----------------------------------------------------------------------
         //---------------------DECLARACIÓN DE VARIABLES-------------------------
         //----------------------------------------------------------------------
-
 
         /**
          * pantalla de inicio
@@ -63,6 +63,7 @@ class View {
          */
         this.auxRaceClasification = false
         /**
+
          * div con laclasificación general de los pilotos
          */
         this.driverClasification = document.createElement('div')
@@ -95,11 +96,13 @@ class View {
     bindMainWindow(handler) {
         this.startButton.addEventListener("click", evt => {
             handler()
+
             this.begin.style.display = "none"
             this.selectTeam.style.display = "block"
 
         })
     }
+
 
     /**
     * selección de equipos
@@ -143,6 +146,7 @@ class View {
             this.selectDriver.style.display = "block"
         })
     }
+
 
     /**
      * seleccionar pilotos
@@ -465,6 +469,7 @@ class View {
             //1 = ya se estaba enseñando el nombre, ahora añado vueltas
             case 1:
                 info.innerHTML = ""
+
                 info.innerHTML = (
                     name + ",  vuelta " + currentLap + " de " + laps
                 )
@@ -495,6 +500,7 @@ class View {
         } else {
             user.innerHTML = "Confía en <b><i>el plan</b></i>, ganarás la siguiente"
         }
+
         document.getElementById('finalResult').appendChild(winner)
         document.getElementById('finalResult').appendChild(user)
     }

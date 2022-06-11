@@ -24,14 +24,15 @@ class Circuit extends general {
 
         return this.currentLap
 
+
     }
 
     set setLaps(aux) {
         this.laps = aux
     }
     set setCurrentLap(aux) {
-
         this.currentLap = aux
+
 
     }
     /**
