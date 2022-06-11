@@ -6,15 +6,49 @@ class Controller {
 
 
     constructor(model, view) {
+
+        //----------------------------------------------------------------------
+        //---------------------DECLARACIÓN DE VARIABLES-------------------------
+        //----------------------------------------------------------------------
+
+
+        /**
+         * Model, almacenamiento de datos
+         */
         this.model = model
+        /**
+         * View, vista en el HTML
+         */
         this.view = view
 
+        /**
+         * Auxiliar con los pilotos ordenados por puntos
+         */
         this.driverOrder
+        /**
+         * Auxiliar con los equipos por puntos
+         */
         this.teamOrder
+
+        /**
+         * Cuenta de las carreras
+         */
         this.raceNumber = 0
 
+        /**
+         * auxiliar con el nombre del equipo del usuario
+         * Guarde el nombre mientras no es definitivo
+         */
         this.auxTeamUser = ''
+        /**
+         * auxiliar con el nombre del primer piloto del usuario
+         * Guarde el nombre mientras no es definitivo
+         */
         this.auxDriver1User = ''
+        /**
+         * auxiliar con el nombre del segundo piloto del usuario
+         * Guarde el nombre mientras no es definitivo
+         */
         this.auxDriver2User = ''
 
         this.polePosition
@@ -41,6 +75,13 @@ class Controller {
         this.displayTeams()
         this.displayCars()
         this.displayDrivers()
+
+
+        //----------------------------------------------------------------------
+        //---------------------------FUNCIONES BIND-----------------------------
+        //----------------------------------------------------------------------
+
+
 
         //comienzo el juego y declaro un usuario
         this.view.bindMainWindow(this.handleDeclareUser.bind(this))
@@ -70,8 +111,6 @@ class Controller {
     //----------------------------------------------------------------------
     //----------------------------FUNCIONES---------------------------------
     //----------------------------------------------------------------------
-
-
 
 
     /**
@@ -186,6 +225,7 @@ class Controller {
         positions = this.randomPosition(positions)
         return positions
     }
+
     /**
     * Busco el piloto para asociarlo al coche y tener el total de puntos de atributo
     * @param {String} searchPositions - código identificativo del piloto
@@ -200,6 +240,7 @@ class Controller {
             + this.model.cars[car].getVelocity + this.model.cars[car].getHandling
         return totalAtributePoints
     }
+
     /**
      * aleatorizar posiciones
      * @param {Array} rPositions - array con os códigod identificativos de cada piloto
@@ -216,17 +257,23 @@ class Controller {
     /**
      * Activación del intervalo que maneja la carrera
      */
-
-
     race() {
+        /**
+         * tiempo a contar
+         */
         var time = this.model.circuits[this.raceNumber].getLaps * 100
         this.model.circuits[this.raceNumber].setCurrentLap = 1
+        /**
+         * variable intervalo
+         */
         var raceInterval = window.setInterval(this.startRace, 100, this.model.circuits[this.raceNumber], this.polePosition)
-
+        /**
+         * variable temporizador
+         */
 
         var raceTimeout = window.setTimeout(this.finishRace, time, raceInterval, raceTimeout)
-
     }
+
     /**
      * Gestion del intervalo
      * @param {object} circuit - circuito actual
@@ -237,7 +284,6 @@ class Controller {
 
         app.view.raceInfo(circuit, 1)
 
-
         console.log("vuelta " + circuit.getCurrentLap + "/" + circuit.getLaps)
         //cada 5 vueltas hago un adelantamiento
         if (circuit.getCurrentLap % 5 == 0) {
@@ -245,11 +291,11 @@ class Controller {
 
             app.view.showPositions(positions, app.model.users[0])
 
-
         }
         //sumo una vuelta
         circuit.countLaps()
     }
+
     /**
      * Adelantamientos durante la carrera
      * @param {Array} positions - Posiciones actuales
@@ -270,10 +316,10 @@ class Controller {
                 //solo permito un adelantamiento por piloto
                 i--
             }
-
         }
         return auxPositions
     }
+
     /**
      * fin de la carrera (termina el temporizador)
      * @param {TimerHandler} interval - intervalo de la carrera
@@ -284,8 +330,6 @@ class Controller {
         //reseteo ambos
         clearInterval(interval)
         clearTimeout(timeout)
-
-
         //sumo 1 al numero de circuito para pasar al siguiente
         app.raceNumber++
         //sumo puntos a pilotos y equipos
@@ -300,12 +344,205 @@ class Controller {
 
 
     }
+
     /**
      * clasificación general
      */
     clasification() {
         this.driverOrder = this.model.driverClasification()
         this.teamOrder = this.model.teamClasification()
+    }
+
+    /**
+     * mostrar equipos 
+     */
+    displayTeams() {
+        for (let i = 0; i < this.model.teams.length; i++) {
+            this.view.teamsInformation(this.model.teams[i])
+        }
+    }
+
+    /**
+     * mostrar coches
+     */
+    displayCars() {
+        for (let i = 0; i < this.model.teams.length; i++) {
+            this.view.carInformation(this.model.cars[i])
+        }
+    }
+
+    /**
+     * mostrar conductores
+     */
+    displayDrivers() {
+        for (let i = 0; i < this.model.drivers.length; i++) {
+            this.view.driverInformation(this.model.drivers[i])
+        }
+    }
+
+    /**
+     * Mostrar pilotos ordenados
+     */
+    driversOrdered() {
+        var driversOrdered = this.model.driverClasification()
+        for (let i = 0; i < driversOrdered.length; i++) {
+            this.view.showDriverClasification(driversOrdered[i], this.model.users[0], i)
+        }
+
+    }
+
+    /**
+     * Mostrar equipos ordenados
+     */
+    teamsOrdered() {
+        var teamsOrdered = this.model.teamClasification()
+        for (let i = 0; i < teamsOrdered.length; i++) {
+
+            this.view.showTeamClasification(teamsOrdered[i], this.model.users[0], i)
+        }
+    }
+
+    /**
+     * clasificación general
+     */
+    clasification() {
+        this.driverOrder = this.model.driverClasification()
+        this.teamOrder = this.model.teamClasification()
+    }
+
+    /**
+     * mostrar piloto ganador
+     */
+    showDriverWinner() {
+        var drivers = this.model.driverClasification()
+        this.driversOrdered()
+        //this.view.showDriverClasification(drivers[i], this.model.users[0], i)
+        var winner = drivers[0]
+        var userWinner = this.model.checkDriverWinner(winner)
+        if (userWinner) {
+            this.view.showDriverWinner(winner, true)
+        } else {
+            this.view.showDriverWinner(winner, false)
+        }
+    }
+
+    /**
+     * Mostrar equipo ganador
+     */
+    showTeamWinner() {
+        var teams = this.model.teamClasification()
+        this.teamsOrdered()
+        //this.view.showDriverClasification(drivers[i], this.model.users[0], i)
+        var winner = teams[0]
+        var userWinner = this.model.checkTeamWinner(winner)
+        if (userWinner) {
+            this.view.showTeamWinner(winner, true)
+        } else {
+            this.view.showTeamWinner(winner, false)
+        }
+    }
+
+
+    //----------------------------------------------------------------------
+    //----------------------------HANDLERS----------------------------------
+    //----------------------------------------------------------------------
+
+
+    /**
+    * evento para declarar usuarios
+    */
+    handleDeclareUser() {
+        var statusUser = this.model.addUser()
+        console.log(statusUser)
+    }
+
+    /**
+    * seleccion de equipo
+    * @param {string} code 
+    */
+    handleSelectUserTeam(code) {
+        this.auxTeamUser = code
+    }
+
+    /**
+    * aceptar equipo seleccionado
+    */
+    acceptTeam() {
+        this.model.userSelectTeam(this.auxTeamUser)
+    }
+
+    /**
+     * seleccion de pilotos
+     * @param {string} code - código del piloto
+     * @param {number} operation - numero que indica la operación a realizar
+     */
+    handleSelectUserDriver(code, operation) {
+        switch (operation) {
+            case 0:
+                if (this.auxDriver1User == '') {
+                    this.auxDriver1User = code
+                } else {
+                    this.auxDriver2User = code
+                }
+                break;
+            case 1:
+                this.auxDriver1User = ""
+                break;
+            case 2:
+                this.auxDriver2User = ""
+                break;
+        }
+    }
+
+    /**
+     * acptar pilotos seleccionados
+     */
+    acceptDrivers() {
+        this.model.userSelectDriver(this.auxDriver1User)
+        this.model.userSelectDriver(this.auxDriver2User)
+
+        this.model.assignDriversToTeams()
+        this.model.driversToDB()
+
+        this.view.raceInfo(this.model.circuits[this.raceNumber], 0)
+
+    }
+
+    /**
+     * Handler para los pilotos del evento de muestra de clasificación
+     */
+    handleShowDrivers() {
+        this.driversOrdered()
+    }
+
+    /**
+     * Handler para los equipos del evento de muestra de clasificación
+     */
+    handleShowTeams() {
+        this.teamsOrdered()
+    }
+
+    /**
+     * Handler del evento para la clasificación de la carrera
+     */
+    handleGetPolePositions() {
+        this.polePosition = this.positions()
+        this.view.showPositions(this.polePosition, this.model.users[0])
+    }
+
+    /**
+     * handler para empezar la carrera
+     */
+    handleStartRace() {
+        this.race()
+    }
+
+    /**
+     * handler para pasar a la siguiente carrera
+     */
+    handlerNextRace() {
+        this.view.raceInfo(this.model.circuits[this.raceNumber], 2)
+
     }
 
 

@@ -78,7 +78,7 @@ class Team extends general {
                 "code": this.getCode,
                 "points": this.getPoints
             },
-            url: "insertTeam.php",
+            url: "php/insertTeam.php",
             type: "POST",
             success: function (response) {
                 console.log(response)
@@ -92,7 +92,7 @@ class Team extends general {
     getFromDB() {
         var teamJSON
         $.ajax({
-            url: "selectTeam.php",
+            url: "php/selectTeam.php",
             type: "GET",
             async: false,
             success: function (response) {
@@ -111,7 +111,7 @@ class Team extends general {
                 "points": this.getPoints,
                 "id": this.getCode
             },
-            url: "insertTeamPoints.php",
+            url: "php/insertTeamPoints.php",
             type: "POST",
             async: false,
             success: function (response) {

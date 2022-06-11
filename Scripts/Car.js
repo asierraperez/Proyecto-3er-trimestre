@@ -59,7 +59,7 @@ class Car extends general {
                 "handling": this.getHandling,
                 "teamID": this.teamName
             },
-            url: "insertCar.php",
+            url: "php/insertCar.php",
             type: "POST",
             success: function (response) {
                 console.log(response)
@@ -76,7 +76,7 @@ class Car extends general {
          */
         var carJSON
         $.ajax({
-            url: "selectCar.php",
+            url: "php/selectCar.php",
             type: "GET",
             async: false,
             success: function (response) {

@@ -142,7 +142,7 @@ class Driver extends general {
                 "points": this.getPoints,
                 "teamID": this.getTeamName
             },
-            url: "insertDriver.php",
+            url: "php/insertDriver.php",
             type: "POST",
             success: function (response) {
                 console.log(response)
@@ -156,7 +156,7 @@ class Driver extends general {
     getFromDB() {
         var driverJSON
         $.ajax({
-            url: "selectDriver.php",
+            url: "php/selectDriver.php",
             type: "GET",
             async: false,
             success: function (response) {
@@ -177,7 +177,7 @@ class Driver extends general {
                 "points": this.getPoints,
                 "id": this.getCode
             },
-            url: "insertDriverPoints.php",
+            url: "php/insertDriverPoints.php",
             type: "POST",
             async: false,
             success: function (response) {

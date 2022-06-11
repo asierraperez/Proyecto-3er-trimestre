@@ -2,33 +2,48 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
 
-    <div id="main">
-        <h2>EL PLAN</h2>
+
+    <header> <img src="images/F1.svg.png" alt="icono F1"> EL PLAN</header>
+    <div class="screen" id="main">
+
         <button id="start">Comenzar temporada</button>
 
     </div>
-    <div id="chooseTeam" hidden>
+    <div class="screen" id="chooseTeam" hidden>
         <h2>Elige una escudería</h2>
+        <div id="teamsToChoose"></div>
         <button id="teamSelected" disabled>Selecionar escuderia</button>
     </div>
-    <div id="chooseDrivers" hidden>
+    <div class="screen" id="chooseDrivers" hidden>
         <h2>Elige 2 pilotos</h2>
+        <div id="driversToChoose"></div>
         <button id="driversSelected" disabled>Selecionar pilotos</button>
     </div>
-    <div id="raceTime" hidden>
+    <div class="screen" id="raceTime" hidden>
 
-        <button id="race">Clasificación para la carrera</button>
+        <button id="race"> Clasificación para la carrera</button>
         <button id="nextRace" disabled="true">Siguiente carrera</button>
-        <button id="btnClasification">Clasificación general</button>
+        <button id="btnClasification"> Clasificación general</button>
+        <div id="raceInfo"></div>
     </div>
-    <div id="clasification" hidden>
+    <div class="screen" id="clasification" hidden>
         <button id="back">Volver</button>
+        <div id="show"></div>
+    </div>
+    <div role="dialog" id="finalResult" hidden>
+        <div>
+            Resultado del campeonato
 
+            <img id='close' src="images/close.png" alt="Cerrar">
+
+        </div>
 
     </div>
 
@@ -45,9 +60,7 @@
     <script src="Scripts/Circuit.js"></script>
     <script src="Scripts/user.js"></script>
     <script src="Scripts/preload.js"></script>
-
     <script src="Scripts/view.js"></script>
-
     <script src="Scripts/model.js"></script>
     <script src="Scripts/controller.js"></script>
 
